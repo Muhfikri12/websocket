@@ -58,3 +58,7 @@ func generateToken(email string, secretKey string) (string, string) {
 	tokenData := base64.URLEncoding.EncodeToString([]byte(data))
 	return tokenData, signature
 }
+
+func (repo AuthRepository) Register(user *domain.User) error {
+	return repo.db.Create(&user).Error
+}
