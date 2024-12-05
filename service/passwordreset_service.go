@@ -1,9 +1,12 @@
 package service
 
-import "project/repository"
+import (
+	"project/domain"
+	"project/repository"
+)
 
 type PasswordResetService interface {
-	Create() error
+	Create(token *domain.PasswordResetToken) error
 }
 
 type passwordResetService struct {
@@ -14,6 +17,6 @@ func NewPasswordResetService(repo repository.PasswordResetRepository) PasswordRe
 	return &passwordResetService{repo: repo}
 }
 
-func (s *passwordResetService) Create() error {
-	return nil
+func (s *passwordResetService) Create(token *domain.PasswordResetToken) error {
+	return s.repo.Create(token)
 }
