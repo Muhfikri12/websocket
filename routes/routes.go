@@ -10,8 +10,9 @@ import (
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
 
-	// endpoint login
+	// auth
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
+	r.POST("/register", ctx.Ctl.AuthHandler.Registration)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
