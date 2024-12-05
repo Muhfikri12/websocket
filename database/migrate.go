@@ -19,7 +19,6 @@ func Migrate(db *gorm.DB) error {
 
 	return db.AutoMigrate(
 		&domain.User{},
-		&domain.Admin{},
 		&domain.Category{},
 	)
 
@@ -28,7 +27,6 @@ func Migrate(db *gorm.DB) error {
 func dropTables(db *gorm.DB) error {
 	return db.Migrator().DropTable(
 		&domain.User{},
-		&domain.Admin{},
 		&domain.Category{},
 	)
 }
