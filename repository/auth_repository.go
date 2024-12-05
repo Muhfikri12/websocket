@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 	"project/database"
 	"project/domain"
+	"strconv"
 )
 
 type AuthRepository struct {
@@ -25,12 +26,12 @@ func (repo AuthRepository) Authenticate(user domain.User) (string, string, bool,
 
 	if userFound {
 		token := uuid.New().String()
-
-		if err := repo.cacher.Set(user.Username, token); err != nil {
+		key := "user:" + strconv.Itoa(int(user.ID))
+		if err := repo.cacher.Set(key, token); err != nil {
 			return "", "", false, err
 		}
 
-		return user.Username, token, true, nil
+		return key, token, true, nil
 	}
 
 	return "", "", false, nil

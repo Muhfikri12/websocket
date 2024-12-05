@@ -31,7 +31,7 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Success Login",
 			requestBody: domain.User{
-				Username: "test@example.com",
+				Email:    "test@example.com",
 				Password: "password123",
 			},
 			arg1MockSetup:      true,
@@ -56,7 +56,7 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Missing Username or Password",
 			requestBody: domain.User{
-				Username: "",
+				Email:    "",
 				Password: "",
 			},
 			arg1MockSetup:      false,
@@ -70,7 +70,7 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Authentication Failed Username",
 			requestBody: domain.User{
-				Username: "test@example.com",
+				Email:    "test@example.com",
 				Password: "wrongpassword",
 			},
 			arg1MockSetup:      false,
@@ -84,7 +84,7 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Authentication Failed Password",
 			requestBody: domain.User{
-				Username: "test@example.com",
+				Email:    "test@example.com",
 				Password: "wrongpassword",
 			},
 			arg1MockSetup:      false,
