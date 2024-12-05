@@ -26,8 +26,20 @@ func NewUserController(service service.UserService, logger *zap.Logger) *UserCon
 // @Success 200 {object} handler.Response "email is valid"
 // @Failure 404 {object} handler.Response "user not found"
 // @Router  /users [post]
-func (ctrl *UserController) Get(c *gin.Context) {
+func (ctrl *UserController) All(c *gin.Context) {
+	searchParam := domain.User{Email: c.Query("email")}
 
+	if searchParam.Email == "" {
+		BadResponse(c, "invalid parameter", http.StatusBadRequest)
+		return
+	}
+
+	if _, err := ctrl.service.All(searchParam); err != nil {
+		BadResponse(c, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	GoodResponseWithData(c, "email is valid", http.StatusOK, nil)
 }
 
 // Registration endpoint

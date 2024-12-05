@@ -6,7 +6,7 @@ import (
 )
 
 type UserService interface {
-	Get() error
+	All(user domain.User) ([]domain.User, error)
 	Register(user *domain.User) error
 }
 
@@ -18,8 +18,8 @@ func NewUserService(repo repository.UserRepository) UserService {
 	return &userService{repo: repo}
 }
 
-func (s *userService) Get() error {
-	return nil
+func (s *userService) All(user domain.User) ([]domain.User, error) {
+	return s.repo.All(user)
 }
 
 func (s *userService) Register(user *domain.User) error {
