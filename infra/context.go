@@ -55,7 +55,7 @@ func NewServiceContext(migrateDb bool, seedDb bool) (*ServiceContext, error) {
 	// instance controller
 	Ctl := handler.NewHandler(services, logger)
 
-	mw := middleware.NewMiddleware(rdb)
+	mw := middleware.NewMiddleware(rdb, appConfig.AppSecret)
 
 	return &ServiceContext{Cacher: rdb, Cfg: appConfig, Ctl: *Ctl, Log: logger, Middleware: mw}, nil
 }
