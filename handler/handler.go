@@ -23,7 +23,6 @@ func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 		AuthHandler:          *NewAuthController(service.Auth, logger),
 		PasswordResetHandler: *NewPasswordResetController(service.PasswordReset, logger),
 		UserHandler:          *NewUserController(service.User, logger),
-		AuthHandler:          *NewAuthController(service.Auth, logger),
 		Category:             NewCategoryHandler(logger, &service),
 	}
 }
