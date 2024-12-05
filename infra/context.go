@@ -1,7 +1,6 @@
 package infra
 
 import (
-	"go.uber.org/zap"
 	"project/config"
 	"project/database"
 	"project/handler"
@@ -9,6 +8,8 @@ import (
 	"project/middleware"
 	"project/repository"
 	"project/service"
+
+	"go.uber.org/zap"
 )
 
 type ServiceContext struct {
@@ -46,10 +47,10 @@ func NewServiceContext(migrateDb bool, seedDb bool) (*ServiceContext, error) {
 	rdb := database.NewCacher(config, 60*60)
 
 	// instance repository
-	repository := repository.NewRepository(db, rdb)
+	repository := repository.NewRepository(db, rdb, log)
 
 	// instance service
-	service := service.NewService(repository)
+	service := service.NewService(repository, log)
 
 	// instance controller
 	Ctl := handler.NewHandler(service, log)

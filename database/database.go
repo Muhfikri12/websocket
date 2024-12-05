@@ -2,13 +2,14 @@ package database
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"project/config"
 	"time"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
@@ -25,6 +26,7 @@ func ConnectDB(cfg config.Config) (*gorm.DB, error) {
 		},
 	)
 
+	fmt.Println(cfg.DBPassword)
 	// Open the connection to the database
 	db, err := gorm.Open(postgres.Open(makePostgresString(cfg)), &gorm.Config{
 		Logger: newLogger,

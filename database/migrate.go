@@ -1,8 +1,9 @@
 package database
 
 import (
-	"gorm.io/gorm"
 	"project/domain"
+
+	"gorm.io/gorm"
 )
 
 func Migrate(db *gorm.DB) error {
@@ -12,13 +13,14 @@ func Migrate(db *gorm.DB) error {
 		return err
 	}
 
-	if err = setupJoinTables(db); err != nil {
-		return err
-	}
+	// if err = setupJoinTables(db); err != nil {
+	// 	return err
+	// }
 
 	return db.AutoMigrate(
 		&domain.User{},
 		&domain.Admin{},
+		&domain.Category{},
 	)
 
 }
@@ -27,11 +29,12 @@ func dropTables(db *gorm.DB) error {
 	return db.Migrator().DropTable(
 		&domain.User{},
 		&domain.Admin{},
+		&domain.Category{},
 	)
 }
 
-func setupJoinTables(db *gorm.DB) error {
-	var err error
-
-	return err
-}
+// func setupJoinTables(db *gorm.DB) error {
+// 	var err error
+//
+// 	return err
+// }

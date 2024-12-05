@@ -27,7 +27,7 @@ type RedisConfig struct {
 func LoadConfig(migrateDb bool, seedDb bool) (Config, error) {
 	localEnv := viper.New()
 	localEnv.SetConfigType("dotenv")
-	viper.SetConfigFile("../.env") // Specify the config file name
+	viper.SetConfigFile(".env") // Specify the config file name
 
 	// Set default values
 	setDefaultValues(migrateDb, seedDb)
@@ -64,7 +64,7 @@ func setDefaultValues(migrateDb bool, seedDb bool) {
 	viper.SetDefault("DB_HOST", "localhost")
 	viper.SetDefault("DB_PORT", "5432")
 	viper.SetDefault("DB_USER", "postgres")
-	viper.SetDefault("DB_PASSWORD", "postgres")
+	viper.SetDefault("DB_PASSWORD", "admin")
 	viper.SetDefault("DB_NAME", "database")
 	viper.SetDefault("APP_DEBUG", true)
 

@@ -1,13 +1,20 @@
 package service
 
-import "project/repository"
+import (
+	"project/repository"
+	categoryservice "project/service/category_service"
+
+	"go.uber.org/zap"
+)
 
 type Service struct {
-	Auth AuthService
+	Auth     AuthService
+	Category categoryservice.CategoryService
 }
 
-func NewService(repo repository.Repository) Service {
+func NewService(repo repository.Repository, log *zap.Logger) Service {
 	return Service{
-		Auth: NewAuthService(repo.Auth),
+		Auth:     NewAuthService(repo.Auth),
+		Category: categoryservice.NewCategoryService(&repo, log),
 	}
 }
