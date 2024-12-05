@@ -22,5 +22,6 @@ func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config, lo
 		Auth:          *NewAuthRepository(db, cacher, config.AppSecret),
 		PasswordReset: *NewPasswordResetRepository(db),
 		User:          *NewUserRepository(db),
+		Category:      categoryrepositpry.NewCategoryRepo(db, log),
 	}
 }
