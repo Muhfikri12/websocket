@@ -6,10 +6,11 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"gorm.io/gorm"
 	"project/database"
 	"project/domain"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type AuthRepository struct {
