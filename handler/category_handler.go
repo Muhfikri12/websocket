@@ -1,9 +1,13 @@
 package handler
 
 import (
+	"mime/multipart"
 	"net/http"
+	"project/domain"
+	"project/helper"
 	"project/service"
 	"strconv"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -13,6 +17,7 @@ type CategoryHandler interface {
 	ShowAllCategory(c *gin.Context)
 	DeleteCategory(c *gin.Context)
 	GetCategoryByID(c *gin.Context)
+	CreateCategory(c *gin.Context)
 }
 
 type categoryHandler struct {
@@ -62,4 +67,50 @@ func (ch *categoryHandler) GetCategoryByID(c *gin.Context) {
 	}
 
 	GoodResponseWithData(c, "successfully Retrieved category", http.StatusOK, category)
+}
+
+func (ch *categoryHandler) CreateCategory(c *gin.Context) {
+	form, err := c.MultipartForm()
+	if err != nil {
+		BadResponse(c, "Invalid form data: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	files := form.File["images"]
+	if len(files) == 0 {
+		BadResponse(c, "No image provided", http.StatusBadRequest)
+		return
+	}
+
+	var wg sync.WaitGroup
+
+	responses, err := helper.Upload(&wg, []*multipart.FileHeader{files[0]})
+	if err != nil || len(responses) == 0 {
+		BadResponse(c, "Failed to upload image: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	name := c.PostForm("name")
+	if name == "" {
+		BadResponse(c, "Name is required", http.StatusBadRequest)
+		return
+	}
+
+	imageURL := responses[0].Data.Url
+
+	// Buat entitas kategori baru
+	category := domain.Category{
+		Name: name,
+		Icon: imageURL,
+	}
+
+	// Simpan kategori menggunakan service
+	err = ch.service.Category.CreateCategory(&category)
+	if err != nil {
+		BadResponse(c, "Failed to create category: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Berikan respon sukses
+	GoodResponseWithData(c, "Category created successfully", http.StatusCreated, category)
 }
