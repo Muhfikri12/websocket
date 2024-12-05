@@ -1,12 +1,15 @@
 package repository
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"errors"
-	"github.com/google/uuid"
+	"fmt"
 	"gorm.io/gorm"
 	"project/database"
 	"project/domain"
-	"strconv"
+	"time"
 )
 
 type AuthRepository struct {
@@ -25,8 +28,8 @@ func (repo AuthRepository) Authenticate(user domain.User) (string, string, bool,
 	}
 
 	if userFound {
-		token := uuid.New().String()
-		key := "user:" + strconv.Itoa(int(user.ID))
+		token := generateToken(user.Email, "team-1")
+		key := "user:" + user.Email
 		if err := repo.cacher.Set(key, token); err != nil {
 			return "", "", false, err
 		}
@@ -37,6 +40,18 @@ func (repo AuthRepository) Authenticate(user domain.User) (string, string, bool,
 	return "", "", false, nil
 }
 
-func (repo AuthRepository) Register(user *domain.User) error {
-	return repo.db.Create(&user).Error
+func generateToken(email string, secretKey string) string {
+	// Gabungkan data user
+	data := fmt.Sprintf("user:%s:%d", email, time.Now().Unix())
+
+	// Buat hash HMAC menggunakan SHA-256
+	h := hmac.New(sha256.New, []byte(secretKey))
+	h.Write([]byte(data))
+	signature := base64.URLEncoding.EncodeToString(h.Sum(nil))
+
+	// Encode data ke Base64
+	tokenData := base64.URLEncoding.EncodeToString([]byte(data))
+
+	// Gabungkan data dan tanda tangan
+	return fmt.Sprintf("%s.%s", tokenData, signature)
 }
