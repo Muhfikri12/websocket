@@ -18,15 +18,14 @@ func NewAuthController(service service.AuthService, logger *zap.Logger) *AuthCon
 }
 
 // Login endpoint
-// @Summary Admin login
+// @Summary User login
 // @Description authenticate user
-// @Tags Authentication
+// @Tags Auth
 // @Accept  json
 // @Produce  json
 // @Param domain.User body domain.User true " "
-// @Success 200 {object} handler.Response "login successfully"
-// @Failure 400 {object} handler.Response
-// @Failure 401 {object} handler.Response "authentication failed"
+// @Success 200 {object} handler.Response "user authenticated"
+// @Failure 401 {object} handler.Response "invalid username and/or password"
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /login [post]
 func (ctrl *AuthController) Login(c *gin.Context) {
@@ -36,16 +35,16 @@ func (ctrl *AuthController) Login(c *gin.Context) {
 		return
 	}
 
-	idKey, token, isAuthenticated, err := ctrl.service.Login(user)
-	if err != nil {
+	token, isAuthenticated, err := ctrl.service.Login(user)
+	if !isAuthenticated {
 		BadResponse(c, err.Error(), http.StatusUnauthorized)
 		return
 	}
 
-	if !isAuthenticated {
-		BadResponse(c, "authentication failed", http.StatusUnauthorized)
+	if err != nil {
+		BadResponse(c, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	GoodResponseWithData(c, "user authenticated", http.StatusOK, gin.H{"token": token, "id_key": idKey})
+	GoodResponseWithData(c, "user authenticated", http.StatusOK, gin.H{"token": token})
 }
