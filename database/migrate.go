@@ -21,6 +21,7 @@ func Migrate(db *gorm.DB) error {
 		&domain.User{},
 		&domain.Category{},
 		&domain.PasswordResetToken{},
+		&domain.Category{},
 	)
 
 }
@@ -30,6 +31,7 @@ func dropTables(db *gorm.DB) error {
 		&domain.User{},
 		&domain.Category{},
 		&domain.PasswordResetToken{},
+		&domain.Category{},
 	)
 }
 
