@@ -14,6 +14,8 @@ type User struct {
 	CreatedAt time.Time      `gorm:"default:now()" json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+
+	PasswordResetTokens []PasswordResetToken `gorm:"foreignKey:Email;references:Email" json:"-"`
 }
 
 func UserSeed() []User {
