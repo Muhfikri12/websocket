@@ -66,3 +66,28 @@ func (ctrl *UserController) Registration(c *gin.Context) {
 
 	GoodResponseWithData(c, "user registered", http.StatusCreated, user)
 }
+
+// Registration endpoint
+// @Summary Staff Registration
+// @Description register staff
+// @Tags Auth
+// @Accept  json
+// @Produce  json
+// @Param domain.User body domain.User true " "
+// @Success 200 {object} handler.Response "login successfully"
+// @Failure 500 {object} handler.Response "server error"
+// @Router  /register [post]
+func (ctrl *UserController) Registration(c *gin.Context) {
+	var user domain.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		BadResponse(c, "invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	if err := ctrl.service.Register(&user); err != nil {
+		BadResponse(c, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	GoodResponseWithData(c, "user registered", http.StatusCreated, user)
+}
