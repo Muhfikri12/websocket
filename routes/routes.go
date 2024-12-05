@@ -11,8 +11,9 @@ import (
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
 
-	// endpoint login
+	// auth
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
+	r.POST("/register", ctx.Ctl.AuthHandler.Registration)
 	category := r.Group("/category")
 	{
 		category.GET("/", ctx.Ctl.Category.ShowAllCategory)

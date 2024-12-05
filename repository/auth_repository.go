@@ -36,3 +36,7 @@ func (repo AuthRepository) Authenticate(user domain.User) (string, string, bool,
 
 	return "", "", false, nil
 }
+
+func (repo AuthRepository) Register(user *domain.User) error {
+	return repo.db.Create(&user).Error
+}
