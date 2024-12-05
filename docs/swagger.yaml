@@ -1,0 +1,56 @@
+definitions:
+  domain.User:
+    properties:
+      password:
+        example: password
+        type: string
+      username:
+        example: admin
+        type: string
+    type: object
+  handler.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: authenticate user
+      parameters:
+      - description: ' '
+        in: body
+        name: domain.User
+        required: true
+        schema:
+          $ref: '#/definitions/domain.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: login successfully
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "401":
+          description: authentication failed
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Admin login
+      tags:
+      - Authentication
+swagger: "2.0"
