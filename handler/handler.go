@@ -7,12 +7,16 @@ import (
 )
 
 type Handler struct {
-	AuthHandler AuthController
+	AuthHandler          AuthController
+	PasswordResetHandler PasswordResetController
+	UserHandler          UserController
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 	return &Handler{
-		AuthHandler: *NewAuthController(service.Auth, logger),
+		AuthHandler:          *NewAuthController(service.Auth, logger),
+		PasswordResetHandler: *NewPasswordResetController(service.PasswordReset, logger),
+		UserHandler:          *NewUserController(service.User, logger),
 	}
 }
 
