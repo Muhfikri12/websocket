@@ -1,9 +1,13 @@
 package service
 
-import "project/repository"
+import (
+	"project/domain"
+	"project/repository"
+)
 
 type UserService interface {
 	Get() error
+	Register(user *domain.User) error
 }
 
 type userService struct {
@@ -16,4 +20,8 @@ func NewUserService(repo repository.UserRepository) UserService {
 
 func (s *userService) Get() error {
 	return nil
+}
+
+func (s *userService) Register(user *domain.User) error {
+	return s.repo.Create(user)
 }
