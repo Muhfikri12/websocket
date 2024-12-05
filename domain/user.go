@@ -9,7 +9,7 @@ type User struct {
 	ID        uint           `gorm:"primaryKey" json:"-"`
 	FullName  string         `json:"full_name"`
 	Email     string         `gorm:"unique" example:"admin@mail.com" json:"email"`
-	Password  string         `example:"password" json:"-"`
+	Password  string         `example:"password" json:"password"`
 	Role      string         `gorm:"default:staff" json:"role"`
 	CreatedAt time.Time      `gorm:"default:now()" json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`

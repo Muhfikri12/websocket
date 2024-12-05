@@ -10,7 +10,6 @@ import (
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
 
-	// auth
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
 	r.POST("/register", ctx.Ctl.UserHandler.Registration)
 	r.GET("/users", ctx.Ctl.UserHandler.Get)

@@ -23,34 +23,26 @@ func NewAuthRepository(db *gorm.DB, cacher database.Cacher, secretKey string) *A
 }
 
 func (repo AuthRepository) Authenticate(user domain.User) (string, bool, error) {
-	var userFound bool
-	if err := repo.db.Model(&domain.User{}).Select("count(*)>0").Where(user).Find(&userFound).Error; err != nil {
+	if err := repo.db.Where(user).First(&user).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 		return "", false, errors.New("invalid username and/or password")
 	}
 
-	if userFound {
-		tokenData, signature := generateToken(user.Email, repo.secretKey)
-		if err := repo.cacher.Set(tokenData, signature); err != nil {
-			return "", false, err
-		}
-
-		// Gabungkan data dan tanda tangan
-		return fmt.Sprintf("%s.%s", tokenData, signature), true, nil
+	tokenData, signature := generateToken(user, repo.secretKey)
+	if err := repo.cacher.Set(tokenData, signature); err != nil {
+		return "", true, err
 	}
 
-	return "", false, nil
+	return fmt.Sprintf("%s.%s", tokenData, signature), true, nil
+
 }
 
-func generateToken(email string, secretKey string) (string, string) {
-	// Gabungkan data user
-	data := fmt.Sprintf("user:%s:%d", email, time.Now().Unix())
+func generateToken(user domain.User, secretKey string) (string, string) {
+	data := fmt.Sprintf("%d:%s:%d", user.ID, user.Role, time.Now().Unix())
 
-	// Buat hash HMAC menggunakan SHA-256
 	h := hmac.New(sha256.New, []byte(secretKey))
 	h.Write([]byte(data))
 	signature := base64.URLEncoding.EncodeToString(h.Sum(nil))
 
-	// Encode data ke Base64
 	tokenData := base64.URLEncoding.EncodeToString([]byte(data))
 	return tokenData, signature
 }
