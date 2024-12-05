@@ -14,6 +14,8 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	// auth
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
 	r.POST("/register", ctx.Ctl.AuthHandler.Registration)
+	r.GET("/users", ctx.Ctl.UserHandler.Get)
+	r.POST("/password-reset", ctx.Ctl.PasswordResetHandler.Create)
 	category := r.Group("/category")
 	{
 		category.GET("/", ctx.Ctl.Category.ShowAllCategory)
