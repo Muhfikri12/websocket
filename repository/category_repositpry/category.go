@@ -12,6 +12,7 @@ import (
 type CategoryRepo interface {
 	CreateCategory(category *domain.Category) error
 	ShowAllCategory(page, limit int) (*[]domain.Category, error)
+	DeleteCategory(id int) error
 }
 
 type categoryRepo struct {
@@ -38,6 +39,21 @@ func (cr *categoryRepo) ShowAllCategory(page, limit int) (*[]domain.Category, er
 	}
 
 	return &category, nil
+}
+
+func (cr *categoryRepo) DeleteCategory(id int) error {
+
+	result := cr.db.Delete(&domain.Category{}, id)
+
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("category not found")
+	}
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
 
 func (cr *categoryRepo) CreateCategory(category *domain.Category) error {

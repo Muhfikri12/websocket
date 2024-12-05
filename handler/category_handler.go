@@ -11,6 +11,7 @@ import (
 
 type CategoryHandler interface {
 	ShowAllCategory(c *gin.Context)
+	DeleteCategory(c *gin.Context)
 }
 
 type categoryHandler struct {
@@ -34,4 +35,17 @@ func (ch *categoryHandler) ShowAllCategory(c *gin.Context) {
 	}
 
 	GoodResponseWithData(c, "successfully retrived categories", http.StatusOK, categories)
+}
+
+func (ch *categoryHandler) DeleteCategory(c *gin.Context) {
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := ch.service.Category.DeleteCategory(id); err != nil {
+		BadResponse(c, "Failed to deleted categoriy: "+err.Error(), http.StatusNotFound)
+		return
+	}
+
+	GoodResponseWithData(c, "successfully deleted category", http.StatusOK, id)
+
 }

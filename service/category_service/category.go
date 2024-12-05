@@ -10,6 +10,7 @@ import (
 type CategoryService interface {
 	ShowAllCategory(page int) (*[]domain.Category, error)
 	CreateCategory(category *domain.Category) error
+	DeleteCategory(id int) error
 }
 
 type categoryService struct {
@@ -31,6 +32,15 @@ func (cs *categoryService) ShowAllCategory(page int) (*[]domain.Category, error)
 	}
 
 	return categories, nil
+}
+
+func (cs *categoryService) DeleteCategory(id int) error {
+
+	if err := cs.repo.Category.DeleteCategory(id); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (cs *categoryService) CreateCategory(category *domain.Category) error {
