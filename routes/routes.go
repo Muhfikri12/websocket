@@ -12,7 +12,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 
 	// auth
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
-	r.POST("/register", ctx.Ctl.AuthHandler.Registration)
+	r.POST("/register", ctx.Ctl.UserHandler.Registration)
 	r.GET("/users", ctx.Ctl.UserHandler.Get)
 	r.POST("/password-reset", ctx.Ctl.PasswordResetHandler.Create)
 

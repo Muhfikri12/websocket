@@ -2,6 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
+	"project/config"
 	"project/database"
 )
 
@@ -11,9 +12,9 @@ type Repository struct {
 	User          UserRepository
 }
 
-func NewRepository(db *gorm.DB, cacher database.Cacher) Repository {
+func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config) Repository {
 	return Repository{
-		Auth:          *NewAuthRepository(db, cacher),
+		Auth:          *NewAuthRepository(db, cacher, config.AppSecret),
 		PasswordReset: *NewPasswordResetRepository(db),
 		User:          *NewUserRepository(db),
 	}

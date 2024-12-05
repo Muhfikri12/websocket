@@ -26,35 +26,35 @@ func NewServiceContext(migrateDb bool, seedDb bool) (*ServiceContext, error) {
 	}
 
 	// instance config
-	config, err := config.LoadConfig(migrateDb, seedDb)
+	appConfig, err := config.LoadConfig(migrateDb, seedDb)
 	if err != nil {
 		handlerError(err)
 	}
 
-	// instance looger
-	log, err := log.InitZapLogger(config)
+	// instance logger
+	logger, err := log.InitZapLogger(appConfig)
 	if err != nil {
 		handlerError(err)
 	}
 
 	// instance database
-	db, err := database.ConnectDB(config)
+	db, err := database.ConnectDB(appConfig)
 	if err != nil {
 		handlerError(err)
 	}
 
-	rdb := database.NewCacher(config, 60*60)
+	rdb := database.NewCacher(appConfig, 60*60)
 
 	// instance repository
-	repository := repository.NewRepository(db, rdb)
+	repo := repository.NewRepository(db, rdb, appConfig)
 
 	// instance service
-	service := service.NewService(repository)
+	services := service.NewService(repo)
 
 	// instance controller
-	Ctl := handler.NewHandler(service, log)
+	Ctl := handler.NewHandler(services, logger)
 
 	mw := middleware.NewMiddleware(rdb)
 
-	return &ServiceContext{Cacher: rdb, Cfg: config, Ctl: *Ctl, Log: log, Middleware: mw}, nil
+	return &ServiceContext{Cacher: rdb, Cfg: appConfig, Ctl: *Ctl, Log: logger, Middleware: mw}, nil
 }
