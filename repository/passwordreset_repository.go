@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"gorm.io/gorm"
 	"project/domain"
+
+	"gorm.io/gorm"
 )
 
 type PasswordResetRepository struct {
