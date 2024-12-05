@@ -13,7 +13,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
 	r.POST("/register", ctx.Ctl.UserHandler.Registration)
-	r.GET("/users", ctx.Ctl.UserHandler.Get)
+	r.GET("/users", ctx.Ctl.UserHandler.All)
 	r.POST("/password-reset", ctx.Ctl.PasswordResetHandler.Create)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
