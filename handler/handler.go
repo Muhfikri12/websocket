@@ -12,10 +12,6 @@ type Handler struct {
 	PasswordResetHandler PasswordResetController
 	UserHandler          UserController
 	Category             CategoryHandler
-	AuthHandler          AuthController
-	PasswordResetHandler PasswordResetController
-	UserHandler          UserController
-	Category             CategoryHandler
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {

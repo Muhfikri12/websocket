@@ -59,8 +59,9 @@ func (cr *categoryRepo) DeleteCategory(id int) error {
 
 func (cr *categoryRepo) CreateCategory(category *domain.Category) error {
 
-	if err := cr.db.Create(category); err != nil {
-		return fmt.Errorf("failed to create category: " + err.Error.Error())
+	err := cr.db.Create(category).Error
+	if err != nil {
+		return fmt.Errorf("failed to create category: %s", err)
 	}
 
 	return nil

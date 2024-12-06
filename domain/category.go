@@ -8,7 +8,7 @@ import (
 type Category struct {
 	ID        uint   `gorm:"primaryKey;autoincrement" json:"id"`
 	Name      string `gorm:"type:varchar(50)" json:"name" binding:"required"`
-	Icon      string `gorm:"type:varchar(50)" json:"icon" binding:"required"`
+	Icon      string `gorm:"type:varchar(200)" json:"image" binding:"required"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

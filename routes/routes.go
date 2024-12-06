@@ -1,8 +1,6 @@
 package routes
 
 import (
-	"project/infra"
-
 	"log"
 	"project/helper"
 	"project/infra"
@@ -24,6 +22,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	category := r.Group("/category")
 	{
 		category.GET("/", ctx.Ctl.Category.ShowAllCategory)
+		category.POST("/", ctx.Ctl.Category.CreateCategory)
 		category.DELETE("/:id", ctx.Ctl.Category.DeleteCategory)
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 	}
