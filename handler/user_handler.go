@@ -26,7 +26,7 @@ func NewUserController(service service.UserService, logger *zap.Logger) *UserCon
 // @Produce  json
 // @Success 200 {object} handler.Response "email is valid"
 // @Failure 404 {object} handler.Response "user not found"
-// @Router  /users [post]
+// @Router  /users [get]
 func (ctrl *UserController) All(c *gin.Context) {
 	searchParam := domain.User{Email: c.Query("email")}
 
