@@ -26,8 +26,6 @@ func ConnectDB(cfg config.Config) (*gorm.DB, error) {
 		},
 	)
 
-	fmt.Println(cfg.DBPassword)
-	// Open the connection to the database
 	db, err := gorm.Open(postgres.Open(makePostgresString(cfg)), &gorm.Config{
 		Logger: newLogger,
 	})
