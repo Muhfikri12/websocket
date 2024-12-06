@@ -5,10 +5,13 @@ import (
 	"project/helper"
 	"project/infra"
 	"sync"
-
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"log"
+	"project/helper"
+	"project/infra"
+	"sync"
 )
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
@@ -19,6 +22,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r.POST("/register", ctx.Ctl.UserHandler.Registration)
 	r.GET("/users", ctx.Ctl.UserHandler.All)
 	r.POST("/password-reset", ctx.Ctl.PasswordResetHandler.Create)
+
 	category := r.Group("/category")
 	{
 		category.GET("/", ctx.Ctl.Category.ShowAllCategory)
@@ -27,6 +31,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
+
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

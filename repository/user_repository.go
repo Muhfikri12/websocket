@@ -2,9 +2,8 @@ package repository
 
 import (
 	"errors"
-	"project/domain"
-
 	"gorm.io/gorm"
+	"project/domain"
 )
 
 type UserRepository struct {

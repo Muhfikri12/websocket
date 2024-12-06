@@ -13,6 +13,7 @@ type Repository struct {
 	Auth          AuthRepository
 	PasswordReset PasswordResetRepository
 	User          UserRepository
+
 	Category      categoryrepositpry.CategoryRepo
 }
 
