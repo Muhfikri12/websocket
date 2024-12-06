@@ -13,6 +13,7 @@ type CategoryRepo interface {
 	CreateCategory(category *domain.Category) error
 	ShowAllCategory(page, limit int) (*[]domain.Category, error)
 	DeleteCategory(id int) error
+	GetCategoryByID(id int) (*domain.Category, error)
 }
 
 type categoryRepo struct {
@@ -63,4 +64,20 @@ func (cr *categoryRepo) CreateCategory(category *domain.Category) error {
 	}
 
 	return nil
+}
+
+func (cr *categoryRepo) GetCategoryByID(id int) (*domain.Category, error) {
+
+	category := domain.Category{}
+	result := cr.db.Find(&category, id)
+
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("category not found or already deleted")
+	}
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &category, nil
 }

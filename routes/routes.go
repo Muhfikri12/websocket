@@ -19,7 +19,8 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	category := r.Group("/category")
 	{
 		category.GET("/", ctx.Ctl.Category.ShowAllCategory)
-		category.GET("/:id", ctx.Ctl.Category.DeleteCategory)
+		category.DELETE("/:id", ctx.Ctl.Category.DeleteCategory)
+		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

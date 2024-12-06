@@ -11,6 +11,7 @@ type CategoryService interface {
 	ShowAllCategory(page int) (*[]domain.Category, error)
 	CreateCategory(category *domain.Category) error
 	DeleteCategory(id int) error
+	GetCategoryByID(id int) (*domain.Category, error)
 }
 
 type categoryService struct {
@@ -50,4 +51,14 @@ func (cs *categoryService) CreateCategory(category *domain.Category) error {
 	}
 
 	return nil
+}
+
+func (cs *categoryService) GetCategoryByID(id int) (*domain.Category, error) {
+
+	category, err := cs.repo.Category.GetCategoryByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return category, nil
 }
