@@ -25,7 +25,7 @@ func NewPasswordResetController(service service.PasswordResetService, logger *za
 // @Produce  json
 // @Success 200 {object} handler.Response "password reset link sent"
 // @Failure 500 {object} handler.Response "failed to reset password"
-// @Router  /users [post]
+// @Router  /password-reset [post]
 func (ctrl *PasswordResetController) Create(c *gin.Context) {
 	var passwordResetToken domain.PasswordResetToken
 	if err := c.ShouldBindJSON(&passwordResetToken); err != nil {
