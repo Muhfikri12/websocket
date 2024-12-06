@@ -3,6 +3,11 @@ package routes
 import (
 	"project/infra"
 
+	"log"
+	"project/helper"
+	"project/infra"
+	"sync"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -24,6 +29,15 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	r.POST("/cdn-upload", func(c *gin.Context) {
+		form, _ := c.MultipartForm()
+		files := form.File["images[]"]
+
+		var wg sync.WaitGroup
+		responses, _ := helper.Upload(&wg, files)
+		log.Println(responses)
+	})
 
 	return r
 }
