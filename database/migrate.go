@@ -1,8 +1,9 @@
 package database
 
 import (
-	"gorm.io/gorm"
 	"project/domain"
+
+	"gorm.io/gorm"
 )
 
 func Migrate(db *gorm.DB) error {
@@ -18,6 +19,7 @@ func Migrate(db *gorm.DB) error {
 
 	return db.AutoMigrate(
 		&domain.User{},
+		&domain.Category{},
 		&domain.PasswordResetToken{},
 		&domain.Customer{},
 		&domain.Order{},
@@ -29,6 +31,7 @@ func Migrate(db *gorm.DB) error {
 func dropTables(db *gorm.DB) error {
 	return db.Migrator().DropTable(
 		&domain.User{},
+		&domain.Category{},
 		&domain.PasswordResetToken{},
 		&domain.Order{},
 		&domain.OrderItem{},

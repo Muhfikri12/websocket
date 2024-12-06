@@ -35,7 +35,7 @@ func main() {
 
 	r := routes.NewRoutes(*ctx)
 
-	if err = r.Run(":8080"); err != nil {
+	if err = r.Run(":8000"); err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
 
