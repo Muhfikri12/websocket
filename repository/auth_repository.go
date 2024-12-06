@@ -17,13 +17,8 @@ type AuthRepository struct {
 	db        *gorm.DB
 	cacher    database.Cacher
 	secretKey string
-	db        *gorm.DB
-	cacher    database.Cacher
-	secretKey string
 }
 
-func NewAuthRepository(db *gorm.DB, cacher database.Cacher, secretKey string) *AuthRepository {
-	return &AuthRepository{db: db, cacher: cacher, secretKey: secretKey}
 func NewAuthRepository(db *gorm.DB, cacher database.Cacher, secretKey string) *AuthRepository {
 	return &AuthRepository{db: db, cacher: cacher, secretKey: secretKey}
 }
