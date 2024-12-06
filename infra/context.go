@@ -1,7 +1,6 @@
 package infra
 
 import (
-	"go.uber.org/zap"
 	"project/config"
 	"project/database"
 	"project/handler"
@@ -9,6 +8,8 @@ import (
 	"project/middleware"
 	"project/repository"
 	"project/service"
+
+	"go.uber.org/zap"
 )
 
 type ServiceContext struct {

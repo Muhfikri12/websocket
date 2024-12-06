@@ -2,13 +2,14 @@ package database
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"project/config"
 	"time"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB

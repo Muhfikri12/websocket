@@ -1,16 +1,19 @@
 package repository
 
 import (
-	"gorm.io/gorm"
 	"project/database"
+
+	"gorm.io/gorm"
 )
 
 type Repository struct {
-	Auth AuthRepository
+	Auth   AuthRepository
+	Banner RepositoryBanner
 }
 
 func NewRepository(db *gorm.DB, cacher database.Cacher) Repository {
 	return Repository{
-		Auth: *NewAuthRepository(db, cacher),
+		Auth:   *NewAuthRepository(db, cacher),
+		Banner: *NewRepositoryBanner(db, cacher),
 	}
 }

@@ -1,18 +1,21 @@
 package handler
 
 import (
+	"project/service"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"project/service"
 )
 
 type Handler struct {
-	AuthHandler AuthController
+	AuthHandler   AuthController
+	HandlerBanner ControllerBanner
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 	return &Handler{
-		AuthHandler: *NewAuthController(service.Auth, logger),
+		AuthHandler:   *NewAuthController(service.Auth, logger),
+		HandlerBanner: *NewControllerBanner(service.Banner, logger),
 	}
 }
 
