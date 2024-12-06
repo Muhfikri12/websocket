@@ -14,6 +14,7 @@ type CategoryRepo interface {
 	ShowAllCategory(page, limit int) (*[]domain.Category, error)
 	DeleteCategory(id int) error
 	GetCategoryByID(id int) (*domain.Category, error)
+	UpdateCategory(id int, category *domain.Category) error
 }
 
 type categoryRepo struct {
@@ -81,4 +82,21 @@ func (cr *categoryRepo) GetCategoryByID(id int) (*domain.Category, error) {
 	}
 
 	return &category, nil
+}
+
+func (cr *categoryRepo) UpdateCategory(id int, category *domain.Category) error {
+
+	result := cr.db.Model(&category).
+		Where("id", id).
+		Updates(category)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("no record found with shipping_id %d", category.ID)
+	}
+
+	return nil
 }

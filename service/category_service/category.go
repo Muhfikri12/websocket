@@ -12,6 +12,7 @@ type CategoryService interface {
 	CreateCategory(category *domain.Category) error
 	DeleteCategory(id int) error
 	GetCategoryByID(id int) (*domain.Category, error)
+	UpdateCategory(id int, category *domain.Category) error
 }
 
 type categoryService struct {
@@ -61,4 +62,13 @@ func (cs *categoryService) GetCategoryByID(id int) (*domain.Category, error) {
 	}
 
 	return category, nil
+}
+
+func (cs *categoryService) UpdateCategory(id int, category *domain.Category) error {
+
+	if err := cs.repo.Category.UpdateCategory(id, category); err != nil {
+		return err
+	}
+
+	return nil
 }

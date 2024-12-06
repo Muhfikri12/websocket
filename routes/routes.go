@@ -25,6 +25,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.POST("/", ctx.Ctl.Category.CreateCategory)
 		category.DELETE("/:id", ctx.Ctl.Category.DeleteCategory)
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
+		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

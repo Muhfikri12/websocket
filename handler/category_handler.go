@@ -18,6 +18,7 @@ type CategoryHandler interface {
 	DeleteCategory(c *gin.Context)
 	GetCategoryByID(c *gin.Context)
 	CreateCategory(c *gin.Context)
+	UpdateCategory(c *gin.Context)
 }
 
 type categoryHandler struct {
@@ -113,4 +114,43 @@ func (ch *categoryHandler) CreateCategory(c *gin.Context) {
 
 	// Berikan respon sukses
 	GoodResponseWithData(c, "Category created successfully", http.StatusCreated, category)
+}
+
+func (ch *categoryHandler) UpdateCategory(c *gin.Context) {
+
+	category := domain.Category{}
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	form, _ := c.MultipartForm()
+
+	var imageURL string
+	files := form.File["images"]
+	if len(files) > 0 {
+		var wg sync.WaitGroup
+		responses, err := helper.Upload(&wg, []*multipart.FileHeader{files[0]})
+		if err != nil || len(responses) == 0 {
+			BadResponse(c, "Failed to upload image: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		imageURL = responses[0].Data.Url
+	}
+
+	name := c.PostForm("name")
+	if name == "" {
+		name = category.Name
+	}
+
+	category = domain.Category{
+		ID:   uint(id),
+		Name: name,
+		Icon: imageURL,
+	}
+
+	err := ch.service.Category.UpdateCategory(id, &category)
+	if err != nil {
+		BadResponse(c, "Category not found: "+err.Error(), http.StatusNotFound)
+		return
+	}
+
+	GoodResponseWithData(c, "Category updated successfully", http.StatusOK, category)
 }
