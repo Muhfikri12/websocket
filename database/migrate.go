@@ -28,6 +28,7 @@ func Migrate(db *gorm.DB) error {
 		&domain.Order{},
 		&domain.OrderItem{},
 		&domain.Review{},
+		&domain.Stock{},
 	)
 
 }
@@ -44,6 +45,7 @@ func dropTables(db *gorm.DB) error {
 		&domain.ProductVariant{},
 		&domain.Image{},
 		&domain.Review{},
+		&domain.Stock{},
 	)
 }
 
