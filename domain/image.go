@@ -53,10 +53,6 @@ func SeedImages() []Image {
 			ProductID: 3,
 			URLPath:   "https://example.com/images/product/aneka_apel3.jpg",
 		},
-		{
-			ProductID: 4,
-			URLPath:   "https://example.com/images/product/aneka_durian.jpg",
-		},
 	}
 
 	return images

@@ -13,7 +13,7 @@ import (
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
-	//r.Use(ctx.Middleware.Logger())
+	// r.MaxMultipartMemory = 100 << 20
 
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
 	r.POST("/register", ctx.Ctl.UserHandler.Registration)
@@ -32,7 +32,9 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	products := r.Group("/products")
 	{
 		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
+		products.POST("/", ctx.Ctl.Product.CreateProduct)
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
+		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
