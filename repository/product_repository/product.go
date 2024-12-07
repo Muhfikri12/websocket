@@ -16,6 +16,7 @@ type ProductRepo interface {
 	ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error)
 	GetProductByID(id int) (*domain.Product, error)
 	CreateProduct(product *domain.Product) error
+	DeleteProduct(id int) error
 }
 
 type productRepo struct {
@@ -157,4 +158,56 @@ func (pr *productRepo) CreateProduct(product *domain.Product) error {
 	}
 
 	return err
+}
+
+// func (pr *productRepo) UpdateProduct(productID uint, product *domain.Product) error {
+// 	var wg sync.WaitGroup
+//
+// 	err := pr.db.Transaction(func(tx *gorm.DB) error {
+// 		if err := tx.Model(&domain.Product{}).Where("id = ?", productID).Updates(&product).Error; err != nil {
+// 			return fmt.Errorf("failed to update product: %w", err)
+// 		}
+//
+// 		if product.ProductVariant != nil {
+// 			if err := tx.Model(&domain.ProductVariant{}).
+// 				Where("product_id = ?", productID).
+// 				Updates(&product.ProductVariant).Error; err != nil {
+// 				return fmt.Errorf("failed to update product variant: %w", err)
+// 			}
+// 		}
+//
+// 		if len(product.Image) > 0 {
+// 			for _, image := range product.Image {
+// 				image.ProductID = int(productID)
+// 				if err := tx.Create(&image).Error; err != nil {
+// 					log.Printf("failed to create image: %v", err)
+// 					return fmt.Errorf("failed to create image: %w", err)
+// 				}
+// 			}
+// 		}
+//
+// 		wg.Wait()
+//
+// 		return nil
+// 	})
+//
+// 	if err != nil {
+// 		log.Printf("Transaction failed: %v", err)
+// 	}
+//
+// 	return err
+// }
+
+func (pr *productRepo) DeleteProduct(id int) error {
+
+	result := pr.db.Delete(&domain.Product{}, id)
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("category not found")
+	}
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }

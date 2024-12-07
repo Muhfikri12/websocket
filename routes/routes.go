@@ -34,6 +34,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
 		products.POST("/", ctx.Ctl.Product.CreateProduct)
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
+		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

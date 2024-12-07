@@ -11,6 +11,7 @@ type ProductService interface {
 	ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error)
 	GetProductByID(id int) (*domain.Product, error)
 	CreateProduct(product *domain.Product) error
+	DeleteProduct(id int) error
 }
 
 type productService struct {
@@ -45,6 +46,16 @@ func (ps *productService) GetProductByID(id int) (*domain.Product, error) {
 func (ps *productService) CreateProduct(product *domain.Product) error {
 
 	err := ps.repo.Product.CreateProduct(product)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ps *productService) DeleteProduct(id int) error {
+
+	err := ps.repo.Product.DeleteProduct(id)
 	if err != nil {
 		return err
 	}

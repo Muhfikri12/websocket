@@ -18,6 +18,7 @@ type ProductHandler interface {
 	ShowAllProduct(c *gin.Context)
 	GetProductByID(c *gin.Context)
 	CreateProduct(c *gin.Context)
+	DeleteProduct(c *gin.Context)
 }
 
 type productHandler struct {
@@ -118,4 +119,16 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 	}
 
 	GoodResponseWithData(c, "Product created successfully", http.StatusCreated, product)
+}
+
+func (ph *productHandler) DeleteProduct(c *gin.Context) {
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := ph.service.Product.DeleteProduct(id); err != nil {
+		BadResponse(c, "Failed to Delete product: "+err.Error(), http.StatusNotFound)
+		return
+	}
+
+	GoodResponseWithData(c, "Product Deleted successfully", http.StatusOK, id)
 }
