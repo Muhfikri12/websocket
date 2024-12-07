@@ -1,6 +1,7 @@
 package dashboardservice
 
 import (
+	"project/domain"
 	"project/repository"
 
 	"go.uber.org/zap"
@@ -8,6 +9,7 @@ import (
 
 type DashboardService interface {
 	GetEarningProduct() (int, error)
+	GetSummary() (*domain.Summary, error)
 }
 
 type dashboardService struct {
@@ -27,4 +29,14 @@ func (ds *dashboardService) GetEarningProduct() (int, error) {
 	}
 
 	return totalEarning, nil
+}
+
+func (ds *dashboardService) GetSummary() (*domain.Summary, error) {
+
+	summary, err := ds.repo.Dashboard.GetSummary()
+	if err != nil {
+		return nil, err
+	}
+
+	return summary, nil
 }

@@ -47,6 +47,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	dashboard := r.Group("dashboard")
 	{
 		dashboard.GET("/earning", ctx.Ctl.Dashboard.GetEerningProduct)
+		dashboard.GET("/summary", ctx.Ctl.Dashboard.GetSummary)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
