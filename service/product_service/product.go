@@ -10,6 +10,7 @@ import (
 type ProductService interface {
 	ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error)
 	GetProductByID(id int) (*domain.Product, error)
+	CreateProduct(product *domain.Product) error
 }
 
 type productService struct {
@@ -39,4 +40,14 @@ func (ps *productService) GetProductByID(id int) (*domain.Product, error) {
 	}
 
 	return product, nil
+}
+
+func (ps *productService) CreateProduct(product *domain.Product) error {
+
+	err := ps.repo.Product.CreateProduct(product)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

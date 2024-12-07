@@ -2,6 +2,7 @@ package productrepository
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"project/domain"
 	"project/helper"
@@ -14,6 +15,7 @@ import (
 type ProductRepo interface {
 	ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error)
 	GetProductByID(id int) (*domain.Product, error)
+	CreateProduct(product *domain.Product) error
 }
 
 type productRepo struct {
@@ -49,15 +51,15 @@ func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, 
 		go func(product *domain.Product) {
 			defer wg.Done()
 			var (
-				variants []domain.ProductVariant
-				images   []domain.Image
+				variants []*domain.ProductVariant
+				images   []*domain.Image
 			)
 
 			pr.db.Model(&domain.ProductVariant{}).Where("product_id = ?", product.ID).Find(&variants)
-			product.ProductVariant = &variants
+			product.ProductVariant = variants
 
 			pr.db.Model(&domain.Image{}).Where("product_id = ?", product.ID).Find(&images)
-			product.Image = &images
+			product.Image = images
 
 		}(&productList[i])
 	}
@@ -78,12 +80,12 @@ func (pr *productRepo) GetProductByID(id int) (*domain.Product, error) {
 		return nil, fmt.Errorf("product not found")
 	}
 
-	variantChan := make(chan []domain.ProductVariant)
-	imageChan := make(chan []domain.Image)
+	variantChan := make(chan []*domain.ProductVariant)
+	imageChan := make(chan []*domain.Image)
 	errChan := make(chan error)
 
 	go func() {
-		var variants []domain.ProductVariant
+		var variants []*domain.ProductVariant
 		if err := pr.db.Model(&domain.ProductVariant{}).Where("product_id = ?", product.ID).Find(&variants).Error; err != nil {
 			errChan <- err
 			return
@@ -92,7 +94,7 @@ func (pr *productRepo) GetProductByID(id int) (*domain.Product, error) {
 	}()
 
 	go func() {
-		var images []domain.Image
+		var images []*domain.Image
 		if err := pr.db.Model(&domain.Image{}).Where("product_id = ?", product.ID).Find(&images).Error; err != nil {
 			errChan <- err
 			return
@@ -100,8 +102,8 @@ func (pr *productRepo) GetProductByID(id int) (*domain.Product, error) {
 		imageChan <- images
 	}()
 
-	var variants []domain.ProductVariant
-	var images []domain.Image
+	var variants []*domain.ProductVariant
+	var images []*domain.Image
 	for i := 0; i < 2; i++ {
 		select {
 		case v := <-variantChan:
@@ -113,8 +115,46 @@ func (pr *productRepo) GetProductByID(id int) (*domain.Product, error) {
 		}
 	}
 
-	product.ProductVariant = &variants
-	product.Image = &images
+	product.ProductVariant = variants
+	product.Image = images
 
 	return &product, nil
+}
+
+func (pr *productRepo) CreateProduct(product *domain.Product) error {
+	var wg sync.WaitGroup
+	var err error
+
+	err = pr.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&product).Error; err != nil {
+			return fmt.Errorf("failed to create product: %w", err)
+		}
+
+		if err := tx.Create(&domain.ProductVariant{
+			ProductID: product.ID,
+		}).Error; err != nil {
+			return fmt.Errorf("failed to create product variant: %w", err)
+		}
+
+		if err := tx.Create(&domain.Image{
+			ProductID: product.ID,
+		}).Error; err != nil {
+			log.Printf("failed to create image: %v", err)
+			err = fmt.Errorf("failed to create image: %w", err)
+		}
+
+		wg.Wait()
+
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		log.Printf("Transaction failed: %v", err)
+	}
+
+	return err
 }
