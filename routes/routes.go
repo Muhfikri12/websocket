@@ -35,7 +35,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
 	}
 
-	order := r.Group("/order")
+	order := r.Group("/orders")
 	{
 		order.GET("/", ctx.Ctl.OrderHandler.All)
 		order.GET("/:id", ctx.Ctl.OrderHandler.Get)

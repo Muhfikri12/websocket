@@ -5,6 +5,7 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 	"project/domain"
+	"project/helper"
 	"project/service"
 )
 
@@ -28,13 +29,22 @@ func NewOrderController(service service.OrderService, logger *zap.Logger) *Order
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /orders [get]
 func (ctrl *OrderController) All(c *gin.Context) {
-	orders, err := ctrl.service.All(1, 1)
+	page, _ := helper.Uint(c.Query("page"))
+	if page == 0 {
+		page = 1
+	}
+	limit, _ := helper.Uint(c.Query("limit"))
+	if limit == 0 {
+		limit = 10
+	}
+
+	total, pages, orders, err := ctrl.service.All(page, limit)
 	if err != nil {
 		BadResponse(c, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	GoodResponseWithData(c, "orders retrieved", http.StatusOK, orders)
+	GoodResponseWithPage(c, "orders retrieved", http.StatusOK, total, pages, int(page), int(limit), orders)
 }
 
 // Order endpoint
@@ -43,12 +53,12 @@ func (ctrl *OrderController) All(c *gin.Context) {
 // @Tags Order
 // @Accept  json
 // @Produce  json
-// @Param domain.Order body domain.Order true " "
+// @Param id path uint true "Order ID"
 // @Success 200 {object} handler.Response "order updated"
 // @Failure 422 {object} handler.Response "invalid input"
 // @Failure 404 {object} handler.Response "no data found"
 // @Failure 500 {object} handler.Response "server error"
-// @Router  /orders [put]
+// @Router  /orders/:id [put]
 func (ctrl *OrderController) Update(c *gin.Context) {
 	var order domain.Order
 	if err := c.ShouldBindJSON(&order); err != nil {
@@ -65,12 +75,12 @@ func (ctrl *OrderController) Update(c *gin.Context) {
 // @Tags Order
 // @Accept  json
 // @Produce  json
-// @Param domain.Order body domain.Order true " "
+// @Param id path uint true "Order ID"
 // @Success 200 {object} handler.Response "order retrived"
 // @Failure 422 {object} handler.Response "invalid input"
 // @Failure 404 {object} handler.Response "no data found"
 // @Failure 500 {object} handler.Response "server error"
-// @Router  /orders [get]
+// @Router  /orders/:id [get]
 func (ctrl *OrderController) Get(c *gin.Context) {
 	var order domain.Order
 

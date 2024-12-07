@@ -6,7 +6,7 @@ import (
 )
 
 type OrderService interface {
-	All(page, limit uint) ([]domain.Order, error)
+	All(page, limit uint) (int, int, []domain.Order, error)
 	Update(order *domain.Order) error
 	Get(orderId uint) (domain.Order, error)
 }
@@ -19,7 +19,7 @@ func NewOrderService(repo repository.OrderRepository) OrderService {
 	return &orderService{repo: repo}
 }
 
-func (s *orderService) All(page, limit uint) ([]domain.Order, error) {
+func (s *orderService) All(page, limit uint) (int, int, []domain.Order, error) {
 	return s.repo.All(page, limit)
 }
 

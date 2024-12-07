@@ -73,6 +73,41 @@ const docTemplate = `{
         },
         "/orders": {
             "get": {
+                "description": "Get customer orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Customer orders",
+                "responses": {
+                    "200": {
+                        "description": "orders retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "no data found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "server error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/:id": {
+            "get": {
                 "description": "Get customer order",
                 "consumes": [
                     "application/json"
@@ -86,13 +121,11 @@ const docTemplate = `{
                 "summary": "Customer order",
                 "parameters": [
                     {
-                        "description": " ",
-                        "name": "domain.Order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Order"
-                        }
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -136,13 +169,11 @@ const docTemplate = `{
                 "summary": "Customer order",
                 "parameters": [
                     {
-                        "description": " ",
-                        "name": "domain.Order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Order"
-                        }
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -160,39 +191,6 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "invalid input",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "server error",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Response"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Get customer orders",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Order"
-                ],
-                "summary": "Customer orders",
-                "responses": {
-                    "200": {
-                        "description": "orders retrieved",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "no data found",
                         "schema": {
                             "$ref": "#/definitions/handler.Response"
                         }
@@ -306,75 +304,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.Customer": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.Order": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "customer": {
-                    "$ref": "#/definitions/domain.Customer"
-                },
-                "customerID": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/domain.OrderItem"
-                    }
-                },
-                "paymentMethod": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.OrderItem": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "order": {
-                    "$ref": "#/definitions/domain.Order"
-                },
-                "orderID": {
-                    "type": "integer"
-                },
-                "quantity": {
-                    "type": "integer"
-                },
-                "unitPrice": {
-                    "type": "number"
-                },
-                "variantID": {
-                    "type": "integer"
-                }
-            }
-        },
         "domain.User": {
             "type": "object",
             "properties": {
