@@ -1,28 +1,26 @@
 package domain
 
 import (
-	"log"
 	"time"
 
 	"gorm.io/gorm"
 )
 
 type Product struct {
-	ID          int        `gorm:"primaryKey;autoIncrement" json:"id"`
-	Name        string     `gorm:"type:varchar(50)" json:"name"`
-	SKUProduct  string     `gorm:"type:varchar(100);unique" json:"sku_product"`
-	Price       float64    `gorm:"type:float" json:"price"`
-	Description string     `gorm:"type:text" json:"description"`
-	CreatedAt   time.Time  `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt   time.Time  `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt   *time.Time `gorm:"index" json:"deleted_at"`
+	ID          int             `gorm:"primaryKey;autoIncrement" json:"id"`
+	Name        string          `gorm:"type:varchar(50)" json:"name"`
+	SKUProduct  string          `gorm:"type:varchar(100);unique" json:"sku_product"`
+	Price       float64         `gorm:"type:float" json:"price"`
+	Description string          `gorm:"type:text" json:"description"`
+	CreatedAt   time.Time       `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt   time.Time       `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt   *gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 
-	ProductVariants []ProductVariant `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"product_variants"`
-	Images          []Image          `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"images"`
+	Image          *[]Image          `json:"image"`
+	ProductVariant *[]ProductVariant `json:"product_variant"`
 }
 
-func seedProducts(db *gorm.DB) {
-	// Data dummy untuk seeding
+func SeedProducts() []Product {
 	products := []Product{
 		{
 			Name:        "Product A",
@@ -44,14 +42,5 @@ func seedProducts(db *gorm.DB) {
 		},
 	}
 
-	// Masukkan data ke tabel `products`
-	for i, product := range products {
-		if err := db.Create(&product).Error; err != nil {
-			log.Fatalf("failed to seed product #%d: %v", i+1, err)
-		}
-
-		// Tambahkan varian produk
-		SeedProductVariants(db, product.ID)
-		SeedImages(db, product.ID)
-	}
+	return products
 }

@@ -5,13 +5,10 @@ import (
 	"project/helper"
 	"project/infra"
 	"sync"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"log"
-	"project/helper"
-	"project/infra"
-	"sync"
 )
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
@@ -32,6 +29,10 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
 
+	products := r.Group("/products")
+	{
+		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
+	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
