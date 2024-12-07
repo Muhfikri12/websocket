@@ -1,7 +1,10 @@
 package routes
 
 import (
+	"log"
+	"project/helper"
 	"project/infra"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -10,21 +13,55 @@ import (
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
+	// r.MaxMultipartMemory = 100 << 20
 
-	// endpoint login
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
+	r.POST("/register", ctx.Ctl.UserHandler.Registration)
+	r.GET("/users", ctx.Ctl.UserHandler.All)
+	r.POST("/password-reset", ctx.Ctl.PasswordResetHandler.Create)
 
-	bannerGroup := r.Group("/banner")
+	category := r.Group("/category")
 	{
-		bannerGroup.GET("/", ctx.Ctl.HandlerBanner.GetAll)
-		bannerGroup.POST("/", ctx.Ctl.HandlerBanner.Create)
-		bannerGroup.PUT("/:id", ctx.Ctl.HandlerBanner.Edit)
-		bannerGroup.GET("/:id", ctx.Ctl.HandlerBanner.GetById)
-
-		// Mungkin delete bisa di grouping dengan delete yang lain karena hanya admin yang bisa akses
-		bannerGroup.DELETE("/:id", ctx.Ctl.HandlerBanner.Delete)
+		category.GET("/", ctx.Ctl.Category.ShowAllCategory)
+		category.POST("/", ctx.Ctl.Category.CreateCategory)
+		category.DELETE("/:id", ctx.Ctl.Category.DeleteCategory)
+		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
+		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
+
+	products := r.Group("/products")
+	{
+		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
+		products.POST("/", ctx.Ctl.Product.CreateProduct)
+		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
+		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
+	}
+
+	order := r.Group("/orders")
+	{
+		order.GET("/", ctx.Ctl.OrderHandler.All)
+		order.GET("/:id", ctx.Ctl.OrderHandler.Get)
+		order.PUT("/", ctx.Ctl.OrderHandler.Update)
+	}
+
+	dashboard := r.Group("dashboard")
+	{
+		dashboard.GET("/earning", ctx.Ctl.Dashboard.GetEerningProduct)
+		dashboard.GET("/summary", ctx.Ctl.Dashboard.GetSummary)
+		dashboard.GET("/bestSeller", ctx.Ctl.Dashboard.GetBestSeller)
+		dashboard.GET("/revenue", ctx.Ctl.Dashboard.GetMonthlyRevenue)
+	}
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	r.POST("/cdn-upload", func(c *gin.Context) {
+		form, _ := c.MultipartForm()
+		files := form.File["images[]"]
+
+		var wg sync.WaitGroup
+		responses, _ := helper.Upload(&wg, files)
+		log.Println(responses)
+	})
 
 	return r
 }

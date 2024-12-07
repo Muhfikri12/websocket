@@ -1,13 +1,12 @@
 package middleware
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
-func Logger() gin.HandlerFunc {
+func (m *Middleware) Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		t := time.Now()
 		c.Next()

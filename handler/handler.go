@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"project/domain"
 	"project/service"
 
 	"github.com/gin-gonic/gin"
@@ -8,14 +9,24 @@ import (
 )
 
 type Handler struct {
-	AuthHandler   AuthController
-	HandlerBanner ControllerBanner
+	AuthHandler          AuthController
+	PasswordResetHandler PasswordResetController
+	UserHandler          UserController
+	OrderHandler         OrderController
+	Category             CategoryHandler
+	Product              ProductHandler
+	Dashboard            DashboardHandler
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 	return &Handler{
-		AuthHandler:   *NewAuthController(service.Auth, logger),
-		HandlerBanner: *NewControllerBanner(service.Banner, logger),
+		AuthHandler:          *NewAuthController(service.Auth, logger),
+		PasswordResetHandler: *NewPasswordResetController(service.PasswordReset, logger),
+		UserHandler:          *NewUserController(service.User, logger),
+		Category:             NewCategoryHandler(logger, &service),
+		Product:              NewProductHandler(&service, logger),
+		Dashboard:            NewDashboardHandler(&service, logger),
+		OrderHandler:         *NewOrderController(service.Order, logger),
 	}
 }
 
@@ -37,5 +48,17 @@ func GoodResponseWithData(c *gin.Context, message string, statusCode int, data i
 		Status:  true,
 		Message: message,
 		Data:    data,
+	})
+}
+
+func GoodResponseWithPage(c *gin.Context, message string, statusCode, total, totalPages, page, Limit int, data interface{}) {
+	c.JSON(statusCode, domain.DataPage{
+		Status:      true,
+		Message:     message,
+		Total:       int64(total),
+		Pages:       totalPages,
+		CurrentPage: uint(page),
+		Limit:       uint(Limit),
+		Data:        data,
 	})
 }

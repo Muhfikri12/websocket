@@ -19,8 +19,15 @@ func Migrate(db *gorm.DB) error {
 
 	return db.AutoMigrate(
 		&domain.User{},
-		&domain.Admin{},
-		&domain.Banner{},
+		&domain.Category{},
+		&domain.PasswordResetToken{},
+		&domain.Product{},
+		&domain.ProductVariant{},
+		&domain.Image{},
+		&domain.Customer{},
+		&domain.Order{},
+		&domain.OrderItem{},
+		&domain.Review{},
 	)
 
 }
@@ -28,8 +35,15 @@ func Migrate(db *gorm.DB) error {
 func dropTables(db *gorm.DB) error {
 	return db.Migrator().DropTable(
 		&domain.User{},
-		&domain.Admin{},
-		&domain.Banner{},
+		&domain.Category{},
+		&domain.PasswordResetToken{},
+		&domain.Order{},
+		&domain.OrderItem{},
+		&domain.Customer{},
+		&domain.Product{},
+		&domain.ProductVariant{},
+		&domain.Image{},
+		&domain.Review{},
 	)
 }
 

@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
-	"go.uber.org/zap"
 	"net/http"
 	"net/http/httptest"
 	"project/domain"
 	"project/service"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestAuthHandler_Login(t *testing.T) {
@@ -23,19 +24,24 @@ func TestAuthHandler_Login(t *testing.T) {
 	tests := []struct {
 		name               string
 		requestBody        interface{}
-		arg1MockSetup      bool
-		arg2MockSetup      error
+		arg1MockSetup      interface{}
+		arg2MockSetup      bool
+		arg3MockSetup      error
 		expectedStatusCode int
 		expectedBody       Response
 	}{
 		{
 			name: "Success Login",
 			requestBody: domain.User{
-				Username: "test@example.com",
+				Email:    "test@example.com",
 				Password: "password123",
 			},
-			arg1MockSetup:      true,
-			arg2MockSetup:      nil,
+			arg1MockSetup: domain.User{
+				Email:    "test@example.com",
+				Password: "password123",
+			},
+			arg2MockSetup:      true,
+			arg3MockSetup:      nil,
 			expectedStatusCode: http.StatusOK,
 			expectedBody: Response{
 				Status:  true,
@@ -45,8 +51,9 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name:               "Invalid Request Body",
 			requestBody:        "invalid-json",
-			arg1MockSetup:      false,
-			arg2MockSetup:      nil,
+			arg1MockSetup:      "",
+			arg2MockSetup:      false,
+			arg3MockSetup:      nil,
 			expectedStatusCode: http.StatusBadRequest,
 			expectedBody: Response{
 				Status:  false,
@@ -56,11 +63,12 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Missing Username or Password",
 			requestBody: domain.User{
-				Username: "",
+				Email:    "",
 				Password: "",
 			},
-			arg1MockSetup:      false,
-			arg2MockSetup:      nil,
+			arg1MockSetup:      "",
+			arg2MockSetup:      false,
+			arg3MockSetup:      errors.New("authentication failed"),
 			expectedStatusCode: http.StatusUnauthorized,
 			expectedBody: Response{
 				Status:  false,
@@ -70,11 +78,12 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Authentication Failed Username",
 			requestBody: domain.User{
-				Username: "test@example.com",
+				Email:    "test@example.com",
 				Password: "wrongpassword",
 			},
-			arg1MockSetup:      false,
-			arg2MockSetup:      errors.New("invalid username and/or password"),
+			arg1MockSetup:      "",
+			arg2MockSetup:      false,
+			arg3MockSetup:      errors.New("invalid username and/or password"),
 			expectedStatusCode: http.StatusUnauthorized,
 			expectedBody: Response{
 				Status:  false,
@@ -84,11 +93,12 @@ func TestAuthHandler_Login(t *testing.T) {
 		{
 			name: "Authentication Failed Password",
 			requestBody: domain.User{
-				Username: "test@example.com",
+				Email:    "test@example.com",
 				Password: "wrongpassword",
 			},
-			arg1MockSetup:      false,
-			arg2MockSetup:      errors.New("invalid username and/or password"),
+			arg1MockSetup:      "",
+			arg2MockSetup:      false,
+			arg3MockSetup:      errors.New("invalid username and/or password"),
 			expectedStatusCode: http.StatusUnauthorized,
 			expectedBody: Response{
 				Status:  false,
@@ -106,7 +116,7 @@ func TestAuthHandler_Login(t *testing.T) {
 			c, _ := gin.CreateTestContext(w)
 			c.Request, _ = http.NewRequest("GET", "/login", bytes.NewBuffer(requestBody))
 
-			mockService.On("Login", tt.requestBody).Once().Return(tt.arg1MockSetup, tt.arg2MockSetup)
+			mockService.On("Login", tt.requestBody).Once().Return(tt.arg1MockSetup, tt.arg2MockSetup, tt.arg3MockSetup)
 
 			authHandler.Login(c)
 

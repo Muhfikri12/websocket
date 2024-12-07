@@ -1,9 +1,8 @@
 package config
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
+	"log"
 )
 
 type Config struct {
@@ -13,6 +12,8 @@ type Config struct {
 	DBPassword  string
 	DBName      string
 	AppDebug    bool
+	AppSecret   string
+	ServerPort  string
 	DBMigrate   bool
 	DBSeeding   bool
 	RedisConfig RedisConfig
@@ -25,9 +26,10 @@ type RedisConfig struct {
 }
 
 func LoadConfig(migrateDb bool, seedDb bool) (Config, error) {
-	localEnv := viper.New()
-	localEnv.SetConfigType("dotenv")
-	viper.SetConfigFile("../.env") // Specify the config file name
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("..")
+	viper.SetConfigType("dotenv")
+	viper.SetConfigName(".env")
 
 	// Set default values
 	setDefaultValues(migrateDb, seedDb)
@@ -49,6 +51,8 @@ func LoadConfig(migrateDb bool, seedDb bool) (Config, error) {
 		DBPassword: viper.GetString("DB_PASSWORD"),
 		DBName:     viper.GetString("DB_NAME"),
 		AppDebug:   viper.GetBool("APP_DEBUG"),
+		AppSecret:  viper.GetString("APP_SECRET"),
+		ServerPort: viper.GetString("SERVER_PORT"),
 		DBMigrate:  viper.GetBool("DB_MIGRATE"),
 		DBSeeding:  viper.GetBool("DB_SEEDING"),
 		RedisConfig: RedisConfig{
@@ -64,9 +68,11 @@ func setDefaultValues(migrateDb bool, seedDb bool) {
 	viper.SetDefault("DB_HOST", "localhost")
 	viper.SetDefault("DB_PORT", "5432")
 	viper.SetDefault("DB_USER", "postgres")
-	viper.SetDefault("DB_PASSWORD", "postgres")
+	viper.SetDefault("DB_PASSWORD", "admin")
 	viper.SetDefault("DB_NAME", "database")
 	viper.SetDefault("APP_DEBUG", true)
+	viper.SetDefault("APP_SECRET", "team-1")
+	viper.SetDefault("SERVER_PORT", ":8080")
 
 	viper.SetDefault("DB_MIGRATE", migrateDb)
 	viper.SetDefault("DB_SEEDING", seedDb)

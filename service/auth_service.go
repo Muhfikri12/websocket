@@ -6,7 +6,7 @@ import (
 )
 
 type AuthService interface {
-	Login(user domain.User) (string, string, bool, error)
+	Login(user domain.User) (string, bool, error)
 }
 
 type authService struct {
@@ -17,6 +17,6 @@ func NewAuthService(repo repository.AuthRepository) AuthService {
 	return &authService{repo: repo}
 }
 
-func (s *authService) Login(user domain.User) (string, string, bool, error) {
+func (s *authService) Login(user domain.User) (string, bool, error) {
 	return s.repo.Authenticate(user)
 }
