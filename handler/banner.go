@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 	"project/domain"
 	"project/helper"
 	"project/service"
+	"strings"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -51,36 +54,54 @@ func (ctrl *ControllerBanner) GetById(c *gin.Context) {
 	GoodResponseWithData(c, "Get Banner success", http.StatusOK, banner)
 }
 func (ctrl *ControllerBanner) Create(c *gin.Context) {
-	err := c.Request.ParseMultipartForm(10 << 20)
+	doUpload := true
+	var respThirdParty []domain.CdnResponse
+	_, err := c.FormFile("images")
 	if err != nil {
-		BadResponse(c, "Unable to parse form", http.StatusInternalServerError)
-		return
+		doUpload = false
+		respThirdParty = append(respThirdParty, domain.CdnResponse{Data: struct {
+			FileId      string "json:\"fileId\""
+			Name        string "json:\"name\""
+			Size        int    "json:\"size\""
+			VersionInfo struct {
+				Id   string "json:\"id\""
+				Name string "json:\"name\""
+			} "json:\"versionInfo\""
+			FilePath     string      "json:\"filePath\""
+			Url          string      "json:\"url\""
+			FileType     string      "json:\"fileType\""
+			Height       int         "json:\"height\""
+			Width        int         "json:\"width\""
+			ThumbnailUrl string      "json:\"thumbnailUrl\""
+			AITags       interface{} "json:\"AITags\""
+		}{Url: ""}})
 	}
+	if doUpload {
+		form, err := c.MultipartForm()
+		if err != nil {
+			log.Println("Error reading form data:", err)
+			BadResponse(c, "Invalid form data: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+		files := form.File["images"]
+		for _, file := range files {
+			log.Println("File size:", file.Size)
+		}
 
-	// Ambil file dari form
-	file, handler, err := c.Request.FormFile("file")
-	if err != nil {
-		BadResponse(c, "Error retrieving the file", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-	// Menampilkan informasi file
-	// fmt.Printf("Uploaded File: %+v\n", handler.Filename)
-	// fmt.Printf("File Size: %+v\n", handler.Size)
-	// fmt.Printf("MIME Header: %+v\n", handler.Header)
-
-	imageUrl, err := helper.UploadFileThirdPartyAPI(file, handler.Filename)
-	if err != nil {
-		BadResponse(c, err.Error(), http.StatusInternalServerError)
-		return
+		var wg sync.WaitGroup
+		respThirdParty, err = helper.Upload(&wg, files)
+		if err != nil {
+			BadResponse(c, "Failed to upload images: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 	banner := domain.Banner{
-		Title:     c.DefaultPostForm("title", ""),
-		PathPage:  c.DefaultPostForm("pathPage", ""),
-		StartDate: c.DefaultPostForm("startDate", ""),
-		EndDate:   c.DefaultPostForm("endDate", ""),
+		Title:     c.PostForm("title"),
+		PathPage:  c.PostForm("pathPage"),
+		StartDate: c.PostForm("startDate"),
+		EndDate:   c.PostForm("endDate"),
 		IsPublish: false,
-		ImageUrl:  c.DefaultPostForm(imageUrl, ""),
+		ImageUrl:  respThirdParty[0].Data.Url,
 	}
 	err = ctrl.service.Create(&banner)
 	if err != nil {
@@ -95,37 +116,55 @@ func (ctrl *ControllerBanner) Edit(c *gin.Context) {
 		BadResponse(c, "Bad Request (Params)", http.StatusBadRequest)
 		return
 	}
-	err = c.Request.ParseMultipartForm(10 << 20)
+	doUpload := true
+	var respThirdParty []domain.CdnResponse
+	_, err = c.FormFile("images")
 	if err != nil {
-		BadResponse(c, "Unable to parse form", http.StatusInternalServerError)
-		return
+		doUpload = false
+		respThirdParty = append(respThirdParty, domain.CdnResponse{Data: struct {
+			FileId      string "json:\"fileId\""
+			Name        string "json:\"name\""
+			Size        int    "json:\"size\""
+			VersionInfo struct {
+				Id   string "json:\"id\""
+				Name string "json:\"name\""
+			} "json:\"versionInfo\""
+			FilePath     string      "json:\"filePath\""
+			Url          string      "json:\"url\""
+			FileType     string      "json:\"fileType\""
+			Height       int         "json:\"height\""
+			Width        int         "json:\"width\""
+			ThumbnailUrl string      "json:\"thumbnailUrl\""
+			AITags       interface{} "json:\"AITags\""
+		}{Url: ""}})
 	}
+	if doUpload {
+		form, err := c.MultipartForm()
+		if err != nil {
+			log.Println("Error reading form data:", err)
+			BadResponse(c, "Invalid form data: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+		files := form.File["images"]
+		for _, file := range files {
+			log.Println("File size:", file.Size)
+		}
 
-	// Ambil file dari form
-	file, handler, err := c.Request.FormFile("file")
-	if err != nil {
-		BadResponse(c, "Error retrieving the file", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-	// Menampilkan informasi file
-	// fmt.Printf("Uploaded File: %+v\n", handler.Filename)
-	// fmt.Printf("File Size: %+v\n", handler.Size)
-	// fmt.Printf("MIME Header: %+v\n", handler.Header)
-
-	imageUrl, err := helper.UploadFileThirdPartyAPI(file, handler.Filename)
-	if err != nil {
-		BadResponse(c, err.Error(), http.StatusInternalServerError)
-		return
+		var wg sync.WaitGroup
+		respThirdParty, err = helper.Upload(&wg, files)
+		if err != nil {
+			BadResponse(c, "Failed to upload images: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 	banner := domain.Banner{
 		ID:        id,
-		Title:     c.DefaultPostForm("title", ""),
-		PathPage:  c.DefaultPostForm("pathPage", ""),
-		StartDate: c.DefaultPostForm("startDate", ""),
-		EndDate:   c.DefaultPostForm("endDate", ""),
-		IsPublish: false,
-		ImageUrl:  c.DefaultPostForm(imageUrl, ""),
+		Title:     c.PostForm("title"),
+		PathPage:  c.PostForm("pathPage"),
+		StartDate: c.PostForm("startDate"),
+		EndDate:   c.PostForm("endDate"),
+		IsPublish: strings.ToLower(c.PostForm("isPublish")) == "true",
+		ImageUrl:  respThirdParty[0].Data.Url,
 	}
 	err = ctrl.service.Edit(&banner)
 	if err != nil {
@@ -133,14 +172,6 @@ func (ctrl *ControllerBanner) Edit(c *gin.Context) {
 		return
 	}
 	GoodResponseWithData(c, "This Banner was successfully updated", http.StatusCreated, banner)
-}
-func (ctrl *ControllerBanner) SetPublish(c *gin.Context) {
-	id, err := helper.Uint(c.Param("id"))
-	if err != nil {
-		BadResponse(c, "Bad Request (Params)", http.StatusBadRequest)
-		return
-	}
-	GoodResponseWithData(c, "This Banner was successfully published", http.StatusCreated, id)
 }
 func (ctrl *ControllerBanner) Delete(c *gin.Context) {
 	id, err := helper.Uint(c.Param("id"))

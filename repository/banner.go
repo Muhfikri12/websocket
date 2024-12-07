@@ -2,19 +2,19 @@ package repository
 
 import (
 	"errors"
-	"project/database"
 	"project/domain"
 
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
 type RepositoryBanner struct {
-	db     *gorm.DB
-	cacher database.Cacher
+	db  *gorm.DB
+	log *zap.Logger
 }
 
-func NewRepositoryBanner(db *gorm.DB, cacher database.Cacher) *RepositoryBanner {
-	return &RepositoryBanner{db: db, cacher: cacher}
+func NewRepositoryBanner(db *gorm.DB, log *zap.Logger) *RepositoryBanner {
+	return &RepositoryBanner{db: db, log: log}
 }
 
 func (repo *RepositoryBanner) FindAll() ([]domain.Banner, error) {
