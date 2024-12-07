@@ -24,12 +24,20 @@ func NewProductHandler(service *service.Service, log *zap.Logger) ProductHandler
 
 func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
+	if page <= 0 {
+		page = 1
+	}
 
-	products, err := ph.service.Product.ShowAllProduct(page)
+	limit, _ := strconv.Atoi(c.Query("limit"))
+	if limit < 10 {
+		limit = 2
+	}
+
+	products, count, totalPages, err := ph.service.Product.ShowAllProduct(page, limit)
 	if err != nil {
 		BadResponse(c, "Product Not Found", http.StatusNotFound)
 		return
 	}
 
-	GoodResponseWithPage(c, "Successfully Retrieved Products", http.StatusOK, 10, page, 20, products)
+	GoodResponseWithPage(c, "Successfully Retrieved Products", http.StatusOK, count, totalPages, page, limit, products)
 }

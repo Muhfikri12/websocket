@@ -47,13 +47,14 @@ func GoodResponseWithData(c *gin.Context, message string, statusCode int, data i
 	})
 }
 
-func GoodResponseWithPage(c *gin.Context, message string, statusCode, total, pages, Limit int, data interface{}) {
+func GoodResponseWithPage(c *gin.Context, message string, statusCode, total, totalPages, page, Limit int, data interface{}) {
 	c.JSON(statusCode, domain.DataPage{
-		Status:  true,
-		Message: message,
-		Total:   int64(total),
-		Pages:   pages,
-		Limit:   uint(Limit),
-		Data:    data,
+		Status:      true,
+		Message:     message,
+		Total:       int64(total),
+		Pages:       totalPages,
+		CurrentPage: uint(page),
+		Limit:       uint(Limit),
+		Data:        data,
 	})
 }

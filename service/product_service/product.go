@@ -8,7 +8,7 @@ import (
 )
 
 type ProductService interface {
-	ShowAllProduct(page int) (*[]domain.Product, error)
+	ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error)
 }
 
 type productService struct {
@@ -20,13 +20,12 @@ func NewProductService(repo *repository.Repository, log *zap.Logger) ProductServ
 	return &productService{repo, log}
 }
 
-func (ps *productService) ShowAllProduct(page int) (*[]domain.Product, error) {
-	limit := 20
+func (ps *productService) ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error) {
 
-	products, err := ps.repo.Product.ShowAllProduct(page, limit)
+	products, count, totalPages, err := ps.repo.Product.ShowAllProduct(page, limit)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return products, nil
+	return products, count, totalPages, nil
 }

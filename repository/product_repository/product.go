@@ -2,6 +2,7 @@ package productrepository
 
 import (
 	"fmt"
+	"math"
 	"project/domain"
 	"project/helper"
 	"sync"
@@ -11,7 +12,7 @@ import (
 )
 
 type ProductRepo interface {
-	ShowAllProduct(page, limit int) (*[]domain.Product, error)
+	ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error)
 }
 
 type productRepo struct {
@@ -23,16 +24,23 @@ func NewProductRepo(db *gorm.DB, log *zap.Logger) ProductRepo {
 	return &productRepo{db, log}
 }
 
-func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, error) {
+func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error) {
 	var wg sync.WaitGroup
 	productList := []domain.Product{}
 
-	result := pr.db.Scopes(helper.Paginate(uint(page), uint(limit))).Find(&productList)
-	if result.Error != nil {
-		return nil, result.Error
+	var count int64
+	if err := pr.db.Model(&domain.Product{}).Count(&count).Error; err != nil {
+		return nil, 0, 0, err
 	}
+
+	result := pr.db.Scopes(helper.Paginate(uint(page), uint(limit))).Find(&productList)
+
+	if result.Error != nil {
+		return nil, 0, 0, result.Error
+	}
+
 	if result.RowsAffected == 0 {
-		return nil, fmt.Errorf("no products found")
+		return nil, 0, 0, fmt.Errorf("no products found")
 	}
 
 	for i := range productList {
@@ -53,7 +61,9 @@ func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, error
 		}(&productList[i])
 	}
 
+	totalPages := int(math.Ceil(float64(count) / float64(limit)))
+
 	wg.Wait()
 
-	return &productList, nil
+	return &productList, int(count), totalPages, nil
 }
