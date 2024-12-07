@@ -1,9 +1,8 @@
 package config
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
+	"log"
 )
 
 type Config struct {
@@ -26,9 +25,10 @@ type RedisConfig struct {
 }
 
 func LoadConfig(migrateDb bool, seedDb bool) (Config, error) {
-	localEnv := viper.New()
-	localEnv.SetConfigType("dotenv")
-	viper.SetConfigFile(".env") // Specify the config file name
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("..")
+	viper.SetConfigType("dotenv")
+	viper.SetConfigName(".env")
 
 	// Set default values
 	setDefaultValues(migrateDb, seedDb)

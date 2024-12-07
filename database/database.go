@@ -2,14 +2,13 @@ package database
 
 import (
 	"fmt"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"project/config"
 	"time"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
@@ -26,7 +25,6 @@ func ConnectDB(cfg config.Config) (*gorm.DB, error) {
 		},
 	)
 
-	fmt.Println(cfg.DBPassword)
 	// Open the connection to the database
 	db, err := gorm.Open(postgres.Open(makePostgresString(cfg)), &gorm.Config{
 		Logger: newLogger,
@@ -35,6 +33,11 @@ func ConnectDB(cfg config.Config) (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
+
+	db.Exec(`
+		DO $$ BEGIN CREATE TYPE orderstatus AS ENUM('created', 'processed', 'canceled', 'completed');
+		EXCEPTION WHEN duplicate_object THEN null; END $$;
+	`)
 
 	// Call Migrate function to auto-migrate database schemas
 	if cfg.DBMigrate {

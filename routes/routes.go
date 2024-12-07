@@ -1,10 +1,6 @@
 package routes
 
 import (
-	"log"
-	"project/helper"
-	"project/infra"
-	"sync"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -31,7 +27,6 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
-
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
