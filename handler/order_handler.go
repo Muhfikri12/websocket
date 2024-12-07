@@ -26,7 +26,7 @@ func NewOrderController(service service.OrderService, logger *zap.Logger) *Order
 // @Success 200 {object} handler.Response "orders retrieved"
 // @Failure 404 {object} handler.Response "no data found"
 // @Failure 500 {object} handler.Response "server error"
-// @Router  /orders [post]
+// @Router  /orders [get]
 func (ctrl *OrderController) All(c *gin.Context) {
 	orders, err := ctrl.service.All(1, 1)
 	if err != nil {
