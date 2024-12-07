@@ -5,6 +5,6 @@ type OrderItem struct {
 	OrderID   uint
 	VariantID uint
 	Quantity  uint
-	UnitPrice float32 `gorm:"type:money"`
+	UnitPrice float64 `gorm:"type:float"`
 	Order     Order
 }

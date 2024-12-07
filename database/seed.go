@@ -29,5 +29,8 @@ func dataSeeds() []interface{} {
 		domain.CategorySeeder(),
 		domain.CustomerSeed(),
 		domain.OrderSeed(),
+		domain.SeedProducts(),
+		domain.SeedImages(),
+		domain.SeedProductVariants(),
 	}
 }

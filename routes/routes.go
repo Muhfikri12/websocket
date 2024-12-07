@@ -1,13 +1,13 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"project/helper"
 	"project/infra"
 	"sync"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
@@ -33,6 +33,11 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		order.GET("/", ctx.Ctl.OrderHandler.All)
 		order.GET("/:id", ctx.Ctl.OrderHandler.Get)
 		order.PUT("/", ctx.Ctl.OrderHandler.Update)
+	}
+	products := r.Group("/products")
+	{
+		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
+		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
