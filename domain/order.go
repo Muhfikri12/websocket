@@ -12,12 +12,13 @@ const (
 )
 
 type Order struct {
-	ID            uint `gorm:"primaryKey"`
-	CustomerID    uint
-	Customer      Customer
-	PaymentMethod string
-	Status        string `gorm:"type:orderstatus"`
-	Items         []OrderItem
-	CreatedAt     time.Time `gorm:"default:now()"`
-	UpdatedAt     time.Time
+	ID             uint `gorm:"primaryKey"`
+	CustomerID     uint
+	Customer       Customer
+	PaymentMethod  string
+	TrackingNumber string
+	Status         string `gorm:"type:orderstatus"`
+	Items          []OrderItem
+	CreatedAt      time.Time `gorm:"default:now()"`
+	UpdatedAt      time.Time
 }
