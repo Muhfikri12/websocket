@@ -11,6 +11,8 @@ import (
 type DashboardHandler interface {
 	GetEerningProduct(c *gin.Context)
 	GetSummary(c *gin.Context)
+	GetBestSeller(c *gin.Context)
+	GetMonthlyRevenue(c *gin.Context)
 }
 
 type dashboardHandler struct {
@@ -46,4 +48,26 @@ func (dh *dashboardHandler) GetSummary(c *gin.Context) {
 	}
 
 	GoodResponseWithData(c, "successfully retrieved earning", http.StatusOK, summary)
+}
+
+func (dh *dashboardHandler) GetBestSeller(c *gin.Context) {
+
+	bestSellers, err := dh.service.Dashboard.GetBestSeller()
+	if err != nil {
+		BadResponse(c, "not found best seller: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	GoodResponseWithData(c, "successfully retrieved", http.StatusOK, bestSellers)
+}
+
+func (dh *dashboardHandler) GetMonthlyRevenue(c *gin.Context) {
+
+	revenue, err := dh.service.Dashboard.GetMonthlyRevenue()
+	if err != nil {
+		BadResponse(c, "Not Found revenue: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	GoodResponseWithData(c, "successfully retrieved", http.StatusOK, revenue)
 }

@@ -48,6 +48,8 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	{
 		dashboard.GET("/earning", ctx.Ctl.Dashboard.GetEerningProduct)
 		dashboard.GET("/summary", ctx.Ctl.Dashboard.GetSummary)
+		dashboard.GET("/bestSeller", ctx.Ctl.Dashboard.GetBestSeller)
+		dashboard.GET("/revenue", ctx.Ctl.Dashboard.GetMonthlyRevenue)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

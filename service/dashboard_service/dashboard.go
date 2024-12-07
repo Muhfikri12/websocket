@@ -10,6 +10,8 @@ import (
 type DashboardService interface {
 	GetEarningProduct() (int, error)
 	GetSummary() (*domain.Summary, error)
+	GetBestSeller() ([]*domain.BestSeller, error)
+	GetMonthlyRevenue() ([]*domain.Revenue, error)
 }
 
 type dashboardService struct {
@@ -39,4 +41,24 @@ func (ds *dashboardService) GetSummary() (*domain.Summary, error) {
 	}
 
 	return summary, nil
+}
+
+func (ds *dashboardService) GetBestSeller() ([]*domain.BestSeller, error) {
+
+	bestSellers, err := ds.repo.Dashboard.GetBestSeller()
+	if err != nil {
+		return nil, err
+	}
+
+	return bestSellers, nil
+}
+
+func (ds *dashboardService) GetMonthlyRevenue() ([]*domain.Revenue, error) {
+
+	revenue, err := ds.repo.Dashboard.GetMonthlyRevenue()
+	if err != nil {
+		return nil, err
+	}
+
+	return revenue, nil
 }
