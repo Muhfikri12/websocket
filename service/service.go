@@ -10,6 +10,7 @@ import (
 
 type Service struct {
 	Auth          AuthService
+	Order         OrderService
 	PasswordReset PasswordResetService
 	User          UserService
 	Category      categoryservice.CategoryService
@@ -19,6 +20,7 @@ type Service struct {
 func NewService(repo repository.Repository, log *zap.Logger) Service {
 	return Service{
 		Auth:          NewAuthService(repo.Auth),
+		Order:         NewOrderService(repo.Order),
 		PasswordReset: NewPasswordResetService(repo.PasswordReset),
 		User:          NewUserService(repo.User),
 		Category:      categoryservice.NewCategoryService(&repo, log),

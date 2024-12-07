@@ -1,9 +1,8 @@
 package config
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
+	"log"
 )
 
 type Config struct {
@@ -14,6 +13,7 @@ type Config struct {
 	DBName      string
 	AppDebug    bool
 	AppSecret   string
+	ServerPort  string
 	DBMigrate   bool
 	DBSeeding   bool
 	RedisConfig RedisConfig
@@ -52,6 +52,7 @@ func LoadConfig(migrateDb bool, seedDb bool) (Config, error) {
 		DBName:     viper.GetString("DB_NAME"),
 		AppDebug:   viper.GetBool("APP_DEBUG"),
 		AppSecret:  viper.GetString("APP_SECRET"),
+		ServerPort: viper.GetString("SERVER_PORT"),
 		DBMigrate:  viper.GetBool("DB_MIGRATE"),
 		DBSeeding:  viper.GetBool("DB_SEEDING"),
 		RedisConfig: RedisConfig{
@@ -71,6 +72,7 @@ func setDefaultValues(migrateDb bool, seedDb bool) {
 	viper.SetDefault("DB_NAME", "database")
 	viper.SetDefault("APP_DEBUG", true)
 	viper.SetDefault("APP_SECRET", "team-1")
+	viper.SetDefault("SERVER_PORT", ":8080")
 
 	viper.SetDefault("DB_MIGRATE", migrateDb)
 	viper.SetDefault("DB_SEEDING", seedDb)

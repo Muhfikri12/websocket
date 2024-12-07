@@ -13,9 +13,9 @@ func Migrate(db *gorm.DB) error {
 		return err
 	}
 
-	// if err = setupJoinTables(db); err != nil {
-	// 	return err
-	// }
+	if err = setupJoinTables(db); err != nil {
+		return err
+	}
 
 	return db.AutoMigrate(
 		&domain.User{},
@@ -24,6 +24,10 @@ func Migrate(db *gorm.DB) error {
 		&domain.Product{},
 		&domain.ProductVariant{},
 		&domain.Image{},
+		&domain.Customer{},
+		&domain.Order{},
+		&domain.OrderItem{},
+		&domain.Review{},
 	)
 
 }
@@ -33,14 +37,18 @@ func dropTables(db *gorm.DB) error {
 		&domain.User{},
 		&domain.Category{},
 		&domain.PasswordResetToken{},
+		&domain.Order{},
+		&domain.OrderItem{},
+		&domain.Customer{},
 		&domain.Product{},
 		&domain.ProductVariant{},
 		&domain.Image{},
+		&domain.Review{},
 	)
 }
 
-// func setupJoinTables(db *gorm.DB) error {
-// 	var err error
-//
-// 	return err
-// }
+func setupJoinTables(db *gorm.DB) error {
+	var err error
+
+	return err
+}

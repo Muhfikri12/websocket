@@ -35,7 +35,7 @@ func main() {
 
 	r := routes.NewRoutes(*ctx)
 
-	if err = r.Run(":8000"); err != nil {
+	if err = r.Run(ctx.Cfg.ServerPort); err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
 

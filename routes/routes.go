@@ -37,6 +37,13 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
 	}
 
+	order := r.Group("/orders")
+	{
+		order.GET("/", ctx.Ctl.OrderHandler.All)
+		order.GET("/:id", ctx.Ctl.OrderHandler.Get)
+		order.PUT("/", ctx.Ctl.OrderHandler.Update)
+	}
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/cdn-upload", func(c *gin.Context) {
