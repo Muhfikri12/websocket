@@ -10,6 +10,7 @@ import (
 type ProductVariant struct {
 	ID        int             `gorm:"primaryKey;autoIncrement" json:"id"`
 	ProductID int             `gorm:"not null" json:"product_id"`
+	Product   Product         `json:"product"`
 	Size      string          `gorm:"type:varchar(50)" json:"size"`
 	Color     string          `gorm:"type:varchar(50)" json:"color"`
 	Stock     int             `gorm:"not null" json:"stock"`
@@ -19,26 +20,21 @@ type ProductVariant struct {
 }
 
 func SeedProductVariants() []ProductVariant {
+	sizes := []string{"S", "M", "L", "XL"}
+	colors := []string{"Red", "Blue", "Green"}
+	var variants []ProductVariant
 
-	variants := []ProductVariant{
-		{
-			ProductID: 1,
-			Size:      "S",
-			Color:     "Red",
-			Stock:     rand.Intn(50) + 1,
-		},
-		{
-			ProductID: 2,
-			Size:      "M",
-			Color:     "Blue",
-			Stock:     rand.Intn(50) + 1,
-		},
-		{
-			ProductID: 3,
-			Size:      "L",
-			Color:     "Green",
-			Stock:     rand.Intn(50) + 1,
-		},
+	for productID := 1; productID <= 26; productID++ {
+		for _, size := range sizes {
+			for _, color := range colors {
+				variants = append(variants, ProductVariant{
+					ProductID: productID,
+					Size:      size,
+					Color:     color,
+					Stock:     rand.Intn(50) + 1,
+				})
+			}
+		}
 	}
 
 	return variants

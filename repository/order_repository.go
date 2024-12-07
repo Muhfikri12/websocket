@@ -35,6 +35,6 @@ func (repo OrderRepository) All(page, limit uint) (int, int, []domain.Order, err
 
 func (repo OrderRepository) Get(orderId uint) (domain.Order, error) {
 	var order domain.Order
-	result := repo.db.Preload("Customer").First(&order, orderId)
+	result := repo.db.Preload("Customer").Preload("Items.Variant.Product").First(&order, orderId)
 	return order, result.Error
 }

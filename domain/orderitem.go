@@ -1,10 +1,11 @@
 package domain
 
 type OrderItem struct {
-	ID        uint  `gorm:"primaryKey;autoIncrement"`
-	OrderID   uint  `gorm:"not null"`
-	Order     Order `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	VariantID uint
-	Quantity  uint
-	UnitPrice float64 `gorm:"type:float"`
+	ID        uint           `gorm:"primaryKey;autoIncrement" json:"-"`
+	OrderID   uint           `gorm:"not null" json:"-"`
+	Order     Order          `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"-"`
+	VariantID uint           `json:"-"`
+	Variant   ProductVariant `json:"variant"`
+	Quantity  uint           `json:"quantity"`
+	UnitPrice float64        `gorm:"type:float" json:"unit_price"`
 }
