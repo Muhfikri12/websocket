@@ -11,16 +11,19 @@ import (
 
 type Repository struct {
 	Auth          AuthRepository
+	Category      categoryrepositpry.CategoryRepo
+	Order OrderRepository
 	PasswordReset PasswordResetRepository
 	User          UserRepository
 
-	Category      categoryrepositpry.CategoryRepo
+
 }
 
 func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config, log *zap.Logger) Repository {
 	return Repository{
-		Category:      categoryrepositpry.NewCategoryRepo(db, log),
 		Auth:          *NewAuthRepository(db, cacher, config.AppSecret),
+		Category:      categoryrepositpry.NewCategoryRepo(db, log),
+		Order: *NewOrderRepository(db),
 		PasswordReset: *NewPasswordResetRepository(db),
 		User:          *NewUserRepository(db),
 	}

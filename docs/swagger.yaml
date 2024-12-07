@@ -1,5 +1,50 @@
 basePath: /
 definitions:
+  domain.Customer:
+    properties:
+      address:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  domain.Order:
+    properties:
+      createdAt:
+        type: string
+      customer:
+        $ref: '#/definitions/domain.Customer'
+      customerID:
+        type: integer
+      id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/domain.OrderItem'
+        type: array
+      paymentMethod:
+        type: string
+      status:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  domain.OrderItem:
+    properties:
+      id:
+        type: integer
+      order:
+        $ref: '#/definitions/domain.Order'
+      orderID:
+        type: integer
+      quantity:
+        type: integer
+      unitPrice:
+        type: number
+      variantID:
+        type: integer
+    type: object
   domain.User:
     properties:
       created_at:
@@ -69,6 +114,95 @@ paths:
       summary: User login
       tags:
       - Auth
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get customer order
+      parameters:
+      - description: ' '
+        in: body
+        name: domain.Order
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: order retrived
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: no data found
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "422":
+          description: invalid input
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Customer order
+      tags:
+      - Order
+    post:
+      consumes:
+      - application/json
+      description: Get customer orders
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: orders retrieved
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: no data found
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Customer orders
+      tags:
+      - Order
+    put:
+      consumes:
+      - application/json
+      description: Update customer order
+      parameters:
+      - description: ' '
+        in: body
+        name: domain.Order
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: order updated
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: no data found
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "422":
+          description: invalid input
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Customer order
+      tags:
+      - Order
   /password-reset:
     post:
       consumes:

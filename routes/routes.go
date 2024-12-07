@@ -28,6 +28,13 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
 
+	order := r.Group("/order")
+	{
+		order.GET("/", ctx.Ctl.OrderHandler.All)
+		order.GET("/:id", ctx.Ctl.OrderHandler.Get)
+		order.PUT("/", ctx.Ctl.OrderHandler.Update)
+	}
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/cdn-upload", func(c *gin.Context) {

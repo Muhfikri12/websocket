@@ -9,17 +9,19 @@ import (
 
 type Handler struct {
 	AuthHandler          AuthController
+	Category             CategoryHandler
+	OrderHandler         OrderController
 	PasswordResetHandler PasswordResetController
 	UserHandler          UserController
-	Category             CategoryHandler
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 	return &Handler{
 		AuthHandler:          *NewAuthController(service.Auth, logger),
+		Category:             NewCategoryHandler(logger, &service),
+		OrderHandler:         *NewOrderController(service.Order, logger),
 		PasswordResetHandler: *NewPasswordResetController(service.PasswordReset, logger),
 		UserHandler:          *NewUserController(service.User, logger),
-		Category:             NewCategoryHandler(logger, &service),
 	}
 }
 
