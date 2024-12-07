@@ -44,6 +44,11 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		order.PUT("/", ctx.Ctl.OrderHandler.Update)
 	}
 
+	dashboard := r.Group("dashboard")
+	{
+		dashboard.GET("/earning", ctx.Ctl.Dashboard.GetEerningProduct)
+	}
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/cdn-upload", func(c *gin.Context) {
