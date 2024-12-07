@@ -8,16 +8,16 @@ import (
 
 type Product struct {
 	ID          int             `gorm:"primaryKey;autoIncrement" json:"id"`
-	Name        string          `gorm:"type:varchar(50)" json:"name"`
-	SKUProduct  string          `gorm:"type:varchar(100);unique" json:"sku_product"`
-	Price       float64         `gorm:"type:float" json:"price"`
-	Description string          `gorm:"type:text" json:"description"`
+	Name        string          `gorm:"type:varchar(50);not null" json:"name" binding:"required,min=10"`
+	SKUProduct  string          `gorm:"type:varchar(100);unique;not null" json:"sku_product" binding:"required"`
+	Price       float64         `gorm:"not null" json:"price" binding:"required"`
+	Description string          `gorm:"type:text;not null" json:"description" binding:"required"`
 	CreatedAt   time.Time       `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time       `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt   *gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
 
-	Image          *[]Image          `json:"image"`
-	ProductVariant *[]ProductVariant `json:"product_variant"`
+	Image          []*Image          `gorm:"foreignKey:ProductID" json:"image"`
+	ProductVariant []*ProductVariant `gorm:"foreignKey:ProductID" json:"product_variant" binding:"required"`
 }
 
 func SeedProducts() []Product {
