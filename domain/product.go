@@ -44,3 +44,13 @@ func SeedProducts() []Product {
 
 	return products
 }
+
+type BestSeller struct {
+	ProductID int
+	TotalSold int
+}
+
+type Revenue struct {
+	Month   string `json:"month"`
+	Revenue int    `json:"revenue"`
+}
