@@ -19,6 +19,7 @@ type Repository struct {
 	Category      categoryrepositpry.CategoryRepo
 	Product       productrepository.ProductRepo
 	Dashboard     dashboardrepository.DashboardRepo
+	Promotion     RepositoryPromotion
 }
 
 func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config, log *zap.Logger) Repository {
@@ -30,5 +31,6 @@ func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config, lo
 		Order:         *NewOrderRepository(db),
 		PasswordReset: *NewPasswordResetRepository(db),
 		User:          *NewUserRepository(db),
+		Promotion:     NewRepositoryPromotion(db, log),
 	}
 }
