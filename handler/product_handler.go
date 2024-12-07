@@ -11,6 +11,7 @@ import (
 
 type ProductHandler interface {
 	ShowAllProduct(c *gin.Context)
+	GetProductByID(c *gin.Context)
 }
 
 type productHandler struct {
@@ -40,4 +41,15 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 	}
 
 	GoodResponseWithPage(c, "Successfully Retrieved Products", http.StatusOK, count, totalPages, page, limit, products)
+}
+
+func (ph *productHandler) GetProductByID(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	product, err := ph.service.Product.GetProductByID(id)
+	if err != nil {
+		BadResponse(c, "Product Not Found", http.StatusNotFound)
+	}
+
+	GoodResponseWithData(c, "Successfully Retrieved Product", http.StatusOK, product)
 }

@@ -32,6 +32,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	products := r.Group("/products")
 	{
 		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
+		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
