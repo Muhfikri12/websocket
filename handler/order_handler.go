@@ -82,7 +82,18 @@ func (ctrl *OrderController) Update(c *gin.Context) {
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /orders/:id [get]
 func (ctrl *OrderController) Get(c *gin.Context) {
+	orderId, err := helper.Uint(c.Param("id"))
+	if err != nil {
+		BadResponse(c, "invalid input", http.StatusUnprocessableEntity)
+		return
+	}
+
 	var order domain.Order
+	order, err = ctrl.service.Get(orderId)
+	if err != nil {
+		BadResponse(c, "no data found", http.StatusNotFound)
+		return
+	}
 
 	GoodResponseWithData(c, "order retrieved", http.StatusOK, order)
 }
