@@ -33,7 +33,7 @@ func NewProductHandler(service *service.Service, log *zap.Logger) ProductHandler
 // Show All Products endpoint
 // @Summary Show all Products
 // @Description Get All Products
-// @Tags All Products
+// @Tags Products
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} handler.Response "Successfully Retrieved Products"
@@ -69,7 +69,8 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 // Get Product By ID
 // @Summary Get Product By ID
 // @Description Get Product By ID
-// @Tags Get Product By ID
+// @Tags Products
+// @Param id path int true "Product ID"
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} handler.Response "Successfully Retrieved Product"
@@ -92,14 +93,20 @@ func (ph *productHandler) GetProductByID(c *gin.Context) {
 
 // Create Product
 // @Summary Create Product
-// @Description Create Product
-// @Tags Create Product
-// @Accept  json
+// @Description Create a new product with variants and images
+// @Tags Products
+// @Accept  multipart/form-data
 // @Produce  json
+// @Param name formData string true "Product Name"
+// @Param sku_product formData string true "Product SKU"
+// @Param price formData int true "Product Price"
+// @Param description formData string true "Product Description"
+// @Param images formData file true "Product Images" multiple
+// @Param variants formData string true "Product Variants in JSON format"
 // @Success 201 {object} handler.Response "Product created successfully"
-// @Failure 404 {object} handler.Response "Invalid form data"
+// @Failure 400 {object} handler.Response "Invalid form data"
 // @Failure 500 {object} handler.Response "Failed to create product"
-// @Router  /products [post]
+// @Router /products [post]
 func (ph *productHandler) CreateProduct(c *gin.Context) {
 	ph.log.Info("Starting product creation")
 
@@ -176,8 +183,9 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 // Delete Product
 // @Summary Delete Product
 // @Description Delete Product
-// @Tags Delete Product
+// @Tags Products
 // @Accept  json
+// @Param id path int true "Product ID"
 // @Produce  json
 // @Success 200 {object} handler.Response "Product Deleted successfully"
 // @Failure 404 {object} handler.Response "Failed to Delete product"
@@ -198,14 +206,19 @@ func (ph *productHandler) DeleteProduct(c *gin.Context) {
 
 // Update Product
 // @Summary Update Product
-// @Description Update Product
-// @Tags Update Product
+// @Description Update the details of a product
+// @Tags Products
 // @Accept  json
 // @Produce  json
+// @Param id path int true "Product ID"
+// @Param name body string true "Product Name"
+// @Param sku_product body string true "Product SKU"
+// @Param price body int true "Product Price"
+// @Param description body string true "Product Description"
 // @Success 200 {object} handler.Response "Product Updated successfully"
-// @Failure 404 {object} handler.Response "Failed to Update product"
+// @Failure 400 {object} handler.Response "Failed to Update product"
 // @Failure 500 {object} handler.Response "Invalid Payload Request"
-// @Router  /products/:id [put]
+// @Router /products/{id} [put]
 func (ph *productHandler) UpdateProduct(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ph.log.Info("Attempting to update product", zap.Int("productID", id))
