@@ -38,7 +38,6 @@ func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, 
 		return nil, 0, 0, err
 	}
 
-	// Ambil produk dengan paginasi dan preloading untuk relasi
 	result := pr.db.Scopes(helper.Paginate(uint(page), uint(limit))).
 		Preload("ProductVariant").
 		Preload("Image").
@@ -49,7 +48,6 @@ func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, 
 		return nil, 0, 0, result.Error
 	}
 
-	// Jika tidak ada data ditemukan
 	if result.RowsAffected == 0 {
 		return nil, 0, 0, fmt.Errorf("no products found")
 	}
@@ -65,48 +63,13 @@ func (pr *productRepo) GetProductByID(id int) (*domain.Product, error) {
 
 	product := domain.Product{}
 
-	result := pr.db.Model(&product).Where("id = ?", id).First(&product)
+	result := pr.db.Model(&product).Where("id = ?", id).
+		Preload("ProductVariant").
+		Preload("Image").First(&product)
+
 	if result.Error != nil {
 		return nil, fmt.Errorf("product not found")
 	}
-
-	variantChan := make(chan []*domain.ProductVariant)
-	imageChan := make(chan []*domain.Image)
-	errChan := make(chan error)
-
-	go func() {
-		var variants []*domain.ProductVariant
-		if err := pr.db.Model(&domain.ProductVariant{}).Where("product_id = ?", product.ID).Find(&variants).Error; err != nil {
-			errChan <- err
-			return
-		}
-		variantChan <- variants
-	}()
-
-	go func() {
-		var images []*domain.Image
-		if err := pr.db.Model(&domain.Image{}).Where("product_id = ?", product.ID).Find(&images).Error; err != nil {
-			errChan <- err
-			return
-		}
-		imageChan <- images
-	}()
-
-	var variants []*domain.ProductVariant
-	var images []*domain.Image
-	for i := 0; i < 2; i++ {
-		select {
-		case v := <-variantChan:
-			variants = v
-		case img := <-imageChan:
-			images = img
-		case err := <-errChan:
-			return nil, err
-		}
-	}
-
-	product.ProductVariant = variants
-	product.Image = images
 
 	return &product, nil
 }

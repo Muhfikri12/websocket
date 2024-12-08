@@ -56,6 +56,7 @@ func (ph *productHandler) GetProductByID(c *gin.Context) {
 	product, err := ph.service.Product.GetProductByID(id)
 	if err != nil {
 		BadResponse(c, "Product Not Found", http.StatusNotFound)
+		return
 	}
 
 	GoodResponseWithData(c, "Successfully Retrieved Product", http.StatusOK, product)
