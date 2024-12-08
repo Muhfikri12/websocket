@@ -29,51 +29,35 @@ func NewProductRepo(db *gorm.DB, log *zap.Logger) ProductRepo {
 }
 
 func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, int, error) {
-	var wg sync.WaitGroup
 	productList := []domain.Product{}
 
+	// Hitung total produk untuk pagination
 	var count int64
 	if err := pr.db.Model(&domain.Product{}).Count(&count).Error; err != nil {
-		pr.log.Error("Error from Show All Product : " + err.Error())
+		pr.log.Error("Error from Show All Product: " + err.Error())
 		return nil, 0, 0, err
 	}
 
-	result := pr.db.Scopes(helper.Paginate(uint(page), uint(limit))).Find(&productList)
+	// Ambil produk dengan paginasi dan preloading untuk relasi
+	result := pr.db.Scopes(helper.Paginate(uint(page), uint(limit))).
+		Preload("ProductVariant").
+		Preload("Image").
+		Find(&productList)
 
 	if result.Error != nil {
-		pr.log.Error("Error : " + result.Error.Error())
+		pr.log.Error("Error: " + result.Error.Error())
 		return nil, 0, 0, result.Error
 	}
 
+	// Jika tidak ada data ditemukan
 	if result.RowsAffected == 0 {
-		pr.log.Error("Error : " + result.Error.Error())
 		return nil, 0, 0, fmt.Errorf("no products found")
 	}
 
-	for i := range productList {
-		wg.Add(1)
-		go func(product *domain.Product) {
-			defer wg.Done()
-			var (
-				variants []*domain.ProductVariant
-				images   []*domain.Image
-			)
-
-			pr.db.Model(&domain.ProductVariant{}).Where("product_id = ?", product.ID).Find(&variants)
-			product.ProductVariant = variants
-
-			pr.db.Model(&domain.Image{}).Where("product_id = ?", product.ID).Find(&images)
-			product.Image = images
-
-		}(&productList[i])
-	}
-
+	// Hitung total halaman
 	totalPages := int(math.Ceil(float64(count) / float64(limit)))
 
-	wg.Wait()
-
 	pr.log.Info("Success Get Data")
-
 	return &productList, int(count), totalPages, nil
 }
 
