@@ -66,6 +66,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		stock.GET("/:productVariantId", ctx.Ctl.Stock.GetDetails)
 		stock.PUT("/:productVariantId", ctx.Ctl.Stock.Edit)
 		stock.DELETE("/:id", ctx.Ctl.Stock.Delete)
+	}
 
 	promotion := r.Group("/promotion")
 	{
