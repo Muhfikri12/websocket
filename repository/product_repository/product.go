@@ -93,7 +93,7 @@ func (pr *productRepo) CreateProduct(product *domain.Product) error {
 			ProductID: product.ID,
 		}).Error; err != nil {
 			log.Printf("failed to create image: %v", err)
-			err = fmt.Errorf("failed to create image: %w", err)
+			return fmt.Errorf("failed to create image: %w", err)
 		}
 
 		wg.Wait()
@@ -153,12 +153,12 @@ func (pr *productRepo) CreateProduct(product *domain.Product) error {
 func (pr *productRepo) DeleteProduct(id int) error {
 
 	result := pr.db.Delete(&domain.Product{}, id)
-	if result.RowsAffected == 0 {
-		return fmt.Errorf("category not found")
-	}
-
 	if result.Error != nil {
 		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("product not found")
 	}
 
 	return nil

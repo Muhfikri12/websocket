@@ -38,7 +38,7 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	if limit < 10 {
-		limit = 2
+		limit = 10
 	}
 
 	products, count, totalPages, err := ph.service.Product.ShowAllProduct(page, limit)
