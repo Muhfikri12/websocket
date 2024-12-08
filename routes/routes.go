@@ -35,6 +35,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.POST("/", ctx.Ctl.Product.CreateProduct)
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
 		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
+		products.PUT("/:id", ctx.Ctl.Product.UpdateProduct)
 	}
 
 	order := r.Group("/orders")

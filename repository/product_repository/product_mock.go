@@ -35,3 +35,8 @@ func (pr *ProductRepoMock) DeleteProduct(id int) error {
 	args := pr.Called(id)
 	return args.Error(0)
 }
+
+func (pr *ProductRepoMock) UpdateProduct(productID uint, product *domain.Product) error {
+	args := pr.Called(productID, product)
+	return args.Error(0)
+}

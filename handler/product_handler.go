@@ -19,6 +19,7 @@ type ProductHandler interface {
 	GetProductByID(c *gin.Context)
 	CreateProduct(c *gin.Context)
 	DeleteProduct(c *gin.Context)
+	UpdateProduct(c *gin.Context)
 }
 
 type productHandler struct {
@@ -132,4 +133,24 @@ func (ph *productHandler) DeleteProduct(c *gin.Context) {
 	}
 
 	GoodResponseWithData(c, "Product Deleted successfully", http.StatusOK, id)
+}
+
+func (ph *productHandler) UpdateProduct(c *gin.Context) {
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	product := domain.Product{}
+
+	if err := c.ShouldBindJSON(&product); err != nil {
+		BadResponse(c, "Failed to Update product: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := ph.service.Product.UpdateProduct(uint(id), &product); err != nil {
+		BadResponse(c, "Failed to Update product: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	GoodResponseWithData(c, "Product Updated successfully", http.StatusOK, product)
+
 }
