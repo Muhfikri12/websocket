@@ -1,5 +1,36 @@
 basePath: /
 definitions:
+  domain.ResponseStock:
+    properties:
+      currentStock:
+        type: integer
+      description:
+        type: string
+      product:
+        type: string
+      qty:
+        type: integer
+      variant:
+        $ref: '#/definitions/domain.SizeColor'
+    type: object
+  domain.SizeColor:
+    properties:
+      color:
+        type: string
+      size:
+        type: string
+    type: object
+  domain.Stock:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      productVariantId:
+        type: integer
+      qty:
+        type: integer
+    type: object
   domain.User:
     properties:
       created_at:
@@ -16,6 +47,11 @@ definitions:
         type: string
       updated_at:
         type: string
+    type: object
+  handler.FormStock:
+    properties:
+      newStock:
+        type: integer
     type: object
   handler.Response:
     properties:
@@ -202,6 +238,113 @@ paths:
       summary: Staff Registration
       tags:
       - Auth
+  /stock/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete stock by product variant ID.
+      parameters:
+      - description: Product Variant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Stock deleted successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Stock'
+              type: object
+        "400":
+          description: Invalid parameters or bad request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Delete Stock
+      tags:
+      - Stock
+  /stock/{productVariantId}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of the stock by product variant ID.
+      parameters:
+      - description: Product Variant ID
+        in: path
+        name: productVariantId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Stock details retrieved successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.ResponseStock'
+              type: object
+        "400":
+          description: Invalid parameters or bad request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get Stock Details
+      tags:
+      - Stock
+    put:
+      consumes:
+      - application/json
+      description: Edit the stock quantity by product variant ID.
+      parameters:
+      - description: Product Variant ID
+        in: path
+        name: productVariantId
+        required: true
+        type: integer
+      - description: New Stock Quantity
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.FormStock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Stock updated successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Stock'
+              type: object
+        "400":
+          description: Invalid parameters or bad request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Edit Stock Details
+      tags:
+      - Stock
   /users:
     get:
       consumes:
