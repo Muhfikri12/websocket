@@ -13,8 +13,8 @@ import (
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
-	// r.MaxMultipartMemory = 100 << 20
 
+	r.Use(ctx.Middleware.Logger())
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
 	r.POST("/register", ctx.Ctl.UserHandler.Registration)
 	r.GET("/users", ctx.Ctl.UserHandler.All)
@@ -35,6 +35,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.POST("/", ctx.Ctl.Product.CreateProduct)
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
 		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
+		products.PUT("/:id", ctx.Ctl.Product.UpdateProduct)
 	}
 
 	order := r.Group("/orders")
