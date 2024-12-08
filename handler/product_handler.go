@@ -31,6 +31,16 @@ func NewProductHandler(service *service.Service, log *zap.Logger) ProductHandler
 	return &productHandler{service, log}
 }
 
+// Show All Products endpoint
+// @Summary Show all Products
+// @Description Get All Products
+// @Tags All Products
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} handler.Response "Successfully Retrieved Products"
+// @Failure 404 {object} handler.Response "Product Not Found
+// @Failure 500 {object} handler.Response "server error"
+// @Router  /products [get]
 func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
 	if page <= 0 {
@@ -51,6 +61,15 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 	GoodResponseWithPage(c, "Successfully Retrieved Products", http.StatusOK, count, totalPages, page, limit, products)
 }
 
+// Get Product By ID
+// @Summary Get Product By ID
+// @Description Get Product By ID
+// @Tags Get Product By ID
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} handler.Response "Successfully Retrieved Product"
+// @Failure 404 {object} handler.Response "Product Not Found"
+// @Router  /products/:id [get]
 func (ph *productHandler) GetProductByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -63,6 +82,16 @@ func (ph *productHandler) GetProductByID(c *gin.Context) {
 	GoodResponseWithData(c, "Successfully Retrieved Product", http.StatusOK, product)
 }
 
+// Create Product
+// @Summary Create Product
+// @Description Create Product
+// @Tags Create Product
+// @Accept  json
+// @Produce  json
+// @Success 201 {object} handler.Response "Product created successfully"
+// @Failure 404 {object} handler.Response "Invalid form data"
+// @Failure 500 {object} handler.Response "Failed to create product"
+// @Router  /products [post]
 func (ph *productHandler) CreateProduct(c *gin.Context) {
 	form, err := c.MultipartForm()
 	if err != nil {
@@ -123,6 +152,15 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 	GoodResponseWithData(c, "Product created successfully", http.StatusCreated, product)
 }
 
+// Delete Product
+// @Summary Delete Product
+// @Description Delete Product
+// @Tags Delete Product
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} handler.Response "Product Deleted successfully"
+// @Failure 404 {object} handler.Response "Failed to Delete product"
+// @Router  /products/:id [delete]
 func (ph *productHandler) DeleteProduct(c *gin.Context) {
 
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -135,6 +173,16 @@ func (ph *productHandler) DeleteProduct(c *gin.Context) {
 	GoodResponseWithData(c, "Product Deleted successfully", http.StatusOK, id)
 }
 
+// Update Product
+// @Summary Update Product
+// @Description Update Product
+// @Tags Update Product
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} handler.Response "Product Updated successfully"
+// @Failure 404 {object} handler.Response "Failed to Update product"
+// @Failure 500 {object} handler.Response "Invalid Payload Request"
+// @Router  /products/:id [put]
 func (ph *productHandler) UpdateProduct(c *gin.Context) {
 
 	id, _ := strconv.Atoi(c.Param("id"))
