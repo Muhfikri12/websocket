@@ -16,6 +16,7 @@ type Handler struct {
 	Category             CategoryHandler
 	Product              ProductHandler
 	Dashboard            DashboardHandler
+	Promotion            ControllerPromotion
 	Banner               ControllerBanner
 }
 
@@ -28,6 +29,7 @@ func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 		Product:              NewProductHandler(&service, logger),
 		Dashboard:            NewDashboardHandler(&service, logger),
 		OrderHandler:         *NewOrderController(service.Order, logger),
+		Promotion:            *NewControllerPromotion(service.Promotion, logger),
 		Banner:               *NewControllerBanner(service.Banner, logger),
 	}
 }

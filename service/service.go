@@ -17,6 +17,7 @@ type Service struct {
 	Category      categoryservice.CategoryService
 	Product       productservice.ProductService
 	Dashboard     dashboardservice.DashboardService
+	Promotion     ServicePromotion
 	Banner        ServiceBanner
 }
 
@@ -29,6 +30,7 @@ func NewService(repo repository.Repository, log *zap.Logger) Service {
 		Category:      categoryservice.NewCategoryService(&repo, log),
 		Product:       productservice.NewProductService(&repo, log),
 		Dashboard:     dashboardservice.NewDashboardService(&repo, log),
+		Promotion:     NewServicePromotion(repo.Promotion),
 		Banner:        NewServiceBanner(repo.Banner),
 	}
 }
