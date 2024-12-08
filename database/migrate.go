@@ -36,6 +36,7 @@ func autoMigrates(db *gorm.DB) error {
 		&domain.Order{},
 		&domain.OrderItem{},
 		&domain.Review{},
+		&domain.Stock{},
 		&domain.Promotion{},
 	)
 }
@@ -52,6 +53,7 @@ func dropTables(db *gorm.DB) error {
 		&domain.ProductVariant{},
 		&domain.Image{},
 		&domain.Review{},
+		&domain.Stock{},
 		&domain.Promotion{},
 	)
 }
