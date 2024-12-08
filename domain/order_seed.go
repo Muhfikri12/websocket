@@ -1,18 +1,6 @@
 package domain
 
-import (
-	"math/rand"
-	"time"
-)
-
-func randomTimestamp() time.Time {
-	minTime := time.Date(2024, 6, 0, 0, 0, 0, 0, time.UTC).Unix()
-	maxTime := time.Date(2024, 12, 0, 0, 0, 0, 0, time.UTC).Unix()
-	delta := maxTime - minTime
-
-	sec := rand.Int63n(delta) + minTime
-	return time.Unix(sec, 0)
-}
+import "time"
 
 func OrderSeed() []Order {
 	return []Order{
@@ -20,7 +8,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 21, 8, 10, 1, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 85, Quantity: 19, UnitPrice: 364},
 				{VariantID: 195, Quantity: 7, UnitPrice: 357},
@@ -31,7 +19,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 26, 0, 42, 34, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 14, Quantity: 13, UnitPrice: 196},
 			},
@@ -40,7 +28,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 13, 20, 4, 2, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 57, Quantity: 29, UnitPrice: 236},
 			},
@@ -49,7 +37,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 27, 23, 25, 54, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 191, Quantity: 28, UnitPrice: 264},
 			},
@@ -58,7 +46,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 10, 21, 49, 42, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 71, Quantity: 25, UnitPrice: 564},
 				{VariantID: 32, Quantity: 27, UnitPrice: 474},
@@ -69,7 +57,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 23, 19, 51, 36, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 78, Quantity: 9, UnitPrice: 593},
 				{VariantID: 75, Quantity: 27, UnitPrice: 558},
@@ -81,7 +69,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 26, 2, 56, 42, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 76, Quantity: 25, UnitPrice: 104},
 				{VariantID: 62, Quantity: 14, UnitPrice: 187},
@@ -93,7 +81,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 3, 4, 37, 17, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 52, Quantity: 11, UnitPrice: 289},
 			},
@@ -102,7 +90,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 18, 4, 7, 31, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 104, Quantity: 20, UnitPrice: 273},
 				{VariantID: 127, Quantity: 8, UnitPrice: 419},
@@ -112,7 +100,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 8, 9, 11, 8, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 156, Quantity: 7, UnitPrice: 583},
 				{VariantID: 195, Quantity: 28, UnitPrice: 292},
@@ -123,7 +111,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 1, 4, 17, 20, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 137, Quantity: 4, UnitPrice: 461},
 				{VariantID: 94, Quantity: 11, UnitPrice: 281},
@@ -134,7 +122,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 5, 12, 25, 37, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 91, Quantity: 26, UnitPrice: 709},
 				{VariantID: 8, Quantity: 10, UnitPrice: 175},
@@ -144,7 +132,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 9, 18, 45, 33, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 98, Quantity: 10, UnitPrice: 145},
 				{VariantID: 36, Quantity: 9, UnitPrice: 150},
@@ -154,7 +142,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 12, 6, 38, 3, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 156, Quantity: 8, UnitPrice: 248},
 				{VariantID: 143, Quantity: 16, UnitPrice: 104},
@@ -165,7 +153,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 23, 0, 40, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 53, Quantity: 18, UnitPrice: 336},
 			},
@@ -174,7 +162,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 28, 11, 38, 55, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 60, Quantity: 30, UnitPrice: 179},
 				{VariantID: 63, Quantity: 23, UnitPrice: 544},
@@ -186,7 +174,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 14, 1, 20, 30, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 141, Quantity: 28, UnitPrice: 299},
 			},
@@ -195,7 +183,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "debit",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 10, 9, 2, 2, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 84, Quantity: 26, UnitPrice: 705},
 			},
@@ -204,7 +192,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 4, 14, 32, 19, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 99, Quantity: 4, UnitPrice: 143},
 				{VariantID: 109, Quantity: 10, UnitPrice: 664},
@@ -214,7 +202,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 9, 1, 11, 1, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 151, Quantity: 6, UnitPrice: 364},
 				{VariantID: 97, Quantity: 11, UnitPrice: 445},
@@ -224,7 +212,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 5, 5, 28, 12, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 35, Quantity: 28, UnitPrice: 715},
 				{VariantID: 170, Quantity: 5, UnitPrice: 300},
@@ -236,7 +224,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 12, 1, 6, 14, 41, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 53, Quantity: 4, UnitPrice: 380},
 				{VariantID: 180, Quantity: 2, UnitPrice: 617},
@@ -247,7 +235,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 3, 6, 3, 32, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 5, Quantity: 14, UnitPrice: 119},
 				{VariantID: 158, Quantity: 8, UnitPrice: 567},
@@ -258,7 +246,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 16, 14, 54, 47, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 87, Quantity: 10, UnitPrice: 243},
 			},
@@ -267,7 +255,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 16, 20, 0, 17, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 74, Quantity: 29, UnitPrice: 338},
 			},
@@ -276,7 +264,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "cod",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 23, 2, 44, 19, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 21, Quantity: 3, UnitPrice: 485},
 				{VariantID: 173, Quantity: 28, UnitPrice: 112},
@@ -286,7 +274,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 16, 21, 55, 35, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 68, Quantity: 6, UnitPrice: 575},
 				{VariantID: 42, Quantity: 12, UnitPrice: 239},
@@ -297,7 +285,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 2, 18, 10, 45, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 14, Quantity: 9, UnitPrice: 746},
 				{VariantID: 122, Quantity: 20, UnitPrice: 106},
@@ -309,7 +297,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 15, 10, 4, 45, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 19, Quantity: 13, UnitPrice: 306},
 				{VariantID: 39, Quantity: 20, UnitPrice: 129},
@@ -321,7 +309,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 2, 10, 17, 27, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 123, Quantity: 2, UnitPrice: 383},
 				{VariantID: 174, Quantity: 2, UnitPrice: 365},
@@ -333,7 +321,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 25, 12, 50, 17, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 78, Quantity: 26, UnitPrice: 212},
 				{VariantID: 125, Quantity: 4, UnitPrice: 453},
@@ -344,7 +332,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 9, 0, 9, 36, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 37, Quantity: 8, UnitPrice: 289},
 			},
@@ -353,7 +341,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 21, 1, 10, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 68, Quantity: 3, UnitPrice: 117},
 				{VariantID: 17, Quantity: 9, UnitPrice: 121},
@@ -363,7 +351,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "cod",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 11, 7, 55, 17, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 74, Quantity: 27, UnitPrice: 619},
 				{VariantID: 55, Quantity: 11, UnitPrice: 473},
@@ -373,7 +361,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 23, 2, 18, 52, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 133, Quantity: 28, UnitPrice: 158},
 				{VariantID: 176, Quantity: 4, UnitPrice: 366},
@@ -383,7 +371,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 1, 4, 18, 40, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 65, Quantity: 18, UnitPrice: 676},
 				{VariantID: 97, Quantity: 5, UnitPrice: 181},
@@ -394,7 +382,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 19, 4, 37, 35, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 161, Quantity: 6, UnitPrice: 192},
 			},
@@ -403,7 +391,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 21, 11, 45, 24, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 149, Quantity: 24, UnitPrice: 649},
 				{VariantID: 193, Quantity: 27, UnitPrice: 321},
@@ -413,7 +401,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 25, 18, 33, 48, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 173, Quantity: 22, UnitPrice: 506},
 				{VariantID: 200, Quantity: 23, UnitPrice: 161},
@@ -424,7 +412,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 11, 6, 25, 48, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 198, Quantity: 22, UnitPrice: 582},
 				{VariantID: 28, Quantity: 24, UnitPrice: 734},
@@ -434,7 +422,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 5, 0, 34, 34, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 104, Quantity: 30, UnitPrice: 410},
 				{VariantID: 193, Quantity: 2, UnitPrice: 486},
@@ -445,7 +433,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "cod",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 6, 1, 47, 44, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 52, Quantity: 23, UnitPrice: 735},
 				{VariantID: 50, Quantity: 26, UnitPrice: 502},
@@ -456,7 +444,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 28, 23, 38, 7, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 98, Quantity: 6, UnitPrice: 192},
 				{VariantID: 96, Quantity: 26, UnitPrice: 603},
@@ -466,7 +454,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 4, 3, 9, 40, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 85, Quantity: 15, UnitPrice: 128},
 			},
@@ -475,7 +463,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 2, 4, 25, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 178, Quantity: 18, UnitPrice: 425},
 			},
@@ -484,7 +472,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 17, 16, 4, 26, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 152, Quantity: 8, UnitPrice: 742},
 				{VariantID: 51, Quantity: 22, UnitPrice: 596},
@@ -494,7 +482,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 8, 20, 37, 23, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 26, Quantity: 23, UnitPrice: 561},
 				{VariantID: 196, Quantity: 3, UnitPrice: 664},
@@ -504,7 +492,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 29, 23, 27, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 162, Quantity: 7, UnitPrice: 504},
 				{VariantID: 77, Quantity: 30, UnitPrice: 341},
@@ -514,7 +502,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 5, 6, 54, 54, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 24, Quantity: 26, UnitPrice: 737},
 			},
@@ -523,7 +511,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "cod",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 23, 6, 16, 22, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 48, Quantity: 7, UnitPrice: 713},
 				{VariantID: 40, Quantity: 23, UnitPrice: 370},
@@ -535,7 +523,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 5, 11, 30, 19, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 142, Quantity: 17, UnitPrice: 157},
 			},
@@ -544,7 +532,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 19, 0, 37, 49, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 11, Quantity: 28, UnitPrice: 296},
 			},
@@ -553,7 +541,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 28, 14, 58, 46, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 42, Quantity: 17, UnitPrice: 725},
 				{VariantID: 88, Quantity: 30, UnitPrice: 214},
@@ -563,7 +551,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 26, 4, 56, 37, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 38, Quantity: 29, UnitPrice: 640},
 				{VariantID: 20, Quantity: 1, UnitPrice: 697},
@@ -573,7 +561,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 14, 11, 12, 18, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 86, Quantity: 2, UnitPrice: 576},
 				{VariantID: 59, Quantity: 13, UnitPrice: 701},
@@ -585,7 +573,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 25, 16, 48, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 31, Quantity: 27, UnitPrice: 415},
 				{VariantID: 54, Quantity: 22, UnitPrice: 169},
@@ -596,7 +584,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 11, 9, 0, 7, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 17, Quantity: 21, UnitPrice: 687},
 				{VariantID: 70, Quantity: 17, UnitPrice: 341},
@@ -607,7 +595,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 14, 19, 19, 30, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 40, Quantity: 14, UnitPrice: 108},
 				{VariantID: 84, Quantity: 16, UnitPrice: 527},
@@ -619,7 +607,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 4, 17, 4, 56, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 83, Quantity: 18, UnitPrice: 308},
 				{VariantID: 112, Quantity: 22, UnitPrice: 398},
@@ -631,7 +619,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 20, 20, 53, 51, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 157, Quantity: 12, UnitPrice: 299},
 				{VariantID: 86, Quantity: 10, UnitPrice: 556},
@@ -643,7 +631,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 28, 15, 14, 48, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 150, Quantity: 21, UnitPrice: 486},
 				{VariantID: 60, Quantity: 13, UnitPrice: 308},
@@ -654,7 +642,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 12, 1, 6, 13, 34, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 127, Quantity: 20, UnitPrice: 188},
 			},
@@ -663,7 +651,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 18, 21, 55, 24, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 89, Quantity: 16, UnitPrice: 446},
 				{VariantID: 55, Quantity: 12, UnitPrice: 703},
@@ -674,7 +662,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 28, 22, 24, 16, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 35, Quantity: 23, UnitPrice: 384},
 			},
@@ -683,7 +671,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 3, 7, 5, 58, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 175, Quantity: 27, UnitPrice: 742},
 				{VariantID: 87, Quantity: 18, UnitPrice: 398},
@@ -695,7 +683,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 25, 23, 6, 51, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 127, Quantity: 16, UnitPrice: 650},
 				{VariantID: 1, Quantity: 29, UnitPrice: 537},
@@ -707,7 +695,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 6, 1, 16, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 143, Quantity: 21, UnitPrice: 283},
 			},
@@ -716,7 +704,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 14, 19, 49, 8, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 174, Quantity: 12, UnitPrice: 492},
 				{VariantID: 131, Quantity: 8, UnitPrice: 655},
@@ -728,7 +716,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 21, 3, 16, 48, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 160, Quantity: 11, UnitPrice: 614},
 				{VariantID: 163, Quantity: 26, UnitPrice: 710},
@@ -740,7 +728,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 8, 13, 35, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 63, Quantity: 2, UnitPrice: 735},
 				{VariantID: 199, Quantity: 11, UnitPrice: 609},
@@ -750,7 +738,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 25, 8, 13, 43, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 110, Quantity: 25, UnitPrice: 518},
 				{VariantID: 42, Quantity: 21, UnitPrice: 444},
@@ -761,7 +749,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 13, 3, 34, 22, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 48, Quantity: 15, UnitPrice: 518},
 			},
@@ -770,7 +758,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 5, 20, 23, 29, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 28, Quantity: 16, UnitPrice: 562},
 				{VariantID: 190, Quantity: 27, UnitPrice: 148},
@@ -782,7 +770,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 27, 21, 33, 38, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 85, Quantity: 4, UnitPrice: 541},
 				{VariantID: 133, Quantity: 20, UnitPrice: 677},
@@ -793,7 +781,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 9, 20, 5, 14, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 71, Quantity: 1, UnitPrice: 115},
 				{VariantID: 190, Quantity: 7, UnitPrice: 608},
@@ -804,7 +792,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "cod",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 22, 23, 37, 25, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 147, Quantity: 3, UnitPrice: 437},
 				{VariantID: 83, Quantity: 23, UnitPrice: 642},
@@ -814,7 +802,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 8, 5, 47, 43, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 105, Quantity: 17, UnitPrice: 189},
 				{VariantID: 134, Quantity: 13, UnitPrice: 551},
@@ -826,7 +814,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 12, 10, 50, 57, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 71, Quantity: 3, UnitPrice: 265},
 				{VariantID: 128, Quantity: 8, UnitPrice: 316},
@@ -836,7 +824,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 28, 2, 14, 32, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 146, Quantity: 30, UnitPrice: 421},
 				{VariantID: 109, Quantity: 12, UnitPrice: 645},
@@ -846,7 +834,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 16, 5, 0, 53, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 189, Quantity: 11, UnitPrice: 706},
 				{VariantID: 59, Quantity: 1, UnitPrice: 474},
@@ -858,7 +846,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 4, 2, 14, 2, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 84, Quantity: 3, UnitPrice: 534},
 				{VariantID: 34, Quantity: 2, UnitPrice: 176},
@@ -870,7 +858,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 15, 16, 1, 24, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 43, Quantity: 5, UnitPrice: 132},
 				{VariantID: 25, Quantity: 22, UnitPrice: 107},
@@ -881,7 +869,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 26, 0, 16, 53, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 125, Quantity: 18, UnitPrice: 465},
 			},
@@ -890,7 +878,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 11, 2, 28, 52, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 20, Quantity: 26, UnitPrice: 272},
 				{VariantID: 155, Quantity: 16, UnitPrice: 123},
@@ -900,7 +888,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 15, 1, 29, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 104, Quantity: 25, UnitPrice: 431},
 				{VariantID: 189, Quantity: 24, UnitPrice: 331},
@@ -910,7 +898,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 13, 15, 50, 51, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 25, Quantity: 14, UnitPrice: 501},
 				{VariantID: 61, Quantity: 19, UnitPrice: 725},
@@ -922,7 +910,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 31, 1, 20, 44, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 171, Quantity: 11, UnitPrice: 549},
 				{VariantID: 102, Quantity: 19, UnitPrice: 180},
@@ -933,7 +921,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 7, 4, 40, 8, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 122, Quantity: 10, UnitPrice: 381},
 				{VariantID: 27, Quantity: 13, UnitPrice: 727},
@@ -943,7 +931,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 18, 4, 7, 33, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 94, Quantity: 24, UnitPrice: 329},
 				{VariantID: 163, Quantity: 26, UnitPrice: 654},
@@ -953,7 +941,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 13, 0, 33, 0, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 25, Quantity: 16, UnitPrice: 245},
 				{VariantID: 76, Quantity: 21, UnitPrice: 485},
@@ -963,7 +951,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 21, 6, 57, 33, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 103, Quantity: 26, UnitPrice: 312},
 				{VariantID: 29, Quantity: 2, UnitPrice: 434},
@@ -973,7 +961,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 20, 8, 56, 16, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 40, Quantity: 8, UnitPrice: 184},
 				{VariantID: 114, Quantity: 29, UnitPrice: 703},
@@ -985,7 +973,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 20, 23, 25, 22, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 118, Quantity: 7, UnitPrice: 318},
 				{VariantID: 181, Quantity: 28, UnitPrice: 598},
@@ -995,7 +983,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 8, 2, 44, 9, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 178, Quantity: 30, UnitPrice: 714},
 				{VariantID: 132, Quantity: 5, UnitPrice: 282},
@@ -1005,7 +993,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 31, 22, 56, 28, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 34, Quantity: 7, UnitPrice: 345},
 			},
@@ -1014,7 +1002,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 23, 19, 53, 37, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 117, Quantity: 30, UnitPrice: 362},
 			},
@@ -1023,7 +1011,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 24, 17, 10, 40, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 60, Quantity: 21, UnitPrice: 591},
 				{VariantID: 64, Quantity: 27, UnitPrice: 696},
@@ -1033,7 +1021,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 2, 16, 53, 56, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 114, Quantity: 6, UnitPrice: 173},
 			},
@@ -1042,7 +1030,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 18, 14, 16, 27, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 136, Quantity: 11, UnitPrice: 504},
 			},
@@ -1051,7 +1039,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 29, 23, 55, 17, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 194, Quantity: 22, UnitPrice: 373},
 				{VariantID: 42, Quantity: 10, UnitPrice: 451},
@@ -1062,7 +1050,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 23, 22, 55, 37, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 6, Quantity: 17, UnitPrice: 636},
 				{VariantID: 100, Quantity: 4, UnitPrice: 287},
@@ -1074,7 +1062,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 9, 20, 28, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 167, Quantity: 25, UnitPrice: 643},
 			},
@@ -1083,7 +1071,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 7, 6, 13, 31, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 51, Quantity: 27, UnitPrice: 268},
 				{VariantID: 143, Quantity: 4, UnitPrice: 475},
@@ -1095,7 +1083,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 19, 2, 8, 28, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 50, Quantity: 30, UnitPrice: 164},
 			},
@@ -1104,7 +1092,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 21, 0, 40, 19, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 74, Quantity: 5, UnitPrice: 434},
 				{VariantID: 83, Quantity: 19, UnitPrice: 433},
@@ -1114,7 +1102,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 15, 9, 24, 56, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 62, Quantity: 12, UnitPrice: 160},
 				{VariantID: 156, Quantity: 18, UnitPrice: 634},
@@ -1125,7 +1113,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 29, 21, 49, 31, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 99, Quantity: 23, UnitPrice: 529},
 				{VariantID: 178, Quantity: 25, UnitPrice: 625},
@@ -1135,7 +1123,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 3, 11, 50, 10, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 133, Quantity: 13, UnitPrice: 530},
 				{VariantID: 126, Quantity: 7, UnitPrice: 184},
@@ -1145,7 +1133,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 18, 5, 14, 22, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 154, Quantity: 28, UnitPrice: 127},
 				{VariantID: 62, Quantity: 12, UnitPrice: 399},
@@ -1155,7 +1143,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 21, 21, 23, 51, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 74, Quantity: 24, UnitPrice: 238},
 			},
@@ -1164,7 +1152,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 7, 15, 50, 3, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 52, Quantity: 13, UnitPrice: 296},
 				{VariantID: 17, Quantity: 11, UnitPrice: 425},
@@ -1175,7 +1163,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 4, 1, 56, 45, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 180, Quantity: 10, UnitPrice: 121},
 			},
@@ -1184,7 +1172,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 14, 21, 33, 24, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 53, Quantity: 30, UnitPrice: 582},
 			},
@@ -1193,7 +1181,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 16, 3, 47, 21, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 130, Quantity: 15, UnitPrice: 724},
 				{VariantID: 71, Quantity: 4, UnitPrice: 411},
@@ -1205,7 +1193,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 26, 4, 21, 43, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 139, Quantity: 20, UnitPrice: 424},
 				{VariantID: 131, Quantity: 10, UnitPrice: 500},
@@ -1217,7 +1205,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "cod",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 17, 21, 15, 34, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 22, Quantity: 7, UnitPrice: 314},
 				{VariantID: 167, Quantity: 26, UnitPrice: 267},
@@ -1227,7 +1215,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 16, 10, 49, 14, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 50, Quantity: 15, UnitPrice: 182},
 				{VariantID: 152, Quantity: 29, UnitPrice: 632},
@@ -1237,7 +1225,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 28, 6, 10, 12, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 73, Quantity: 27, UnitPrice: 643},
 			},
@@ -1246,7 +1234,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 30, 0, 34, 27, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 131, Quantity: 22, UnitPrice: 581},
 				{VariantID: 26, Quantity: 29, UnitPrice: 470},
@@ -1256,7 +1244,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 20, 15, 33, 30, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 73, Quantity: 4, UnitPrice: 727},
 				{VariantID: 68, Quantity: 25, UnitPrice: 562},
@@ -1267,7 +1255,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 3, 19, 44, 56, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 58, Quantity: 8, UnitPrice: 636},
 				{VariantID: 140, Quantity: 30, UnitPrice: 359},
@@ -1278,7 +1266,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 28, 19, 3, 5, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 37, Quantity: 30, UnitPrice: 217},
 			},
@@ -1287,7 +1275,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 10, 8, 15, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 144, Quantity: 24, UnitPrice: 615},
 				{VariantID: 146, Quantity: 10, UnitPrice: 632},
@@ -1298,7 +1286,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 8, 7, 1, 53, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 195, Quantity: 25, UnitPrice: 420},
 				{VariantID: 88, Quantity: 17, UnitPrice: 569},
@@ -1309,7 +1297,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 30, 15, 6, 45, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 195, Quantity: 18, UnitPrice: 306},
 				{VariantID: 107, Quantity: 14, UnitPrice: 644},
@@ -1321,7 +1309,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "cod",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 11, 15, 59, 49, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 72, Quantity: 24, UnitPrice: 632},
 				{VariantID: 64, Quantity: 24, UnitPrice: 660},
@@ -1331,7 +1319,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 31, 12, 34, 23, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 36, Quantity: 21, UnitPrice: 450},
 			},
@@ -1340,7 +1328,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 12, 0, 46, 9, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 141, Quantity: 12, UnitPrice: 378},
 			},
@@ -1349,7 +1337,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 4, 16, 57, 28, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 60, Quantity: 25, UnitPrice: 569},
 				{VariantID: 96, Quantity: 16, UnitPrice: 257},
@@ -1359,7 +1347,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 30, 1, 17, 49, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 9, Quantity: 4, UnitPrice: 216},
 				{VariantID: 197, Quantity: 4, UnitPrice: 196},
@@ -1371,7 +1359,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 15, 17, 20, 20, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 105, Quantity: 16, UnitPrice: 385},
 				{VariantID: 186, Quantity: 6, UnitPrice: 152},
@@ -1381,7 +1369,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "cod",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 3, 13, 24, 6, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 55, Quantity: 14, UnitPrice: 172},
 				{VariantID: 107, Quantity: 12, UnitPrice: 623},
@@ -1392,7 +1380,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 30, 4, 2, 46, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 18, Quantity: 30, UnitPrice: 207},
 				{VariantID: 143, Quantity: 2, UnitPrice: 619},
@@ -1403,7 +1391,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 3, 6, 5, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 75, Quantity: 9, UnitPrice: 167},
 				{VariantID: 148, Quantity: 2, UnitPrice: 227},
@@ -1414,7 +1402,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 26, 21, 43, 12, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 136, Quantity: 17, UnitPrice: 543},
 				{VariantID: 175, Quantity: 20, UnitPrice: 356},
@@ -1424,7 +1412,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 5, 9, 22, 48, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 85, Quantity: 23, UnitPrice: 521},
 				{VariantID: 80, Quantity: 14, UnitPrice: 401},
@@ -1436,7 +1424,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 14, 19, 57, 11, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 164, Quantity: 8, UnitPrice: 579},
 				{VariantID: 149, Quantity: 2, UnitPrice: 192},
@@ -1446,7 +1434,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 12, 12, 24, 16, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 173, Quantity: 14, UnitPrice: 579},
 			},
@@ -1455,7 +1443,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 17, 4, 1, 6, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 82, Quantity: 13, UnitPrice: 116},
 				{VariantID: 62, Quantity: 3, UnitPrice: 555},
@@ -1467,7 +1455,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 30, 1, 24, 0, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 77, Quantity: 29, UnitPrice: 414},
 			},
@@ -1476,7 +1464,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 12, 6, 18, 30, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 2, Quantity: 1, UnitPrice: 520},
 				{VariantID: 154, Quantity: 19, UnitPrice: 249},
@@ -1488,7 +1476,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "debit",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 11, 22, 34, 2, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 84, Quantity: 23, UnitPrice: 653},
 			},
@@ -1497,7 +1485,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 13, 5, 22, 16, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 114, Quantity: 15, UnitPrice: 350},
 				{VariantID: 99, Quantity: 11, UnitPrice: 638},
@@ -1508,7 +1496,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 15, 12, 10, 33, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 119, Quantity: 27, UnitPrice: 408},
 				{VariantID: 37, Quantity: 30, UnitPrice: 571},
@@ -1518,7 +1506,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 6, 18, 51, 28, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 14, Quantity: 10, UnitPrice: 514},
 				{VariantID: 65, Quantity: 10, UnitPrice: 293},
@@ -1529,7 +1517,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 18, 2, 3, 14, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 36, Quantity: 3, UnitPrice: 456},
 			},
@@ -1538,7 +1526,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 11, 21, 54, 52, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 134, Quantity: 25, UnitPrice: 156},
 				{VariantID: 91, Quantity: 20, UnitPrice: 447},
@@ -1550,7 +1538,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 6, 9, 24, 37, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 96, Quantity: 23, UnitPrice: 738},
 				{VariantID: 174, Quantity: 6, UnitPrice: 117},
@@ -1561,7 +1549,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "debit",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 14, 19, 2, 36, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 107, Quantity: 27, UnitPrice: 589},
 			},
@@ -1570,7 +1558,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 27, 12, 53, 1, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 82, Quantity: 10, UnitPrice: 212},
 				{VariantID: 184, Quantity: 20, UnitPrice: 320},
@@ -1582,7 +1570,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 26, 0, 39, 9, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 147, Quantity: 9, UnitPrice: 692},
 				{VariantID: 35, Quantity: 4, UnitPrice: 226},
@@ -1593,7 +1581,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 29, 16, 34, 47, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 58, Quantity: 24, UnitPrice: 133},
 				{VariantID: 16, Quantity: 3, UnitPrice: 701},
@@ -1605,7 +1593,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 5, 9, 20, 0, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 47, Quantity: 20, UnitPrice: 153},
 				{VariantID: 138, Quantity: 10, UnitPrice: 668},
@@ -1615,7 +1603,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "credit card",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 30, 9, 38, 38, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 71, Quantity: 4, UnitPrice: 707},
 				{VariantID: 22, Quantity: 12, UnitPrice: 532},
@@ -1625,7 +1613,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 21, 19, 32, 29, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 46, Quantity: 2, UnitPrice: 281},
 				{VariantID: 144, Quantity: 28, UnitPrice: 397},
@@ -1636,7 +1624,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 18, 21, 54, 23, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 151, Quantity: 26, UnitPrice: 520},
 				{VariantID: 174, Quantity: 5, UnitPrice: 654},
@@ -1647,7 +1635,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 4, 2, 53, 3, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 188, Quantity: 1, UnitPrice: 156},
 				{VariantID: 141, Quantity: 6, UnitPrice: 210},
@@ -1658,7 +1646,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "qris",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 31, 15, 10, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 49, Quantity: 24, UnitPrice: 513},
 			},
@@ -1667,7 +1655,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 30, 16, 48, 22, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 107, Quantity: 29, UnitPrice: 444},
 				{VariantID: 44, Quantity: 29, UnitPrice: 396},
@@ -1678,7 +1666,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "cod",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 11, 14, 21, 16, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 47, Quantity: 10, UnitPrice: 127},
 			},
@@ -1687,7 +1675,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 8, 1, 17, 43, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 29, Quantity: 16, UnitPrice: 631},
 			},
@@ -1696,7 +1684,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 11, 17, 6, 4, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 2, Quantity: 19, UnitPrice: 621},
 				{VariantID: 111, Quantity: 6, UnitPrice: 525},
@@ -1708,7 +1696,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 20, 19, 0, 35, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 121, Quantity: 30, UnitPrice: 350},
 				{VariantID: 2, Quantity: 18, UnitPrice: 320},
@@ -1718,7 +1706,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 16, 12, 53, 33, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 188, Quantity: 12, UnitPrice: 396},
 			},
@@ -1727,7 +1715,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "bank transfer",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 14, 10, 50, 10, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 91, Quantity: 12, UnitPrice: 604},
 				{VariantID: 185, Quantity: 21, UnitPrice: 265},
@@ -1738,7 +1726,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 13, 7, 22, 46, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 90, Quantity: 17, UnitPrice: 309},
 				{VariantID: 139, Quantity: 20, UnitPrice: 456},
@@ -1749,7 +1737,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 19, 14, 46, 46, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 103, Quantity: 25, UnitPrice: 687},
 				{VariantID: 171, Quantity: 6, UnitPrice: 301},
@@ -1759,7 +1747,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 15, 23, 27, 11, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 1, Quantity: 14, UnitPrice: 202},
 				{VariantID: 19, Quantity: 22, UnitPrice: 683},
@@ -1770,7 +1758,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 13, 13, 16, 15, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 20, Quantity: 21, UnitPrice: 747},
 				{VariantID: 153, Quantity: 30, UnitPrice: 487},
@@ -1781,7 +1769,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 3, 19, 31, 56, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 89, Quantity: 20, UnitPrice: 565},
 				{VariantID: 181, Quantity: 2, UnitPrice: 289},
@@ -1792,7 +1780,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 17, 9, 16, 34, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 2, Quantity: 13, UnitPrice: 418},
 				{VariantID: 197, Quantity: 15, UnitPrice: 364},
@@ -1802,7 +1790,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 29, 23, 27, 45, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 82, Quantity: 11, UnitPrice: 116},
 				{VariantID: 17, Quantity: 19, UnitPrice: 731},
@@ -1813,7 +1801,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 14, 2, 37, 13, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 9, Quantity: 1, UnitPrice: 729},
 				{VariantID: 181, Quantity: 22, UnitPrice: 464},
@@ -1823,7 +1811,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 29, 18, 33, 24, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 2, Quantity: 22, UnitPrice: 457},
 			},
@@ -1832,7 +1820,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 29, 9, 28, 6, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 30, Quantity: 6, UnitPrice: 314},
 				{VariantID: 75, Quantity: 16, UnitPrice: 586},
@@ -1842,7 +1830,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 11, 3, 4, 43, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 65, Quantity: 27, UnitPrice: 493},
 				{VariantID: 122, Quantity: 18, UnitPrice: 377},
@@ -1853,7 +1841,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "debit",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 22, 6, 8, 27, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 119, Quantity: 2, UnitPrice: 280},
 				{VariantID: 123, Quantity: 1, UnitPrice: 222},
@@ -1863,7 +1851,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "cod",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 17, 10, 59, 13, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 54, Quantity: 11, UnitPrice: 278},
 				{VariantID: 69, Quantity: 15, UnitPrice: 332},
@@ -1875,7 +1863,7 @@ func OrderSeed() []Order {
 			CustomerID:    8,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 26, 3, 38, 7, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 112, Quantity: 2, UnitPrice: 704},
 				{VariantID: 79, Quantity: 24, UnitPrice: 737},
@@ -1886,7 +1874,7 @@ func OrderSeed() []Order {
 			CustomerID:    2,
 			PaymentMethod: "cod",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 17, 22, 33, 9, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 68, Quantity: 26, UnitPrice: 601},
 				{VariantID: 103, Quantity: 20, UnitPrice: 297},
@@ -1896,7 +1884,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 13, 19, 21, 25, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 32, Quantity: 9, UnitPrice: 571},
 				{VariantID: 72, Quantity: 19, UnitPrice: 559},
@@ -1908,7 +1896,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "credit card",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 6, 6, 35, 56, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 62, Quantity: 23, UnitPrice: 458},
 				{VariantID: 92, Quantity: 1, UnitPrice: 383},
@@ -1920,7 +1908,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 22, 10, 36, 38, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 176, Quantity: 1, UnitPrice: 272},
 				{VariantID: 142, Quantity: 23, UnitPrice: 383},
@@ -1930,7 +1918,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 2, 16, 20, 16, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 91, Quantity: 26, UnitPrice: 492},
 			},
@@ -1939,7 +1927,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "bank transfer",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 18, 18, 40, 49, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 57, Quantity: 21, UnitPrice: 650},
 				{VariantID: 123, Quantity: 28, UnitPrice: 324},
@@ -1951,7 +1939,7 @@ func OrderSeed() []Order {
 			CustomerID:    5,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 21, 17, 48, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 3, Quantity: 26, UnitPrice: 600},
 				{VariantID: 49, Quantity: 9, UnitPrice: 475},
@@ -1962,7 +1950,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "processed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 4, 6, 46, 25, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 199, Quantity: 28, UnitPrice: 394},
 				{VariantID: 179, Quantity: 17, UnitPrice: 155},
@@ -1974,7 +1962,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 13, 0, 3, 55, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 74, Quantity: 20, UnitPrice: 350},
 				{VariantID: 180, Quantity: 7, UnitPrice: 274},
@@ -1984,7 +1972,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 5, 21, 27, 20, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 187, Quantity: 9, UnitPrice: 160},
 			},
@@ -1993,7 +1981,7 @@ func OrderSeed() []Order {
 			CustomerID:    3,
 			PaymentMethod: "credit card",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 20, 14, 47, 8, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 45, Quantity: 23, UnitPrice: 289},
 				{VariantID: 141, Quantity: 1, UnitPrice: 598},
@@ -2004,7 +1992,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "debit",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 4, 20, 25, 51, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 195, Quantity: 26, UnitPrice: 396},
 				{VariantID: 64, Quantity: 30, UnitPrice: 471},
@@ -2016,7 +2004,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 10, 0, 58, 25, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 102, Quantity: 28, UnitPrice: 288},
 				{VariantID: 45, Quantity: 11, UnitPrice: 729},
@@ -2026,7 +2014,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "qris",
 			Status:        "canceled",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 10, 8, 3, 13, 27, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 82, Quantity: 8, UnitPrice: 133},
 				{VariantID: 71, Quantity: 21, UnitPrice: 502},
@@ -2037,7 +2025,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "qris",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 8, 30, 12, 16, 39, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 189, Quantity: 18, UnitPrice: 350},
 				{VariantID: 11, Quantity: 20, UnitPrice: 474},
@@ -2048,7 +2036,7 @@ func OrderSeed() []Order {
 			CustomerID:    10,
 			PaymentMethod: "debit",
 			Status:        "created",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 11, 15, 28, 52, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 188, Quantity: 29, UnitPrice: 585},
 				{VariantID: 189, Quantity: 3, UnitPrice: 438},
@@ -2058,7 +2046,7 @@ func OrderSeed() []Order {
 			CustomerID:    9,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 11, 28, 20, 48, 50, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 17, Quantity: 20, UnitPrice: 353},
 				{VariantID: 68, Quantity: 12, UnitPrice: 652},
@@ -2068,7 +2056,7 @@ func OrderSeed() []Order {
 			CustomerID:    6,
 			PaymentMethod: "bank transfer",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 6, 24, 18, 38, 19, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 191, Quantity: 11, UnitPrice: 474},
 			},
@@ -2077,7 +2065,7 @@ func OrderSeed() []Order {
 			CustomerID:    7,
 			PaymentMethod: "qris",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 5, 2, 4, 25, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 30, Quantity: 19, UnitPrice: 228},
 			},
@@ -2086,7 +2074,7 @@ func OrderSeed() []Order {
 			CustomerID:    4,
 			PaymentMethod: "credit card",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 7, 19, 16, 0, 18, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 20, Quantity: 9, UnitPrice: 399},
 			},
@@ -2095,7 +2083,7 @@ func OrderSeed() []Order {
 			CustomerID:    1,
 			PaymentMethod: "debit",
 			Status:        "completed",
-			CreatedAt:     randomTimestamp(),
+			CreatedAt:     time.Date(2024, 9, 29, 12, 30, 53, 0, time.UTC),
 			Items: []OrderItem{
 				{VariantID: 138, Quantity: 25, UnitPrice: 285},
 				{VariantID: 9, Quantity: 10, UnitPrice: 517},
