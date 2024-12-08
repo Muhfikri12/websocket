@@ -82,12 +82,12 @@ func (cr *categoryRepo) GetCategoryByID(id int) (*domain.Category, error) {
 	category := domain.Category{}
 	result := cr.db.Find(&category, id)
 
-	if result.RowsAffected == 0 {
-		return nil, fmt.Errorf("category not found or already deleted")
-	}
-
 	if result.Error != nil {
 		return nil, result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("category not found or already deleted")
 	}
 
 	return &category, nil
@@ -96,8 +96,8 @@ func (cr *categoryRepo) GetCategoryByID(id int) (*domain.Category, error) {
 func (cr *categoryRepo) UpdateCategory(id int, category *domain.Category) error {
 
 	result := cr.db.Model(&category).
-		Where("id", id).
-		Updates(category)
+		Where("id = ?", id).
+		Updates(&category)
 
 	if result.Error != nil {
 		return result.Error
