@@ -1,5 +1,22 @@
 basePath: /
 definitions:
+  domain.Banner:
+    properties:
+      endDate:
+        type: string
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      isPublish:
+        type: boolean
+      pathPage:
+        type: string
+      startDate:
+        type: string
+      title:
+        type: string
+    type: object
   domain.User:
     properties:
       created_at:
@@ -39,6 +56,195 @@ info:
   title: Ecommerce Dashboard API
   version: "1.0"
 paths:
+  /banner:
+    get:
+      consumes:
+      - application/json
+      description: Endpoint Fetch All Banner
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get All Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Banner'
+                  type: array
+              type: object
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get All Banner
+      tags:
+      - Banner
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new banner with a title, path, start date, end date, and
+        image upload.
+      parameters:
+      - description: Banner Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Path Page
+        in: formData
+        name: pathPage
+        required: true
+        type: string
+      - description: Start Date (yyyy-mm-dd)
+        in: formData
+        name: startDate
+        required: true
+        type: string
+      - description: End Date (yyyy-mm-dd)
+        in: formData
+        name: endDate
+        required: true
+        type: string
+      - description: Banner Image
+        in: formData
+        name: images
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Banner successfully created
+          schema:
+            type: string
+        "400":
+          description: Invalid form data
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Create a new Banner
+      tags:
+      - Banner
+  /banner/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a banner by its unique ID.
+      parameters:
+      - description: Banner ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Banner successfully deleted
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Banner'
+              type: object
+        "400":
+          description: Invalid parameters or bad request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Delete a Banner
+      tags:
+      - Banner
+    get:
+      consumes:
+      - application/json
+      description: Get a banner details by its ID.
+      parameters:
+      - description: Banner ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Banner'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Banner Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get Banner by ID
+      tags:
+      - Banner
+    put:
+      consumes:
+      - multipart/form-data
+      description: Edit a new banner with a title, path, start date, end date, and
+        image upload.
+      parameters:
+      - description: Banner Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Path Page
+        in: formData
+        name: pathPage
+        required: true
+        type: string
+      - description: Start Date (yyyy-mm-dd)
+        in: formData
+        name: startDate
+        required: true
+        type: string
+      - description: End Date (yyyy-mm-dd)
+        in: formData
+        name: endDate
+        required: true
+        type: string
+      - description: Banner Image
+        in: formData
+        name: images
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Banner successfully created
+          schema:
+            type: string
+        "400":
+          description: Invalid form data
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Edit a new Banner
+      tags:
+      - Banner
   /login:
     post:
       consumes:

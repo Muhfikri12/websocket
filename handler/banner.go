@@ -24,10 +24,10 @@ func NewControllerBanner(service service.ServiceBanner, logger *zap.Logger) *Con
 
 // @Summary Get All Banner
 // @Description Endpoint Fetch All Banner
-// @Tags GetAllBanner
+// @Tags Banner
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} handler.Response{data=[]model.Banner} "Get All Success"
+// @Success 200 {object} handler.Response{data=[]domain.Banner} "Get All Success"
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /banner [get]
 func (ctrl *ControllerBanner) GetAll(c *gin.Context) {
@@ -39,6 +39,17 @@ func (ctrl *ControllerBanner) GetAll(c *gin.Context) {
 
 	GoodResponseWithData(c, "Get Banners success", http.StatusOK, banners)
 }
+
+// @Summary Get Banner by ID
+// @Description Get a banner details by its ID.
+// @Tags Banner
+// @Accept json
+// @Produce json
+// @Param id path int true "Banner ID"
+// @Success 200 {object} handler.Response{data=domain.Banner} "Success"
+// @Failure 400 {object} handler.Response "Bad Request"
+// @Failure 404 {object} handler.Response "Banner Not Found"
+// @Router /banner/{id} [get]
 func (ctrl *ControllerBanner) GetById(c *gin.Context) {
 	id, err := helper.Uint(c.Param("id"))
 	if err != nil {
@@ -47,12 +58,27 @@ func (ctrl *ControllerBanner) GetById(c *gin.Context) {
 	}
 	banner, err := ctrl.service.GetById(id)
 	if err != nil {
-		BadResponse(c, err.Error(), http.StatusBadRequest)
+		BadResponse(c, err.Error(), http.StatusNotFound)
 		return
 	}
 
 	GoodResponseWithData(c, "Get Banner success", http.StatusOK, banner)
 }
+
+// @Summary Create a new Banner
+// @Description Create a new banner with a title, path, start date, end date, and image upload.
+// @Tags Banner
+// @Accept multipart/form-data
+// @Produce json
+// @Param title formData string true "Banner Title"
+// @Param pathPage formData string true "Path Page"
+// @Param startDate formData string true "Start Date (yyyy-mm-dd)"
+// @Param endDate formData string true "End Date (yyyy-mm-dd)"
+// @Param images formData file false "Banner Image"
+// @Success 201 {string} handler.Response{data=domain.Banner} "Banner successfully created"
+// @Failure 400 {object} handler.Response "Invalid form data"
+// @Failure 500 {object} handler.Response "Internal Server Error"
+// @Router /banner [post]
 func (ctrl *ControllerBanner) Create(c *gin.Context) {
 	doUpload := true
 	var respThirdParty []domain.CdnResponse
@@ -108,8 +134,23 @@ func (ctrl *ControllerBanner) Create(c *gin.Context) {
 		BadResponse(c, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	GoodResponseWithData(c, "This Banner was successfully added", http.StatusCreated, "banner")
+	GoodResponseWithData(c, "This Banner was successfully added", http.StatusCreated, banner)
 }
+
+// @Summary Edit a new Banner
+// @Description Edit a new banner with a title, path, start date, end date, and image upload.
+// @Tags Banner
+// @Accept multipart/form-data
+// @Produce json
+// @Param title formData string true "Banner Title"
+// @Param pathPage formData string true "Path Page"
+// @Param startDate formData string true "Start Date (yyyy-mm-dd)"
+// @Param endDate formData string true "End Date (yyyy-mm-dd)"
+// @Param images formData file false "Banner Image"
+// @Success 201 {string} handler.Response{data=domain.Banner} "Banner successfully created"
+// @Failure 400 {object} handler.Response "Invalid form data"
+// @Failure 500 {object} handler.Response "Internal Server Error"
+// @Router /banner/{id} [put]
 func (ctrl *ControllerBanner) Edit(c *gin.Context) {
 	id, err := helper.Uint(c.Param("id"))
 	if err != nil {
@@ -173,6 +214,17 @@ func (ctrl *ControllerBanner) Edit(c *gin.Context) {
 	}
 	GoodResponseWithData(c, "This Banner was successfully updated", http.StatusCreated, banner)
 }
+
+// @Summary Delete a Banner
+// @Description Delete a banner by its unique ID.
+// @Tags Banner
+// @Accept json
+// @Produce json
+// @Param id path int true "Banner ID"
+// @Success 200 {object} handler.Response{data=domain.Banner} "Banner successfully deleted"
+// @Failure 400 {object} handler.Response "Invalid parameters or bad request"
+// @Failure 500 {object} handler.Response "Internal Server Error"
+// @Router /banner/{id} [delete]
 func (ctrl *ControllerBanner) Delete(c *gin.Context) {
 	id, err := helper.Uint(c.Param("id"))
 	if err != nil {
