@@ -318,3 +318,79 @@ func TestDeleteProduct(t *testing.T) {
 		assert.JSONEq(t, expectedResponse, w.Body.String())
 	})
 }
+
+func TestProductHandler_UpdateProduct(t *testing.T) {
+	t.Run("Successfully update a product", func(t *testing.T) {
+		handler, mockService := base()
+
+		productID := 1
+		product := domain.Product{
+			Name:        "Updated Product",
+			SKUProduct:  "SKI-2022",
+			Price:       150,
+			Description: "Updated description",
+		}
+
+		mockService.On("UpdateProduct", uint(productID), &product).Return(nil)
+
+		body, _ := json.Marshal(product)
+		req, _ := http.NewRequest(http.MethodPut, fmt.Sprintf("/products/%d", productID), bytes.NewBuffer(body))
+		req.Header.Set("Content-Type", "application/json")
+
+		recorder := httptest.NewRecorder()
+		router := gin.Default()
+		router.PUT("/products/:id", handler.UpdateProduct)
+
+		router.ServeHTTP(recorder, req)
+
+		// Assertions
+		assert.Equal(t, http.StatusOK, recorder.Code)
+		mockService.AssertCalled(t, "UpdateProduct", uint(productID), &product)
+	})
+
+	t.Run("Failed to update product - Invalid JSON", func(t *testing.T) {
+		handler, _ := base()
+
+		req, _ := http.NewRequest(http.MethodPut, "/products/1", bytes.NewBufferString("invalid-json"))
+		req.Header.Set("Content-Type", "application/json")
+
+		recorder := httptest.NewRecorder()
+		router := gin.Default()
+		router.PUT("/products/:id", handler.UpdateProduct)
+
+		router.ServeHTTP(recorder, req)
+
+		assert.Equal(t, http.StatusInternalServerError, recorder.Code)
+		assert.Contains(t, recorder.Body.String(), "Failed to Update product")
+	})
+
+	t.Run("Failed to update product - Service error", func(t *testing.T) {
+		handler, mockService := base()
+
+		productID := 2
+		product := domain.Product{
+			Name:        "Another Product",
+			SKUProduct:  "SKI-2023",
+			Price:       200,
+			Description: "Another description",
+		}
+
+		mockService.On("UpdateProduct", uint(productID), &product).
+			Return(fmt.Errorf("no record found with shipping_id %d", productID))
+
+		body, _ := json.Marshal(product)
+		req, _ := http.NewRequest(http.MethodPut, fmt.Sprintf("/products/%d", productID), bytes.NewBuffer(body))
+		req.Header.Set("Content-Type", "application/json")
+
+		recorder := httptest.NewRecorder()
+		router := gin.Default()
+		router.PUT("/products/:id", handler.UpdateProduct)
+
+		router.ServeHTTP(recorder, req)
+
+		// Assertions
+		assert.Equal(t, http.StatusBadRequest, recorder.Code)
+		assert.Contains(t, recorder.Body.String(), "Failed to Update product")
+		mockService.AssertCalled(t, "UpdateProduct", uint(productID), &product)
+	})
+}

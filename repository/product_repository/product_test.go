@@ -386,3 +386,94 @@ func TestDeleteProduct(t *testing.T) {
 	})
 
 }
+
+func TestUpdateProduct(t *testing.T) {
+	db, mock := setupTestDB()
+	defer func() { _ = mock.ExpectationsWereMet() }()
+
+	log := *zap.NewNop()
+	productRepo := productrepository.NewProductRepo(db, &log)
+
+	t.Run("Successfully update a product", func(t *testing.T) {
+		productID := uint(1)
+		product := &domain.Product{
+			Name:        "Updated Product",
+			SKUProduct:  "SKI-2022",
+			Price:       150,
+			Description: "Updated description",
+		}
+
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "products" SET "name"=$1,"sku_product"=$2,"price"=$3,"description"=$4,"updated_at"=$5 WHERE id = $6 AND "products"."deleted_at" IS NULL`)).
+			WithArgs(
+				product.Name,
+				product.SKUProduct,
+				product.Price,
+				product.Description,
+				sqlmock.AnyArg(), // For updated_at
+				productID,
+			).
+			WillReturnResult(sqlmock.NewResult(1, 1)) // 1 row affected
+		mock.ExpectCommit()
+
+		err := productRepo.UpdateProduct(productID, product)
+
+		assert.NoError(t, err)
+	})
+
+	t.Run("Failed to update product - No rows affected", func(t *testing.T) {
+		productID := uint(2)
+		product := &domain.Product{
+			Name:        "Another Product",
+			SKUProduct:  "SKI-2023",
+			Price:       200,
+			Description: "Another description",
+		}
+
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "products" SET "name"=$1,"sku_product"=$2,"price"=$3,"description"=$4,"updated_at"=$5 WHERE id = $6 AND "products"."deleted_at" IS NULL`)).
+			WithArgs(
+				product.Name,
+				product.SKUProduct,
+				product.Price,
+				product.Description,
+				sqlmock.AnyArg(), // Updated at timestamp
+				productID,
+			).
+			WillReturnResult(sqlmock.NewResult(0, 0))
+		mock.ExpectCommit()
+
+		err := productRepo.UpdateProduct(productID, product)
+
+		assert.Error(t, err)
+		assert.EqualError(t, err, fmt.Sprintf("no record found with shipping_id %d", productID))
+	})
+
+	t.Run("Failed to update product - Database error", func(t *testing.T) {
+		productID := uint(3)
+		product := &domain.Product{
+			Name:        "Product with Error",
+			SKUProduct:  "SKI-ERROR",
+			Price:       300,
+			Description: "Error description",
+		}
+
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "products" SET "name"=$1,"sku_product"=$2,"price"=$3,"description"=$4,"updated_at"=$5 WHERE id = $6 AND "products"."deleted_at" IS NULL`)).
+			WithArgs(
+				product.Name,
+				product.SKUProduct,
+				product.Price,
+				product.Description,
+				sqlmock.AnyArg(), // Updated at timestamp
+				productID,
+			).
+			WillReturnError(fmt.Errorf("database error"))
+		mock.ExpectRollback()
+
+		err := productRepo.UpdateProduct(productID, product)
+
+		assert.Error(t, err)
+		assert.EqualError(t, err, "database error")
+	})
+}

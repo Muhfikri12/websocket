@@ -211,3 +211,62 @@ func TestDeleteProduct(t *testing.T) {
 		mockRepo.AssertExpectations(t)
 	})
 }
+
+func TestUpdateProduct(t *testing.T) {
+	service, mockRepo := base()
+
+	t.Run("Successfully update a product", func(t *testing.T) {
+		productID := uint(1)
+		product := &domain.Product{
+			Name:        "Updated Product",
+			SKUProduct:  "SKI-2022",
+			Price:       150,
+			Description: "Updated description",
+		}
+
+		mockRepo.On("UpdateProduct", productID, product).Return(nil)
+
+		err := service.UpdateProduct(productID, product)
+
+		assert.NoError(t, err)
+		mockRepo.AssertCalled(t, "UpdateProduct", productID, product)
+	})
+
+	t.Run("Failed to update product - No rows affected", func(t *testing.T) {
+		productID := uint(2)
+		product := &domain.Product{
+			Name:        "Another Product",
+			SKUProduct:  "SKI-2023",
+			Price:       200,
+			Description: "Another description",
+		}
+
+		mockRepo.On("UpdateProduct", productID, product).
+			Return(fmt.Errorf("no record found with shipping_id %d", productID))
+
+		err := service.UpdateProduct(productID, product)
+
+		assert.Error(t, err)
+		assert.EqualError(t, err, fmt.Sprintf("no record found with shipping_id %d", productID))
+		mockRepo.AssertCalled(t, "UpdateProduct", productID, product)
+	})
+
+	t.Run("Failed to update product - Database error", func(t *testing.T) {
+		productID := uint(3)
+		product := &domain.Product{
+			Name:        "Product with Error",
+			SKUProduct:  "SKI-ERROR",
+			Price:       300,
+			Description: "Error description",
+		}
+
+		mockRepo.On("UpdateProduct", productID, product).
+			Return(fmt.Errorf("database error"))
+
+		err := service.UpdateProduct(productID, product)
+
+		assert.Error(t, err)
+		assert.EqualError(t, err, "database error")
+		mockRepo.AssertCalled(t, "UpdateProduct", productID, product)
+	})
+}
