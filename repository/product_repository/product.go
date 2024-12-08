@@ -34,16 +34,19 @@ func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, 
 
 	var count int64
 	if err := pr.db.Model(&domain.Product{}).Count(&count).Error; err != nil {
+		pr.log.Error("Error from Show All Product : " + err.Error())
 		return nil, 0, 0, err
 	}
 
 	result := pr.db.Scopes(helper.Paginate(uint(page), uint(limit))).Find(&productList)
 
 	if result.Error != nil {
+		pr.log.Error("Error : " + result.Error.Error())
 		return nil, 0, 0, result.Error
 	}
 
 	if result.RowsAffected == 0 {
+		pr.log.Error("Error : " + result.Error.Error())
 		return nil, 0, 0, fmt.Errorf("no products found")
 	}
 
@@ -68,6 +71,8 @@ func (pr *productRepo) ShowAllProduct(page, limit int) (*[]domain.Product, int, 
 	totalPages := int(math.Ceil(float64(count) / float64(limit)))
 
 	wg.Wait()
+
+	pr.log.Info("Success Get Data")
 
 	return &productList, int(count), totalPages, nil
 }
