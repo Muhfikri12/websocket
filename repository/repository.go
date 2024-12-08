@@ -20,6 +20,7 @@ type Repository struct {
 	Product       productrepository.ProductRepo
 	Dashboard     dashboardrepository.DashboardRepo
 	Promotion     RepositoryPromotion
+	Banner        RepositoryBanner
 }
 
 func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config, log *zap.Logger) Repository {
@@ -32,5 +33,6 @@ func NewRepository(db *gorm.DB, cacher database.Cacher, config config.Config, lo
 		PasswordReset: *NewPasswordResetRepository(db),
 		User:          *NewUserRepository(db),
 		Promotion:     NewRepositoryPromotion(db, log),
+		Banner:        *NewRepositoryBanner(db, log),
 	}
 }

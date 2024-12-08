@@ -176,6 +176,184 @@ paths:
       summary: Password Reset
       tags:
       - Auth
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Get All Products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Retrieved Products
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Product Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Show all Products
+      tags:
+      - Products
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new product with variants and images
+      parameters:
+      - description: Product Name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Product SKU
+        in: formData
+        name: sku_product
+        required: true
+        type: string
+      - description: Product Price
+        in: formData
+        name: price
+        required: true
+        type: integer
+      - description: Product Description
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Product Images
+        in: formData
+        name: images
+        required: true
+        type: file
+      - description: Product Variants in JSON format
+        in: formData
+        name: variants
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Product created successfully
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "400":
+          description: Invalid form data
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Failed to create product
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Create Product
+      tags:
+      - Products
+  /products/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product Deleted successfully
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Failed to Delete product
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Delete Product
+      tags:
+      - Products
+    get:
+      consumes:
+      - application/json
+      description: Get Product By ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Retrieved Product
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "404":
+          description: Product Not Found
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get Product By ID
+      tags:
+      - Products
+  /products/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update the details of a product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Product Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Product SKU
+        in: body
+        name: sku_product
+        required: true
+        schema:
+          type: string
+      - description: Product Price
+        in: body
+        name: price
+        required: true
+        schema:
+          type: integer
+      - description: Product Description
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product Updated successfully
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "400":
+          description: Failed to Update product
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Invalid Payload Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Update Product
+      tags:
+      - Products
   /register:
     post:
       consumes:
