@@ -2,10 +2,11 @@ package database
 
 import (
 	"fmt"
-	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 	"project/domain"
 	"reflect"
+
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func SeedAll(db *gorm.DB) error {

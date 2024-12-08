@@ -28,6 +28,14 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
+	banner := r.Group("/banner")
+	{
+		banner.GET("/", ctx.Ctl.Banner.GetAll)
+		banner.POST("/", ctx.Ctl.Banner.Create)
+		banner.GET("/:id", ctx.Ctl.Banner.GetById)
+		banner.PUT("/:id", ctx.Ctl.Banner.Edit)
+		banner.DELETE("/:id", ctx.Ctl.Banner.Delete)
+	}
 
 	products := r.Group("/products")
 	{
