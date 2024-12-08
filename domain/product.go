@@ -8,7 +8,7 @@ import (
 
 type Product struct {
 	ID          int             `gorm:"primaryKey;autoIncrement" json:"id"`
-	Name        string          `gorm:"type:varchar(50);not null" json:"name" binding:"required,min=10"`
+	Name        string          `gorm:"type:varchar(50);not null" json:"name" binding:"required,min=5"`
 	SKUProduct  string          `gorm:"type:varchar(100);unique;not null" json:"sku_product" binding:"required"`
 	Price       float64         `gorm:"not null" json:"price" binding:"required"`
 	Description string          `gorm:"type:text;not null" json:"description" binding:"required"`
@@ -17,7 +17,7 @@ type Product struct {
 	DeletedAt   *gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
 
 	Image          []*Image          `gorm:"foreignKey:ProductID" json:"image"`
-	ProductVariant []*ProductVariant `gorm:"foreignKey:ProductID" json:"product_variant" binding:"required"`
+	ProductVariant []*ProductVariant `gorm:"foreignKey:ProductID" json:"product_variant"`
 }
 
 func SeedProducts() []Product {
