@@ -2,6 +2,7 @@ package routes
 
 import (
 	"log"
+	"net/http"
 	"project/helper"
 	"project/infra"
 	"sync"
@@ -11,7 +12,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
+func NewRoutes(ctx infra.ServiceContext) *http.Server {
 	r := gin.Default()
 
 	r.Use(ctx.Middleware.Logger())
@@ -89,5 +90,8 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		log.Println(responses)
 	})
 
-	return r
+	return &http.Server{
+		Addr:    ctx.Cfg.ServerPort,
+		Handler: r.Handler(),
+	}
 }
