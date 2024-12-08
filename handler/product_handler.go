@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"project/domain"
 	"project/helper"
@@ -42,22 +41,28 @@ func NewProductHandler(service *service.Service, log *zap.Logger) ProductHandler
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /products [get]
 func (ph *productHandler) ShowAllProduct(c *gin.Context) {
+	ph.log.Info("Fetching all products", zap.String("queryPage", c.Query("page")), zap.String("queryLimit", c.Query("limit")))
+
 	page, _ := strconv.Atoi(c.Query("page"))
 	if page <= 0 {
 		page = 1
+		ph.log.Warn("Invalid page number, defaulting to 1")
 	}
 
 	limit, _ := strconv.Atoi(c.Query("limit"))
 	if limit < 10 {
 		limit = 10
+		ph.log.Warn("Limit too low, defaulting to 10")
 	}
 
 	products, count, totalPages, err := ph.service.Product.ShowAllProduct(page, limit)
 	if err != nil {
+		ph.log.Error("Failed to retrieve products", zap.Int("page", page), zap.Int("limit", limit), zap.Error(err))
 		BadResponse(c, "Product Not Found", http.StatusNotFound)
 		return
 	}
 
+	ph.log.Info("Successfully retrieved products", zap.Int("page", page), zap.Int("limit", limit), zap.Int("count", count), zap.Int("totalPages", totalPages))
 	GoodResponseWithPage(c, "Successfully Retrieved Products", http.StatusOK, count, totalPages, page, limit, products)
 }
 
@@ -72,13 +77,16 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 // @Router  /products/:id [get]
 func (ph *productHandler) GetProductByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
+	ph.log.Info("Fetching product by ID", zap.Int("productID", id))
 
 	product, err := ph.service.Product.GetProductByID(id)
 	if err != nil {
+		ph.log.Error("Product not found", zap.Int("productID", id), zap.Error(err))
 		BadResponse(c, "Product Not Found", http.StatusNotFound)
 		return
 	}
 
+	ph.log.Info("Successfully retrieved product", zap.Int("productID", id))
 	GoodResponseWithData(c, "Successfully Retrieved Product", http.StatusOK, product)
 }
 
@@ -93,20 +101,24 @@ func (ph *productHandler) GetProductByID(c *gin.Context) {
 // @Failure 500 {object} handler.Response "Failed to create product"
 // @Router  /products [post]
 func (ph *productHandler) CreateProduct(c *gin.Context) {
+	ph.log.Info("Starting product creation")
+
 	form, err := c.MultipartForm()
 	if err != nil {
-		log.Println("Error reading form data:", err)
+		ph.log.Error("Error reading form data", zap.Error(err))
 		BadResponse(c, "Invalid form data: "+err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	files := form.File["images"]
 	for _, file := range files {
-		log.Println("File size:", file.Size)
+		ph.log.Info("Processing uploaded file", zap.String("fileName", file.Filename), zap.Int64("fileSize", file.Size))
 	}
 
 	var wg sync.WaitGroup
 	responses, err := helper.Upload(&wg, files)
 	if err != nil {
+		ph.log.Error("Failed to upload images", zap.Error(err))
 		BadResponse(c, "Failed to upload images: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -115,9 +127,12 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 	skuProduct := c.PostForm("sku_product")
 	price, err := strconv.Atoi(c.PostForm("price"))
 	if err != nil {
+		ph.log.Error("Invalid price value", zap.String("price", c.PostForm("price")), zap.Error(err))
 		BadResponse(c, "Invalid price value", http.StatusBadRequest)
 		return
 	}
+
+	ph.log.Info("Parsed product data", zap.String("name", name), zap.String("skuProduct", skuProduct), zap.Int("price", price))
 
 	var images []*domain.Image
 	for _, response := range responses {
@@ -127,10 +142,12 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 	}
 
 	variantData := c.PostForm("variants")
+	ph.log.Info("Parsing variant data", zap.String("variantData", variantData))
 
 	var productVariants []*domain.ProductVariant
 	err = json.Unmarshal([]byte(variantData), &productVariants)
 	if err != nil {
+		ph.log.Error("Invalid variant data", zap.String("variantData", variantData), zap.Error(err))
 		BadResponse(c, "Invalid variant data: "+err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -144,11 +161,15 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 		ProductVariant: productVariants,
 	}
 
+	ph.log.Info("Creating product", zap.String("productName", product.Name), zap.Float64("price", product.Price))
+
 	if err := ph.service.Product.CreateProduct(&product); err != nil {
+		ph.log.Error("Failed to create product", zap.String("productName", product.Name), zap.Error(err))
 		BadResponse(c, "Failed to create product: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	ph.log.Info("Product created successfully", zap.String("productName", product.Name))
 	GoodResponseWithData(c, "Product created successfully", http.StatusCreated, product)
 }
 
@@ -162,14 +183,16 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 // @Failure 404 {object} handler.Response "Failed to Delete product"
 // @Router  /products/:id [delete]
 func (ph *productHandler) DeleteProduct(c *gin.Context) {
-
 	id, _ := strconv.Atoi(c.Param("id"))
+	ph.log.Info("Attempting to delete product", zap.Int("productID", id))
 
 	if err := ph.service.Product.DeleteProduct(id); err != nil {
+		ph.log.Error("Failed to delete product", zap.Int("productID", id), zap.Error(err))
 		BadResponse(c, "Failed to Delete product: "+err.Error(), http.StatusNotFound)
 		return
 	}
 
+	ph.log.Info("Product deleted successfully", zap.Int("productID", id))
 	GoodResponseWithData(c, "Product Deleted successfully", http.StatusOK, id)
 }
 
@@ -184,21 +207,24 @@ func (ph *productHandler) DeleteProduct(c *gin.Context) {
 // @Failure 500 {object} handler.Response "Invalid Payload Request"
 // @Router  /products/:id [put]
 func (ph *productHandler) UpdateProduct(c *gin.Context) {
-
 	id, _ := strconv.Atoi(c.Param("id"))
+	ph.log.Info("Attempting to update product", zap.Int("productID", id))
 
 	product := domain.Product{}
-
 	if err := c.ShouldBindJSON(&product); err != nil {
+		ph.log.Error("Failed to bind product data", zap.Int("productID", id), zap.Error(err))
 		BadResponse(c, "Failed to Update product: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	ph.log.Info("Product data bound successfully", zap.Int("productID", id), zap.String("productName", product.Name))
+
 	if err := ph.service.Product.UpdateProduct(uint(id), &product); err != nil {
+		ph.log.Error("Failed to update product", zap.Int("productID", id), zap.Error(err))
 		BadResponse(c, "Failed to Update product: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
+	ph.log.Info("Product updated successfully", zap.Int("productID", id), zap.String("productName", product.Name))
 	GoodResponseWithData(c, "Product Updated successfully", http.StatusOK, product)
-
 }
