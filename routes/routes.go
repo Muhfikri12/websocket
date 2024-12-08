@@ -41,7 +41,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	{
 		order.GET("/", ctx.Ctl.OrderHandler.All)
 		order.GET("/:id", ctx.Ctl.OrderHandler.Get)
-		order.PUT("/", ctx.Ctl.OrderHandler.Update)
+		order.PUT("/:id", ctx.Ctl.OrderHandler.Update)
 	}
 
 	dashboard := r.Group("dashboard")

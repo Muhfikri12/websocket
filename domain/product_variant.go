@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"errors"
+	"log"
 	"time"
 
 	"golang.org/x/exp/rand"
@@ -13,10 +15,22 @@ type ProductVariant struct {
 	Product   Product         `json:"product"`
 	Size      string          `gorm:"type:varchar(50)" json:"size"`
 	Color     string          `gorm:"type:varchar(50)" json:"color"`
-	Stock     int             `gorm:"not null" json:"stock"`
+	Stock     int             `gorm:"default:0;check:stock>=0" json:"stock"`
 	CreatedAt time.Time       `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time       `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+}
+
+func (variant *ProductVariant) DeductStock(quantity uint) error {
+	qty := int(quantity)
+	log.Println("before", variant.Stock)
+	if variant.Stock >= qty {
+		variant.Stock -= qty
+		log.Println("after", variant.Stock)
+		return nil
+	}
+
+	return errors.New("not enough stock")
 }
 
 func SeedProductVariants() []ProductVariant {

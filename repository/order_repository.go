@@ -16,8 +16,31 @@ func NewOrderRepository(db *gorm.DB) *OrderRepository {
 	return &OrderRepository{db: db}
 }
 
-func (repo OrderRepository) Update(order *domain.Order) error {
-	return repo.db.Create(&order).Error
+func (repo OrderRepository) Update(orderId uint, confirmation domain.OrderConfirmation) error {
+	var order = domain.Order{ID: orderId}
+
+	repo.db.Preload("Items.Variant").First(&order)
+	if err := order.Confirm(confirmation); err != nil {
+		return err
+	}
+
+	if err := repo.shouldUpdateStock(&order); err != nil {
+		return err
+	}
+
+	return repo.db.Save(&order).Error
+}
+
+func (repo OrderRepository) shouldUpdateStock(order *domain.Order) error {
+	if order.Status == domain.Processed {
+		for _, item := range order.Items {
+			if err := item.Variant.DeductStock(item.Quantity); err != nil {
+				return err
+			}
+			repo.db.Save(&item.Variant)
+		}
+	}
+	return nil
 }
 
 func (repo OrderRepository) All(page, limit uint) (int, int, []domain.OrderTotal, error) {
