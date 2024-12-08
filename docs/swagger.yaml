@@ -1,5 +1,53 @@
 basePath: /
 definitions:
+  domain.Banner:
+    properties:
+      endDate:
+        type: string
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      isPublish:
+        type: boolean
+      pathPage:
+        type: string
+      startDate:
+        type: string
+      title:
+        type: string
+    type: object
+  domain.Promotion:
+    properties:
+      description:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      isPublish:
+        type: boolean
+      limit:
+        type: integer
+      name:
+        type: string
+      startDate:
+        type: string
+      status:
+        $ref: '#/definitions/domain.status'
+      type:
+        $ref: '#/definitions/domain.Type'
+      voucherCode:
+        type: string
+    type: object
+  domain.Type:
+    enum:
+    - Voucher Code
+    - Direct Discount
+    type: string
+    x-enum-varnames:
+    - Voucher
+    - Discount
   domain.User:
     properties:
       created_at:
@@ -17,6 +65,14 @@ definitions:
       updated_at:
         type: string
     type: object
+  domain.status:
+    enum:
+    - Active
+    - Inactive
+    type: string
+    x-enum-varnames:
+    - Active
+    - Inactive
   handler.Response:
     properties:
       data: {}
@@ -39,6 +95,32 @@ info:
   title: Ecommerce Dashboard API
   version: "1.0"
 paths:
+  /banner:
+    get:
+      consumes:
+      - application/json
+      description: Endpoint Fetch All Banner
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get All Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Banner'
+                  type: array
+              type: object
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get All Banner
+      tags:
+      - GetAllBanner
   /login:
     post:
       consumes:
@@ -354,6 +436,134 @@ paths:
       summary: Update Product
       tags:
       - Products
+  /promotion:
+    get:
+      consumes:
+      - application/json
+      description: Endpoint Fetch All Promotion
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get All Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Promotion'
+                  type: array
+              type: object
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get All Promotion
+      tags:
+      - promotions
+    post:
+      consumes:
+      - application/json
+      description: Create a new promotion by sending the promotion data in the request
+        body
+      parameters:
+      - description: Promotion data
+        in: body
+        name: promotion
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Promotion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Promotion details
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Promotion'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Create a new promotion
+      tags:
+      - promotions
+  /promotion/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a promotion by its ID from the database
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Promotion details
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Promotion'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Delete a promotion by ID
+      tags:
+      - promotions
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific promotion using the provided ID
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Promotion details
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Promotion'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.Response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get a promotion by ID
+      tags:
+      - promotions
   /register:
     post:
       consumes:

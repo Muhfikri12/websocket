@@ -27,7 +27,7 @@ func NewControllerBanner(service service.ServiceBanner, logger *zap.Logger) *Con
 // @Tags GetAllBanner
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} handler.Response{data=[]model.Banner} "Get All Success"
+// @Success 200 {object} handler.Response{data=[]domain.Banner} "Get All Success"
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /banner [get]
 func (ctrl *ControllerBanner) GetAll(c *gin.Context) {
