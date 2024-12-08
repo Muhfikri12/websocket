@@ -29,10 +29,11 @@ func dataSeeds() []interface{} {
 		domain.UserSeed(),
 		domain.CategorySeeder(),
 		domain.CustomerSeed(),
-		domain.OrderSeed(),
 		domain.SeedProducts(),
 		domain.SeedImages(),
 		domain.SeedProductVariants(),
 		domain.SeedStock(),
+		domain.SeedPromotions(),
+		domain.OrderSeed(),
 	}
 }

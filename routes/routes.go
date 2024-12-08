@@ -13,8 +13,8 @@ import (
 
 func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	r := gin.Default()
-	// r.MaxMultipartMemory = 100 << 20
 
+	r.Use(ctx.Middleware.Logger())
 	r.POST("/login", ctx.Ctl.AuthHandler.Login)
 	r.POST("/register", ctx.Ctl.UserHandler.Registration)
 	r.GET("/users", ctx.Ctl.UserHandler.All)
@@ -28,6 +28,14 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
+	banner := r.Group("/banner")
+	{
+		banner.GET("/", ctx.Ctl.Banner.GetAll)
+		banner.POST("/", ctx.Ctl.Banner.Create)
+		banner.GET("/:id", ctx.Ctl.Banner.GetById)
+		banner.PUT("/:id", ctx.Ctl.Banner.Edit)
+		banner.DELETE("/:id", ctx.Ctl.Banner.Delete)
+	}
 
 	products := r.Group("/products")
 	{
@@ -35,13 +43,14 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.POST("/", ctx.Ctl.Product.CreateProduct)
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
 		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
+		products.PUT("/:id", ctx.Ctl.Product.UpdateProduct)
 	}
 
 	order := r.Group("/orders")
 	{
 		order.GET("/", ctx.Ctl.OrderHandler.All)
 		order.GET("/:id", ctx.Ctl.OrderHandler.Get)
-		order.PUT("/", ctx.Ctl.OrderHandler.Update)
+		order.PUT("/:id", ctx.Ctl.OrderHandler.Update)
 	}
 
 	dashboard := r.Group("dashboard")
@@ -51,11 +60,20 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		dashboard.GET("/bestSeller", ctx.Ctl.Dashboard.GetBestSeller)
 		dashboard.GET("/revenue", ctx.Ctl.Dashboard.GetMonthlyRevenue)
 	}
+
 	stock := r.Group("/stock")
 	{
 		stock.GET("/:productVariantId", ctx.Ctl.Stock.GetDetails)
 		stock.PUT("/:productVariantId", ctx.Ctl.Stock.Edit)
 		stock.DELETE("/:id", ctx.Ctl.Stock.Delete)
+
+	promotion := r.Group("/promotion")
+	{
+		promotion.GET("/", ctx.Ctl.Promotion.GetAll)
+		promotion.GET("/:id", ctx.Ctl.Promotion.GetById)
+		promotion.POST("/", ctx.Ctl.Promotion.Create)
+		promotion.DELETE("/:id", ctx.Ctl.Promotion.Delete)
+
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -17,6 +17,8 @@ type Handler struct {
 	Product              ProductHandler
 	Dashboard            DashboardHandler
 	Stock                ControllerStock
+	Promotion            ControllerPromotion
+	Banner               ControllerBanner
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {
@@ -29,6 +31,8 @@ func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 		Dashboard:            NewDashboardHandler(&service, logger),
 		OrderHandler:         *NewOrderController(service.Order, logger),
 		Stock:                *NewServiceStock(service.Stock, logger),
+		Promotion:            *NewControllerPromotion(service.Promotion, logger),
+		Banner:               *NewControllerBanner(service.Banner, logger),
 	}
 }
 
