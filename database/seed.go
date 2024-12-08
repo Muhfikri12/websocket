@@ -35,5 +35,6 @@ func dataSeeds() []interface{} {
 		domain.SeedStock(),
 		domain.SeedPromotions(),
 		domain.OrderSeed(),
+		domain.ReviewSeed(),
 	}
 }

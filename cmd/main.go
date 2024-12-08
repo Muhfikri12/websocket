@@ -39,10 +39,15 @@ func main() {
 		log.Fatal("can't init service context %w", err)
 	}
 
+	if !shouldLaunchServer(*migrateDb, *seedDb) {
+		return
+	}
+
 	srv := routes.NewRoutes(*ctx)
 
 	go func() {
 		// service connections
+		log.Println("Listening and serving HTTP on", ctx.Cfg.ServerPort)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
@@ -58,7 +63,7 @@ func main() {
 	<-quit
 	log.Println("Shutdown Server ...")
 
-	appContext, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	appContext, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(appContext); err != nil {
 		log.Fatal("Server Shutdown:", err)
@@ -66,8 +71,20 @@ func main() {
 	// catching appContext.Done(). timeout of 5 seconds.
 	select {
 	case <-appContext.Done():
-		log.Println("timeout of 5 seconds.")
+		log.Println("timeout of 3 seconds.")
 	}
 	log.Println("Server exiting")
 
+}
+
+func shouldLaunchServer(migrateDb bool, seedDb bool) bool {
+	if migrateDb {
+		return false
+	}
+
+	if seedDb {
+		return false
+	}
+
+	return true
 }
