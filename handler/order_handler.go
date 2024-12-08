@@ -88,7 +88,7 @@ func (ctrl *OrderController) Get(c *gin.Context) {
 		return
 	}
 
-	var order domain.Order
+	var order domain.OrderTotal
 	order, err = ctrl.service.Get(orderId)
 	if err != nil {
 		BadResponse(c, "no data found", http.StatusNotFound)
