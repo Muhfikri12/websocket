@@ -1,1 +1,5 @@
-{"L":"INFO","T":"2024-12-08T17:49:32.315+0700","M":"Logger initialized successfully"}
+{"L":"INFO","T":"2024-12-08T18:40:58.316+0700","M":"Logger initialized successfully"}
+{"L":"WARN","T":"2024-12-08T18:41:37.445+0700","M":"Invalid page number, defaulting to 1"}
+{"L":"WARN","T":"2024-12-08T18:41:37.446+0700","M":"Limit too low, defaulting to 10"}
+{"L":"WARN","T":"2024-12-08T18:41:56.157+0700","M":"Limit too low, defaulting to 10"}
+{"L":"WARN","T":"2024-12-08T18:42:08.290+0700","M":"Limit too low, defaulting to 10"}

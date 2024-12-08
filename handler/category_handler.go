@@ -31,17 +31,26 @@ func NewCategoryHandler(log *zap.Logger, service *service.Service) CategoryHandl
 }
 
 func (ch *categoryHandler) ShowAllCategory(c *gin.Context) {
-	pageStr := c.Query("page")
 
-	page, _ := strconv.Atoi(pageStr)
+	page, _ := strconv.Atoi(c.Query("page"))
+	if page <= 0 {
+		page = 1
+		ch.log.Warn("Invalid page number, defaulting to 1")
+	}
 
-	categories, err := ch.service.Category.ShowAllCategory(page)
+	limit, _ := strconv.Atoi(c.Query("limit"))
+	if limit < 10 {
+		limit = 10
+		ch.log.Warn("Limit too low, defaulting to 10")
+	}
+
+	categories, count, totalPages, err := ch.service.Category.ShowAllCategory(page, limit)
 	if err != nil {
 		BadResponse(c, "Failed to retrived categories: "+err.Error(), http.StatusNotFound)
 		return
 	}
 
-	GoodResponseWithData(c, "successfully retrived categories", http.StatusOK, categories)
+	GoodResponseWithPage(c, "successfully retrived categories", http.StatusOK, count, totalPages, page, limit, categories)
 }
 
 func (ch *categoryHandler) DeleteCategory(c *gin.Context) {

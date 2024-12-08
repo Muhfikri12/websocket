@@ -8,7 +8,7 @@ import (
 )
 
 type CategoryService interface {
-	ShowAllCategory(page int) (*[]domain.Category, error)
+	ShowAllCategory(page, limit int) (*[]domain.Category, int, int, error)
 	CreateCategory(category *domain.Category) error
 	DeleteCategory(id int) error
 	GetCategoryByID(id int) (*domain.Category, error)
@@ -24,16 +24,14 @@ func NewCategoryService(repo *repository.Repository, log *zap.Logger) CategorySe
 	return &categoryService{repo, log}
 }
 
-func (cs *categoryService) ShowAllCategory(page int) (*[]domain.Category, error) {
+func (cs *categoryService) ShowAllCategory(page, limit int) (*[]domain.Category, int, int, error) {
 
-	limit := 20
-
-	categories, err := cs.repo.Category.ShowAllCategory(page, limit)
+	categories, count, totalPage, err := cs.repo.Category.ShowAllCategory(page, limit)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return categories, nil
+	return categories, count, totalPage, nil
 }
 
 func (cs *categoryService) DeleteCategory(id int) error {
