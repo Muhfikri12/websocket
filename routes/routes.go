@@ -24,17 +24,18 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	{
 		category.GET("/", ctx.Ctl.Category.ShowAllCategory)
 		category.POST("/", ctx.Ctl.Category.CreateCategory)
-		category.DELETE("/:id", ctx.Ctl.Category.DeleteCategory)
+		category.DELETE("/:id", ctx.Middleware.OnlyAdmin(), ctx.Ctl.Category.DeleteCategory)
 		category.GET("/:id", ctx.Ctl.Category.GetCategoryByID)
 		category.PUT("/:id", ctx.Ctl.Category.UpdateCategory)
 	}
+
 	banner := r.Group("/banner")
 	{
 		banner.GET("/", ctx.Ctl.Banner.GetAll)
 		banner.POST("/", ctx.Ctl.Banner.Create)
 		banner.GET("/:id", ctx.Ctl.Banner.GetById)
 		banner.PUT("/:id", ctx.Ctl.Banner.Edit)
-		banner.DELETE("/:id", ctx.Ctl.Banner.Delete)
+		banner.DELETE("/:id", ctx.Middleware.OnlyAdmin(), ctx.Ctl.Banner.Delete)
 	}
 
 	products := r.Group("/products")
@@ -42,7 +43,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		products.GET("/", ctx.Ctl.Product.ShowAllProduct)
 		products.POST("/", ctx.Ctl.Product.CreateProduct)
 		products.GET("/:id", ctx.Ctl.Product.GetProductByID)
-		products.DELETE("/:id", ctx.Ctl.Product.DeleteProduct)
+		products.DELETE("/:id", ctx.Middleware.OnlyAdmin(), ctx.Ctl.Product.DeleteProduct)
 		products.PUT("/:id", ctx.Ctl.Product.UpdateProduct)
 	}
 
@@ -65,7 +66,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 	{
 		stock.GET("/:productVariantId", ctx.Ctl.Stock.GetDetails)
 		stock.PUT("/:productVariantId", ctx.Ctl.Stock.Edit)
-		stock.DELETE("/:id", ctx.Ctl.Stock.Delete)
+		stock.DELETE("/:id", ctx.Middleware.OnlyAdmin(), ctx.Ctl.Stock.Delete)
 	}
 
 	promotion := r.Group("/promotion")
@@ -73,7 +74,7 @@ func NewRoutes(ctx infra.ServiceContext) *gin.Engine {
 		promotion.GET("/", ctx.Ctl.Promotion.GetAll)
 		promotion.GET("/:id", ctx.Ctl.Promotion.GetById)
 		promotion.POST("/", ctx.Ctl.Promotion.Create)
-		promotion.DELETE("/:id", ctx.Ctl.Promotion.Delete)
+		promotion.DELETE("/:id", ctx.Middleware.OnlyAdmin(), ctx.Ctl.Promotion.Delete)
 
 	}
 
