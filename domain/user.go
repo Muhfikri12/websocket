@@ -26,5 +26,11 @@ func UserSeed() []User {
 			Password: "admin",
 			Role:     "admin",
 		},
+		{
+			FullName: "Staf Satu",
+			Email:    "staf@mail.com",
+			Password: "staf",
+			Role:     "staff",
+		},
 	}
 }
