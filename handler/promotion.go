@@ -24,7 +24,7 @@ func NewControllerPromotion(service service.ServicePromotion, logger *zap.Logger
 // @Tags GetAllPromotion
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} handler.Response{data=[]model.Promotion} "Get All Success"
+// @Success 200 {object} handler.Response{data=[]domain.Promotion} "Get All Success"
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /promotion [get]
 func (ctrl *ControllerPromotion) GetAll(c *gin.Context) {

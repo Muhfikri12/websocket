@@ -23,7 +23,7 @@ func base() (dashboardservice.DashboardService, *dashboardrepository.DashboardRe
 	return service, mockRepo
 }
 
-func TestGetEarningProduct(t *testing.T) {
+func TestGetEarningDashboard(t *testing.T) {
 	service, mockRepo := base()
 
 	t.Run("Successfully get earnings from product", func(t *testing.T) {
@@ -33,7 +33,7 @@ func TestGetEarningProduct(t *testing.T) {
 			Return(expectedEarnings, nil).
 			Once()
 
-		totalEarnings, err := service.GetEarningProduct()
+		totalEarnings, err := service.GetEarningDashboard()
 
 		assert.NoError(t, err)
 		assert.Equal(t, expectedEarnings, totalEarnings)
@@ -46,7 +46,7 @@ func TestGetEarningProduct(t *testing.T) {
 			Return(0, fmt.Errorf("database error")).
 			Once()
 
-		totalEarnings, err := service.GetEarningProduct()
+		totalEarnings, err := service.GetEarningDashboard()
 
 		assert.Error(t, err)
 		assert.Equal(t, 0, totalEarnings)

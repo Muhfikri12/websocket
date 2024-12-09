@@ -1,5 +1,11 @@
-{"L":"INFO","T":"2024-12-08T18:40:58.316+0700","M":"Logger initialized successfully"}
-{"L":"WARN","T":"2024-12-08T18:41:37.445+0700","M":"Invalid page number, defaulting to 1"}
-{"L":"WARN","T":"2024-12-08T18:41:37.446+0700","M":"Limit too low, defaulting to 10"}
-{"L":"WARN","T":"2024-12-08T18:41:56.157+0700","M":"Limit too low, defaulting to 10"}
-{"L":"WARN","T":"2024-12-08T18:42:08.290+0700","M":"Limit too low, defaulting to 10"}
+{"L":"INFO","T":"2024-12-09T07:53:52.603+0700","M":"Logger initialized successfully"}
+{"L":"INFO","T":"2024-12-09T07:54:43.826+0700","M":"Starting product creation"}
+{"L":"INFO","T":"2024-12-09T07:54:43.826+0700","M":"Processing uploaded file","fileName":"2.jpeg","fileSize":3142}
+{"L":"INFO","T":"2024-12-09T07:54:46.522+0700","M":"Parsed product data","name":"fikri","skuProduct":"SKI-202002","price":10000}
+{"L":"INFO","T":"2024-12-09T07:54:46.523+0700","M":"Parsing variant data","variantData":"[{\"size\": \"Size M\", \"color\": \"blue\", \"stock\": 50}, {\"size\": \"Size L\", \"color\": \"red\", \"stock\": 30}]"}
+{"L":"INFO","T":"2024-12-09T07:54:46.523+0700","M":"Creating product","productName":"fikri","price":10000}
+{"L":"INFO","T":"2024-12-09T07:54:46.523+0700","M":"Creating product","name":"fikri"}
+{"L":"INFO","T":"2024-12-09T07:54:46.523+0700","M":"Starting product creation","productName":"fikri"}
+{"L":"INFO","T":"2024-12-09T07:54:46.544+0700","M":"Product creation successful","productName":"fikri"}
+{"L":"INFO","T":"2024-12-09T07:54:46.544+0700","M":"Successfully created product","name":"fikri"}
+{"L":"INFO","T":"2024-12-09T07:54:46.544+0700","M":"Product created successfully","productName":"fikri"}

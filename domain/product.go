@@ -14,7 +14,7 @@ type Product struct {
 	Description string          `gorm:"type:text;not null" json:"description" binding:"required"`
 	CreatedAt   time.Time       `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time       `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt   *gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
+	DeletedAt   *gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty" swaggerignore:"true"`
 
 	Image          []*Image          `gorm:"foreignKey:ProductID" json:"image"`
 	ProductVariant []*ProductVariant `gorm:"foreignKey:ProductID" json:"product_variant"`

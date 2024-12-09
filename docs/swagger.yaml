@@ -1,5 +1,123 @@
 basePath: /
 definitions:
+  domain.Banner:
+    properties:
+      endDate:
+        type: string
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      isPublish:
+        type: boolean
+      pathPage:
+        type: string
+      startDate:
+        type: string
+      title:
+        type: string
+    type: object
+  domain.BestSeller:
+    properties:
+      productID:
+        type: integer
+      totalSold:
+        type: integer
+    type: object
+  domain.Image:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      product_id:
+        type: integer
+      updated_at:
+        type: string
+      url_path:
+        type: string
+    type: object
+  domain.Product:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image:
+        items:
+          $ref: '#/definitions/domain.Image'
+        type: array
+      name:
+        minLength: 5
+        type: string
+      price:
+        type: number
+      product_variant:
+        items:
+          $ref: '#/definitions/domain.ProductVariant'
+        type: array
+      sku_product:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - description
+    - name
+    - price
+    - sku_product
+    type: object
+  domain.ProductVariant:
+    properties:
+      color:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      product:
+        $ref: '#/definitions/domain.Product'
+      product_id:
+        type: integer
+      size:
+        type: string
+      stock:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  domain.Promotion:
+    properties:
+      description:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      isPublish:
+        type: boolean
+      limit:
+        type: integer
+      name:
+        type: string
+      startDate:
+        type: string
+      status:
+        $ref: '#/definitions/domain.status'
+      type:
+        $ref: '#/definitions/domain.Type'
+      voucherCode:
+        type: string
+    type: object
+  domain.Type:
+    enum:
+    - Voucher Code
+    - Direct Discount
+    type: string
+    x-enum-varnames:
+    - Voucher
+    - Discount
   domain.User:
     properties:
       created_at:
@@ -17,6 +135,14 @@ definitions:
       updated_at:
         type: string
     type: object
+  domain.status:
+    enum:
+    - Active
+    - Inactive
+    type: string
+    x-enum-varnames:
+    - Active
+    - Inactive
   handler.Response:
     properties:
       data: {}
@@ -39,6 +165,279 @@ info:
   title: Ecommerce Dashboard API
   version: "1.0"
 paths:
+  /banner:
+    get:
+      consumes:
+      - application/json
+      description: Endpoint Fetch All Banner
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get All Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Banner'
+                  type: array
+              type: object
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get All Banner
+      tags:
+      - GetAllBanner
+  /categories/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved category
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Failed to retrieve category
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a category by ID
+      tags:
+      - Category
+  /category:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all categories with pagination support
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Limit per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved categories
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Failed to retrieve categories
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show all categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - multipart/form-data
+      description: Creates a new category with an image and name
+      parameters:
+      - description: Category Name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Category Image
+        in: formData
+        name: images
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Category created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request, invalid data
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new category
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted category
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Failed to delete category
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a category
+      tags:
+      - Category
+    put:
+      consumes:
+      - multipart/form-data
+      description: Updates a category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Category Name
+        in: formData
+        name: name
+        type: string
+      - description: Category Image
+        in: formData
+        name: images
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request, invalid data
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Category not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing category
+      tags:
+      - Category
+  /dashboard/bestSeller:
+    get:
+      description: Get the list of best seller products based on sales.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Response
+          schema:
+            items:
+              $ref: '#/definitions/domain.BestSeller'
+            type: array
+        "400":
+          description: Error Response
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Retrieve best seller products
+      tags:
+      - Dashboard
+  /dashboard/earning:
+    get:
+      description: Get the total earning data from the dashboard service.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Response
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Error Response
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Retrieve total earning from dashboard
+      tags:
+      - Dashboard
+  /dashboard/revenue:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the monthly revenue
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved monthly revenue
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Error retrieving monthly revenue
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get monthly revenue
+      tags:
+      - Dashboard
+  /dashboard/summary:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the summary of earnings
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved summary
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Error retrieving summary
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get summary of earnings
+      tags:
+      - Dashboard
   /login:
     post:
       consumes:
@@ -180,25 +579,47 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get All Products
+      description: Fetches a paginated list of all products
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: limit
+        type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully Retrieved Products
+          description: Successfully retrieved products
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Product'
+                  type: array
+              type: object
+        "400":
+          description: Invalid query parameters
           schema:
             $ref: '#/definitions/handler.Response'
         "404":
-          description: Product Not Found
+          description: Products not found
           schema:
             $ref: '#/definitions/handler.Response'
         "500":
-          description: server error
+          description: Internal server error
           schema:
             $ref: '#/definitions/handler.Response'
-      summary: Show all Products
+      summary: Get all products with pagination
       tags:
-      - Products
+      - Product
     post:
       consumes:
       - multipart/form-data
@@ -240,7 +661,12 @@ paths:
         "201":
           description: Product created successfully
           schema:
-            $ref: '#/definitions/handler.Response'
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Product'
+              type: object
         "400":
           description: Invalid form data
           schema:
@@ -354,6 +780,32 @@ paths:
       summary: Update Product
       tags:
       - Products
+  /promotion:
+    get:
+      consumes:
+      - application/json
+      description: Endpoint Fetch All Promotion
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get All Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Promotion'
+                  type: array
+              type: object
+        "500":
+          description: server error
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get All Promotion
+      tags:
+      - GetAllPromotion
   /register:
     post:
       consumes:

@@ -9,7 +9,7 @@ import (
 )
 
 type DashboardHandler interface {
-	GetEerningProduct(c *gin.Context)
+	GetEarningDashboard(c *gin.Context)
 	GetSummary(c *gin.Context)
 	GetBestSeller(c *gin.Context)
 	GetMonthlyRevenue(c *gin.Context)
@@ -24,21 +24,35 @@ func NewDashboardHandler(service *service.Service, log *zap.Logger) DashboardHan
 	return &dashboardHandler{service, log}
 }
 
-func (dh *dashboardHandler) GetEerningProduct(c *gin.Context) {
-
-	totalEarning, err := dh.service.Dashboard.GetEarningProduct()
+// GetEarningDashboard
+// @Summary Retrieve total earning from dashboard
+// @Description Get the total earning data from the dashboard service.
+// @Tags Dashboard
+// @Produce json
+// @Success 200 {object} map[string]interface{} "Success Response"
+// @Failure 400 {object} map[string]interface{} "Error Response"
+// @Router /dashboard/earning [get]
+func (dh *dashboardHandler) GetEarningDashboard(c *gin.Context) {
+	totalEarning, err := dh.service.Dashboard.GetEarningDashboard()
 	if err != nil {
 		BadResponse(c, "There is no earning yet", http.StatusBadRequest)
 		return
 	}
 
 	data := make(map[string]interface{})
-
 	data["total_earning"] = totalEarning
 
 	GoodResponseWithData(c, "successfully retrieved earning", http.StatusOK, data)
 }
 
+// @Summary Get summary of earnings
+// @Description Retrieves the summary of earnings
+// @Tags Dashboard
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{} "Successfully retrieved summary"
+// @Failure 400 {object} map[string]interface{} "Error retrieving summary"
+// @Router /dashboard/summary [get]
 func (dh *dashboardHandler) GetSummary(c *gin.Context) {
 
 	summary, err := dh.service.Dashboard.GetSummary()
@@ -50,8 +64,15 @@ func (dh *dashboardHandler) GetSummary(c *gin.Context) {
 	GoodResponseWithData(c, "successfully retrieved earning", http.StatusOK, summary)
 }
 
+// GetBestSeller
+// @Summary Retrieve best seller products
+// @Description Get the list of best seller products based on sales.
+// @Tags Dashboard
+// @Produce json
+// @Success 200 {array} domain.BestSeller "Success Response"
+// @Failure 400 {object} map[string]interface{} "Error Response"
+// @Router /dashboard/bestSeller [get]
 func (dh *dashboardHandler) GetBestSeller(c *gin.Context) {
-
 	bestSellers, err := dh.service.Dashboard.GetBestSeller()
 	if err != nil {
 		BadResponse(c, "not found best seller: "+err.Error(), http.StatusBadRequest)
@@ -61,6 +82,14 @@ func (dh *dashboardHandler) GetBestSeller(c *gin.Context) {
 	GoodResponseWithData(c, "successfully retrieved", http.StatusOK, bestSellers)
 }
 
+// @Summary Get monthly revenue
+// @Description Retrieves the monthly revenue
+// @Tags Dashboard
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{} "Successfully retrieved monthly revenue"
+// @Failure 400 {object} map[string]interface{} "Error retrieving monthly revenue"
+// @Router /dashboard/revenue [get]
 func (dh *dashboardHandler) GetMonthlyRevenue(c *gin.Context) {
 
 	revenue, err := dh.service.Dashboard.GetMonthlyRevenue()
