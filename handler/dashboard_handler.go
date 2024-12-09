@@ -29,8 +29,8 @@ func NewDashboardHandler(service *service.Service, log *zap.Logger) DashboardHan
 // @Description Get the total earning data from the dashboard service.
 // @Tags Dashboard
 // @Produce json
-// @Success 200 {object} map[string]interface{} "Success Response"
-// @Failure 400 {object} map[string]interface{} "Error Response"
+// @Success 200 {object} handler.Response(data=total_earning) "Success Response"
+// @Failure 400 {object} handler.Response "Error Response"
 // @Router /dashboard/earning [get]
 func (dh *dashboardHandler) GetEarningDashboard(c *gin.Context) {
 	totalEarning, err := dh.service.Dashboard.GetEarningDashboard()
@@ -50,8 +50,8 @@ func (dh *dashboardHandler) GetEarningDashboard(c *gin.Context) {
 // @Tags Dashboard
 // @Accept json
 // @Produce json
-// @Success 200 {object} map[string]interface{} "Successfully retrieved summary"
-// @Failure 400 {object} map[string]interface{} "Error retrieving summary"
+// @Success 200 {object} handler.Response{data=domain.Summary} "Successfully retrieved summary"
+// @Failure 400 {object} handler.Response "Error retrieving summary"
 // @Router /dashboard/summary [get]
 func (dh *dashboardHandler) GetSummary(c *gin.Context) {
 
@@ -69,8 +69,8 @@ func (dh *dashboardHandler) GetSummary(c *gin.Context) {
 // @Description Get the list of best seller products based on sales.
 // @Tags Dashboard
 // @Produce json
-// @Success 200 {array} domain.BestSeller "Success Response"
-// @Failure 400 {object} map[string]interface{} "Error Response"
+// @Success 200 {object} handler.Response{data=[]domain.BestSeller} "Success Response"
+// @Failure 400 {object} handler.Response "Error Response"
 // @Router /dashboard/bestSeller [get]
 func (dh *dashboardHandler) GetBestSeller(c *gin.Context) {
 	bestSellers, err := dh.service.Dashboard.GetBestSeller()
@@ -87,8 +87,8 @@ func (dh *dashboardHandler) GetBestSeller(c *gin.Context) {
 // @Tags Dashboard
 // @Accept json
 // @Produce json
-// @Success 200 {object} map[string]interface{} "Successfully retrieved monthly revenue"
-// @Failure 400 {object} map[string]interface{} "Error retrieving monthly revenue"
+// @Success 200 {object} handler.Response{data=[]domain.Revenue} "Successfully retrieved monthly revenue"
+// @Failure 400 {object} handler.Response "Error retrieving monthly revenue"
 // @Router /dashboard/revenue [get]
 func (dh *dashboardHandler) GetMonthlyRevenue(c *gin.Context) {
 

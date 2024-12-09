@@ -37,8 +37,8 @@ func NewCategoryHandler(log *zap.Logger, service *service.Service) CategoryHandl
 // @Produce json
 // @Param page query int false "Page number" default(1)
 // @Param limit query int false "Limit per page" default(10)
-// @Success 200 {object} map[string]interface{} "Successfully retrieved categories"
-// @Failure 404 {object} map[string]interface{} "Failed to retrieve categories"
+// @Success 200 {object} handler.Response{data=[]domain.category} "Successfully retrieved categories"
+// @Failure 404 {object} handler.Response "Failed to retrieve categories"
 // @Router /category [get]
 func (ch *categoryHandler) ShowAllCategory(c *gin.Context) {
 
@@ -69,8 +69,8 @@ func (ch *categoryHandler) ShowAllCategory(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Category ID"
-// @Success 200 {object} map[string]interface{} "Successfully deleted category"
-// @Failure 404 {object} map[string]interface{} "Failed to delete category"
+// @Success 200 {object} handler.Response{data=domain.category} "Successfully deleted category"
+// @Failure 404 {object} handler.Response "Failed to delete category"
 // @Router /category/{id} [delete]
 func (ch *categoryHandler) DeleteCategory(c *gin.Context) {
 
@@ -91,8 +91,8 @@ func (ch *categoryHandler) DeleteCategory(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Category ID"
-// @Success 200 {object} map[string]interface{} "Successfully retrieved category"
-// @Failure 404 {object} map[string]interface{} "Failed to retrieve category"
+// @Success 200 {object} handler.Response{data=domain.category} "Successfully retrieved category"
+// @Failure 404 {object} handler.Response "Failed to retrieve category"
 // @Router /categories/{id} [get]
 func (ch *categoryHandler) GetCategoryByID(c *gin.Context) {
 
@@ -114,9 +114,9 @@ func (ch *categoryHandler) GetCategoryByID(c *gin.Context) {
 // @Produce json
 // @Param name formData string true "Category Name"
 // @Param images formData file true "Category Image"
-// @Success 201 {object} map[string]interface{} "Category created successfully"
-// @Failure 400 {object} map[string]interface{} "Bad request, invalid data"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 201 {object} handler.Response{data=domain.category} "Category created successfully"
+// @Failure 400 {object} handler.Response "Bad request, invalid data"
+// @Failure 500 {object} handler.Response "Internal server error"
 // @Router /category [post]
 func (ch *categoryHandler) CreateCategory(c *gin.Context) {
 	form, err := c.MultipartForm()
@@ -172,10 +172,10 @@ func (ch *categoryHandler) CreateCategory(c *gin.Context) {
 // @Param id path int true "Category ID"
 // @Param name formData string false "Category Name"
 // @Param images formData file false "Category Image"
-// @Success 200 {object} map[string]interface{} "Category updated successfully"
-// @Failure 400 {object} map[string]interface{} "Bad request, invalid data"
-// @Failure 404 {object} map[string]interface{} "Category not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} handler.Response{data=domain.category} "Category updated successfully"
+// @Failure 400 {object} handler.Response "Bad request, invalid data"
+// @Failure 404 {object} handler.Response "Category not found"
+// @Failure 500 {object} handler.Response "Internal server error"
 // @Router /category/{id} [put]
 func (ch *categoryHandler) UpdateCategory(c *gin.Context) {
 
