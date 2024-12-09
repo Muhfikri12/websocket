@@ -24,6 +24,22 @@ definitions:
       totalSold:
         type: integer
     type: object
+  domain.Category:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      image:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - image
+    - name
+    type: object
   domain.Image:
     properties:
       created_at:
@@ -76,8 +92,6 @@ definitions:
         type: string
       id:
         type: integer
-      product:
-        $ref: '#/definitions/domain.Product'
       product_id:
         type: integer
       size:
@@ -109,6 +123,24 @@ definitions:
         $ref: '#/definitions/domain.Type'
       voucherCode:
         type: string
+    type: object
+  domain.Revenue:
+    properties:
+      month:
+        type: string
+      revenue:
+        type: integer
+    type: object
+  domain.Summary:
+    properties:
+      items:
+        type: integer
+      orders:
+        type: integer
+      sales:
+        type: integer
+      users:
+        type: integer
     type: object
   domain.Type:
     enum:
@@ -191,33 +223,6 @@ paths:
       summary: Get All Banner
       tags:
       - GetAllBanner
-  /categories/{id}:
-    get:
-      consumes:
-      - application/json
-      description: Retrieves a category by its ID
-      parameters:
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Successfully retrieved category
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: Failed to retrieve category
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get a category by ID
-      tags:
-      - Category
   /category:
     get:
       consumes:
@@ -240,13 +245,18 @@ paths:
         "200":
           description: Successfully retrieved categories
           schema:
-            additionalProperties: true
-            type: object
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Category'
+                  type: array
+              type: object
         "404":
           description: Failed to retrieve categories
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Show all categories
       tags:
       - Category
@@ -271,18 +281,20 @@ paths:
         "201":
           description: Category created successfully
           schema:
-            additionalProperties: true
-            type: object
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Category'
+              type: object
         "400":
           description: Bad request, invalid data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Create a new category
       tags:
       - Category
@@ -303,14 +315,46 @@ paths:
         "200":
           description: Successfully deleted category
           schema:
-            additionalProperties: true
-            type: object
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Category'
+              type: object
         "404":
           description: Failed to delete category
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Delete a category
+      tags:
+      - Category
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved category
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Category'
+              type: object
+        "404":
+          description: Failed to retrieve category
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: Get a category by ID
       tags:
       - Category
     put:
@@ -337,23 +381,24 @@ paths:
         "200":
           description: Category updated successfully
           schema:
-            additionalProperties: true
-            type: object
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Category'
+              type: object
         "400":
           description: Bad request, invalid data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
         "404":
           description: Category not found
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
         "500":
           description: Internal server error
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Update an existing category
       tags:
       - Category
@@ -366,14 +411,18 @@ paths:
         "200":
           description: Success Response
           schema:
-            items:
-              $ref: '#/definitions/domain.BestSeller'
-            type: array
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.BestSeller'
+                  type: array
+              type: object
         "400":
           description: Error Response
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Retrieve best seller products
       tags:
       - Dashboard
@@ -384,15 +433,13 @@ paths:
       - application/json
       responses:
         "200":
-          description: Success Response
+          description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
         "400":
           description: Error Response
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Retrieve total earning from dashboard
       tags:
       - Dashboard
@@ -407,13 +454,18 @@ paths:
         "200":
           description: Successfully retrieved monthly revenue
           schema:
-            additionalProperties: true
-            type: object
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/domain.Revenue'
+                  type: array
+              type: object
         "400":
           description: Error retrieving monthly revenue
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Get monthly revenue
       tags:
       - Dashboard
@@ -428,13 +480,16 @@ paths:
         "200":
           description: Successfully retrieved summary
           schema:
-            additionalProperties: true
-            type: object
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Summary'
+              type: object
         "400":
           description: Error retrieving summary
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/handler.Response'
       summary: Get summary of earnings
       tags:
       - Dashboard
@@ -678,7 +733,7 @@ paths:
       summary: Create Product
       tags:
       - Products
-  /products/:id:
+  /products/{id}:
     delete:
       consumes:
       - application/json
@@ -727,7 +782,6 @@ paths:
       summary: Get Product By ID
       tags:
       - Products
-  /products/{id}:
     put:
       consumes:
       - application/json

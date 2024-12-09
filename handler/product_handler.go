@@ -77,7 +77,7 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 // @Produce  json
 // @Success 200 {object} handler.Response "Successfully Retrieved Product"
 // @Failure 404 {object} handler.Response "Product Not Found"
-// @Router  /products/:id [get]
+// @Router  /products/{id} [get]
 func (ph *productHandler) GetProductByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ph.log.Info("Fetching product by ID", zap.Int("productID", id))
@@ -191,7 +191,7 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 // @Produce  json
 // @Success 200 {object} handler.Response "Product Deleted successfully"
 // @Failure 404 {object} handler.Response "Failed to Delete product"
-// @Router  /products/:id [delete]
+// @Router  /products/{id} [delete]
 func (ph *productHandler) DeleteProduct(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ph.log.Info("Attempting to delete product", zap.Int("productID", id))

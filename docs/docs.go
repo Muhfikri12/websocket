@@ -68,46 +68,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/categories/{id}": {
-            "get": {
-                "description": "Retrieves a category by its ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Category"
-                ],
-                "summary": "Get a category by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Category ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successfully retrieved category",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "Failed to retrieve category",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/category": {
             "get": {
                 "description": "Retrieves all categories with pagination support",
@@ -141,15 +101,28 @@ const docTemplate = `{
                     "200": {
                         "description": "Successfully retrieved categories",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/domain.Category"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "404": {
                         "description": "Failed to retrieve categories",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -186,28 +159,85 @@ const docTemplate = `{
                     "201": {
                         "description": "Category created successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.Category"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Bad request, invalid data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
             }
         },
         "/category/{id}": {
+            "get": {
+                "description": "Retrieves a category by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get a category by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved category",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Failed to retrieve category",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            },
             "put": {
                 "description": "Updates a category",
                 "consumes": [
@@ -245,29 +275,37 @@ const docTemplate = `{
                     "200": {
                         "description": "Category updated successfully",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.Category"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Bad request, invalid data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     },
                     "404": {
                         "description": "Category not found",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -297,15 +335,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Successfully deleted category",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.Category"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "404": {
                         "description": "Failed to delete category",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -325,17 +373,28 @@ const docTemplate = `{
                     "200": {
                         "description": "Success Response",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/domain.BestSeller"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/domain.BestSeller"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Error Response",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -353,17 +412,15 @@ const docTemplate = `{
                 "summary": "Retrieve total earning from dashboard",
                 "responses": {
                     "200": {
-                        "description": "Success Response",
+                        "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     },
                     "400": {
                         "description": "Error Response",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -386,15 +443,28 @@ const docTemplate = `{
                     "200": {
                         "description": "Successfully retrieved monthly revenue",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/domain.Revenue"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Error retrieving monthly revenue",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -417,15 +487,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Successfully retrieved summary",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/handler.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.Summary"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
                         "description": "Error retrieving summary",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/handler.Response"
                         }
                     }
                 }
@@ -800,7 +880,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/products/:id": {
+        "/products/{id}": {
             "get": {
                 "description": "Get Product By ID",
                 "consumes": [
@@ -837,44 +917,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "delete": {
-                "description": "Delete Product",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Delete Product",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Product ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Product Deleted successfully",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Failed to Delete product",
-                        "schema": {
-                            "$ref": "#/definitions/handler.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/products/{id}": {
             "put": {
                 "description": "Update the details of a product",
                 "consumes": [
@@ -947,6 +989,42 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Invalid Payload Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete Product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product Deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed to Delete product",
                         "schema": {
                             "$ref": "#/definitions/handler.Response"
                         }
@@ -1106,6 +1184,30 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.Category": {
+            "type": "object",
+            "required": [
+                "image",
+                "name"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.Image": {
             "type": "object",
             "properties": {
@@ -1183,9 +1285,6 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "product": {
-                    "$ref": "#/definitions/domain.Product"
-                },
                 "product_id": {
                     "type": "integer"
                 },
@@ -1232,6 +1331,34 @@ const docTemplate = `{
                 },
                 "voucherCode": {
                     "type": "string"
+                }
+            }
+        },
+        "domain.Revenue": {
+            "type": "object",
+            "properties": {
+                "month": {
+                    "type": "string"
+                },
+                "revenue": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.Summary": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "integer"
+                },
+                "orders": {
+                    "type": "integer"
+                },
+                "sales": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "integer"
                 }
             }
         },
