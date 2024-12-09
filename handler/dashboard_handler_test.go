@@ -28,13 +28,13 @@ func baseDahsboard() (handler.DashboardHandler, *dashboardrepository.DashboardRe
 }
 
 func TestGetEarningDashboard(t *testing.T) {
+	handler, mockRepo := baseDahsboard()
 	t.Run("Successfully retrieve earning", func(t *testing.T) {
-		handler, mockRepo := baseDahsboard()
 
 		r := gin.Default()
 		r.GET("/dashboard/earning", handler.GetEarningDashboard)
 
-		mockRepo.On("GetEarningDashboard").Return(10000, nil).Once()
+		mockRepo.On("GetEarningDashboard").Once().Return(10000, nil).Once()
 
 		req := httptest.NewRequest(http.MethodGet, "/dashboard/earning", nil)
 		w := httptest.NewRecorder()
@@ -55,7 +55,6 @@ func TestGetEarningDashboard(t *testing.T) {
 	})
 
 	t.Run("Fail to retrieve earning - Service error", func(t *testing.T) {
-		handler, mockRepo := baseDahsboard()
 
 		r := gin.Default()
 		r.GET("/dashboard/earning", handler.GetEarningDashboard)
