@@ -63,14 +63,12 @@ func (dr *dashboardRepo) GetSummary() (*domain.Summary, error) {
 	var summary domain.Summary
 	now := time.Now()
 
-	startOfDay := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	endOfDay := startOfDay.Add(24*time.Hour - time.Second)
-
 	query := dr.db.Table("orders as o").
 		Select("SUM(oi.unit_price * oi.quantity) as sales, COUNT(o.id) as orders, SUM(oi.quantity) as items").
 		Joins("JOIN order_items as oi ON oi.order_id = o.id").
 		Where("o.status != ?", "canceled").
-		Where("o.created_at BETWEEN ? AND ?", startOfDay, endOfDay).
+		Where("o.created_at BETWEEN ? AND ?", StartOfMonth(now),
+			EndOfMonth(now)).
 		Scan(&summary)
 
 	if query.Error != nil {
@@ -80,7 +78,8 @@ func (dr *dashboardRepo) GetSummary() (*domain.Summary, error) {
 	var users int
 	queryUser := dr.db.Table("orders as o").
 		Select("COUNT(DISTINCT o.customer_id) as users").
-		Where("o.created_at BETWEEN ? AND ?", startOfDay, endOfDay).
+		Where("o.created_at BETWEEN ? AND ?", StartOfMonth(now),
+			EndOfMonth(now)).
 		Scan(&users)
 
 	if queryUser.Error != nil {

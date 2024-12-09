@@ -30,16 +30,18 @@ func NewProductHandler(service *service.Service, log *zap.Logger) ProductHandler
 	return &productHandler{service, log}
 }
 
-// Show All Products endpoint
-// @Summary Show all Products
-// @Description Get All Products
-// @Tags Products
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} handler.Response "Successfully Retrieved Products"
-// @Failure 404 {object} handler.Response "Product Not Found
-// @Failure 500 {object} handler.Response "server error"
-// @Router  /products [get]
+// @Summary Get all products with pagination
+// @Description Fetches a paginated list of all products
+// @Tags Product
+// @Accept json
+// @Produce json
+// @Param page query int false "Page number" default(1)
+// @Param limit query int false "Number of items per page" default(10)
+// @Success 200 {object} handler.Response{data=[]domain.Product} "Successfully retrieved products"
+// @Failure 400 {object} handler.Response "Invalid query parameters"
+// @Failure 404 {object} handler.Response "Products not found"
+// @Failure 500 {object} handler.Response "Internal server error"
+// @Router /products [get]
 func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 	ph.log.Info("Fetching all products", zap.String("queryPage", c.Query("page")), zap.String("queryLimit", c.Query("limit")))
 
@@ -75,7 +77,7 @@ func (ph *productHandler) ShowAllProduct(c *gin.Context) {
 // @Produce  json
 // @Success 200 {object} handler.Response "Successfully Retrieved Product"
 // @Failure 404 {object} handler.Response "Product Not Found"
-// @Router  /products/:id [get]
+// @Router  /products/{id} [get]
 func (ph *productHandler) GetProductByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ph.log.Info("Fetching product by ID", zap.Int("productID", id))
@@ -103,7 +105,7 @@ func (ph *productHandler) GetProductByID(c *gin.Context) {
 // @Param description formData string true "Product Description"
 // @Param images formData file true "Product Images" multiple
 // @Param variants formData string true "Product Variants in JSON format"
-// @Success 201 {object} handler.Response "Product created successfully"
+// @Success 201 {object} handler.Response{data=domain.Product} "Product created successfully"
 // @Failure 400 {object} handler.Response "Invalid form data"
 // @Failure 500 {object} handler.Response "Failed to create product"
 // @Router /products [post]
@@ -189,7 +191,7 @@ func (ph *productHandler) CreateProduct(c *gin.Context) {
 // @Produce  json
 // @Success 200 {object} handler.Response "Product Deleted successfully"
 // @Failure 404 {object} handler.Response "Failed to Delete product"
-// @Router  /products/:id [delete]
+// @Router  /products/{id} [delete]
 func (ph *productHandler) DeleteProduct(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ph.log.Info("Attempting to delete product", zap.Int("productID", id))

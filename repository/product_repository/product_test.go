@@ -7,27 +7,16 @@ import (
 	"time"
 
 	"project/domain"
+	"project/helper"
 	productrepository "project/repository/product_repository"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
-func setupTestDB() (*gorm.DB, sqlmock.Sqlmock) {
-	db, mock, _ := sqlmock.New()
-	dialector := postgres.New(postgres.Config{
-		Conn:       db,
-		DriverName: "postgres",
-	})
-	gormDB, _ := gorm.Open(dialector, &gorm.Config{})
-	return gormDB, mock
-}
-
 func TestShowAllProduct(t *testing.T) {
-	db, mock := setupTestDB()
+	db, mock := helper.SetupTestDB()
 	defer func() { _ = mock.ExpectationsWereMet() }()
 
 	log := *zap.NewNop()
@@ -89,7 +78,7 @@ func TestShowAllProduct(t *testing.T) {
 }
 
 func TestGetProductByID(t *testing.T) {
-	db, mock := setupTestDB()
+	db, mock := helper.SetupTestDB()
 	defer func() { _ = mock.ExpectationsWereMet() }()
 
 	log := *zap.NewNop()
@@ -141,7 +130,7 @@ func TestGetProductByID(t *testing.T) {
 }
 
 func TestCreateProduct(t *testing.T) {
-	db, mock := setupTestDB()
+	db, mock := helper.SetupTestDB()
 	defer func() { _ = mock.ExpectationsWereMet() }()
 
 	log := *zap.NewNop()
@@ -330,7 +319,7 @@ func TestCreateProduct(t *testing.T) {
 }
 
 func TestDeleteProduct(t *testing.T) {
-	db, mock := setupTestDB()
+	db, mock := helper.SetupTestDB()
 	defer func() { _ = mock.ExpectationsWereMet() }()
 
 	log := *zap.NewNop()
@@ -388,7 +377,7 @@ func TestDeleteProduct(t *testing.T) {
 }
 
 func TestUpdateProduct(t *testing.T) {
-	db, mock := setupTestDB()
+	db, mock := helper.SetupTestDB()
 	defer func() { _ = mock.ExpectationsWereMet() }()
 
 	log := *zap.NewNop()

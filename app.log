@@ -1,1 +1,7 @@
-{"L":"INFO","T":"2024-12-08T16:02:32.402+0700","M":"Logger initialized successfully"}
+{"L":"INFO","T":"2024-12-09T09:57:08.149+0700","M":"Logger initialized successfully"}
+{"L":"INFO","T":"2024-12-09T09:57:29.986+0700","M":"Fetching product by ID","productID":1}
+{"L":"INFO","T":"2024-12-09T09:57:29.986+0700","M":"Fetching product by ID","id":1}
+{"L":"INFO","T":"2024-12-09T09:57:29.986+0700","M":"Fetching product by ID","id":1}
+{"L":"INFO","T":"2024-12-09T09:57:30.016+0700","M":"Successfully fetched product","id":1}
+{"L":"INFO","T":"2024-12-09T09:57:30.016+0700","M":"Successfully fetched product","id":1}
+{"L":"INFO","T":"2024-12-09T09:57:30.016+0700","M":"Successfully retrieved product","productID":1}
