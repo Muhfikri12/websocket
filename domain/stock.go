@@ -14,8 +14,8 @@ type ResponseStock struct {
 	CurrentStock   int       `json:"currentStock,omitempty"`
 }
 type SizeColor struct {
-	Size  string
-	Color string
+	Size  string `json:"size,omitempty"`
+	Color string `json:"color,omitempty"`
 }
 
 func SeedStock() []Stock {
