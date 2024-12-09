@@ -12,7 +12,7 @@ type Image struct {
 	URLPath   string          `gorm:"type:varchar(150)" json:"url_path"`
 	CreatedAt time.Time       `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time       `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deleted_at" swaggerignore:"true"`
 }
 
 func SeedImages() []Image {

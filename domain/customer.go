@@ -1,7 +1,7 @@
 package domain
 
 type Customer struct {
-	ID      uint   `gorm:"primaryKey" json:"id"`
+	ID      uint   `gorm:"primaryKey" json:"-"`
 	Name    string `json:"name"`
 	Address string `json:"address"`
 }

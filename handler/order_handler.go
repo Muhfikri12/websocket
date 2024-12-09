@@ -60,13 +60,24 @@ func (ctrl *OrderController) All(c *gin.Context) {
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /orders/:id [put]
 func (ctrl *OrderController) Update(c *gin.Context) {
-	var order domain.Order
-	if err := c.ShouldBindJSON(&order); err != nil {
-		BadResponse(c, "invalid request body", http.StatusBadRequest)
+	orderId, err := helper.Uint(c.Param("id"))
+	if err != nil {
+		BadResponse(c, "invalid id", http.StatusUnprocessableEntity)
 		return
 	}
 
-	GoodResponseWithData(c, "orders updated", http.StatusOK, order)
+	var confirmation domain.OrderConfirmation
+	if err := c.ShouldBindJSON(&confirmation); err != nil {
+		BadResponse(c, "invalid input", http.StatusBadRequest)
+		return
+	}
+
+	if err = ctrl.service.Update(orderId, confirmation); err != nil {
+		BadResponse(c, "server error", http.StatusInternalServerError)
+		return
+	}
+
+	GoodResponseWithData(c, "order status updated", http.StatusOK, nil)
 }
 
 // Order endpoint
@@ -82,7 +93,18 @@ func (ctrl *OrderController) Update(c *gin.Context) {
 // @Failure 500 {object} handler.Response "server error"
 // @Router  /orders/:id [get]
 func (ctrl *OrderController) Get(c *gin.Context) {
-	var order domain.Order
+	orderId, err := helper.Uint(c.Param("id"))
+	if err != nil {
+		BadResponse(c, "invalid input", http.StatusUnprocessableEntity)
+		return
+	}
+
+	var order domain.OrderTotal
+	order, err = ctrl.service.Get(orderId)
+	if err != nil {
+		BadResponse(c, "no data found", http.StatusNotFound)
+		return
+	}
 
 	GoodResponseWithData(c, "order retrieved", http.StatusOK, order)
 }
