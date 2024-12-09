@@ -8,7 +8,7 @@ import (
 )
 
 type DashboardService interface {
-	GetEarningProduct() (int, error)
+	GetEarningDashboard() (int, error)
 	GetSummary() (*domain.Summary, error)
 	GetBestSeller() ([]*domain.BestSeller, error)
 	GetMonthlyRevenue() ([]*domain.Revenue, error)
@@ -23,7 +23,7 @@ func NewDashboardService(repo *repository.Repository, log *zap.Logger) Dashboard
 	return &dashboardService{repo, log}
 }
 
-func (ds *dashboardService) GetEarningProduct() (int, error) {
+func (ds *dashboardService) GetEarningDashboard() (int, error) {
 
 	totalEarning, err := ds.repo.Dashboard.GetEarningDashboard()
 	if err != nil {

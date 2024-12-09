@@ -12,13 +12,12 @@ import (
 type ProductVariant struct {
 	ID        int             `gorm:"primaryKey;autoIncrement" json:"id"`
 	ProductID int             `gorm:"not null" json:"product_id"`
-	Product   Product         `json:"product"`
 	Size      string          `gorm:"type:varchar(50)" json:"size"`
 	Color     string          `gorm:"type:varchar(50)" json:"color"`
 	Stock     int             `gorm:"default:0;check:stock>=0" json:"stock"`
 	CreatedAt time.Time       `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time       `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deleted_at" swaggerignore:"true"`
 }
 
 func (variant *ProductVariant) DeductStock(quantity uint) error {
