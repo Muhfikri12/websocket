@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebSocket Dashboard</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Live Data Table</h1>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data rows will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8080/ws');
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+            tableBody.innerHTML = '';
+
+            // Populate table with new data
+            data.forEach(item => {
+                const row = tableBody.insertRow();
+                const cellId = row.insertCell(0);
+                const cellCustomer = row.insertCell(1);
+                const cellPayment = row.insertCell(2);
+                const cellStatus = row.insertCell(3);
+
+                cellId.textContent = item.id;
+                cellCustomer.textContent = item.customer_id;
+                cellPayment.textContent = item.payment_method;
+                cellStatus.textContent = item.status;
+            });
+        };
+
+        socket.onopen = function () {
+            console.log('WebSocket connected');
+        };
+
+        socket.onclose = function () {
+            console.log('WebSocket disconnected');
+        };
+    </script>
+</body>
+
+</html>
