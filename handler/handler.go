@@ -19,6 +19,7 @@ type Handler struct {
 	Stock                ControllerStock
 	Promotion            ControllerPromotion
 	Banner               ControllerBanner
+	WebSocket            WebSocketController
 }
 
 func NewHandler(service service.Service, logger *zap.Logger) *Handler {
@@ -33,6 +34,7 @@ func NewHandler(service service.Service, logger *zap.Logger) *Handler {
 		Stock:                *NewServiceStock(service.Stock, logger),
 		Promotion:            *NewControllerPromotion(service.Promotion, logger),
 		Banner:               *NewControllerBanner(service.Banner, logger),
+		WebSocket:            *NewWebSocketController(service, logger),
 	}
 }
 

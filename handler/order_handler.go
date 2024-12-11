@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"net/http"
 	"project/domain"
 	"project/helper"
 	"project/service"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type OrderController struct {
@@ -107,4 +108,15 @@ func (ctrl *OrderController) Get(c *gin.Context) {
 	}
 
 	GoodResponseWithData(c, "order retrieved", http.StatusOK, order)
+}
+
+func (ctrl *OrderController) GetAllOrder(c *gin.Context) {
+
+	orders, err := ctrl.service.GetAllOrder()
+	if err != nil {
+		BadResponse(c, "no data found : "+err.Error(), http.StatusNotFound)
+		return
+	}
+
+	GoodResponseWithData(c, "order retrieved", http.StatusOK, orders)
 }

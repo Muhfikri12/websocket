@@ -79,6 +79,7 @@ func NewRoutes(ctx infra.ServiceContext) *http.Server {
 
 	}
 
+	r.GET("/ws", ctx.Ctl.WebSocket.DashboardGetAllOrder)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/cdn-upload", func(c *gin.Context) {

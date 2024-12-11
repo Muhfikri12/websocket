@@ -2,10 +2,12 @@ package repository
 
 import (
 	"errors"
-	"gorm.io/gorm"
+	"fmt"
 	"math"
 	"project/domain"
 	"project/helper"
+
+	"gorm.io/gorm"
 )
 
 type OrderRepository struct {
@@ -60,4 +62,20 @@ func (repo OrderRepository) Get(orderId uint) (domain.OrderTotal, error) {
 	var order domain.OrderTotal
 	result := repo.db.Preload("Items").First(&order, orderId)
 	return order, result.Error
+}
+
+func (repo OrderRepository) GetAllOrder() ([]*domain.Order, error) {
+
+	order := []*domain.Order{}
+	result := repo.db.Model(&order).Where("status = ?", "completed").Find(&order)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	if len(order) == 0 {
+		return nil, fmt.Errorf("order not found")
+	}
+
+	return order, nil
 }

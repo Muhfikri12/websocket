@@ -9,6 +9,7 @@ type OrderService interface {
 	All(page, limit uint) (int, int, []domain.OrderTotal, error)
 	Update(orderId uint, confirmation domain.OrderConfirmation) error
 	Get(orderId uint) (domain.OrderTotal, error)
+	GetAllOrder() ([]*domain.Order, error)
 }
 
 type orderService struct {
@@ -29,4 +30,13 @@ func (s *orderService) Update(orderId uint, confirmation domain.OrderConfirmatio
 
 func (s *orderService) Get(orderId uint) (domain.OrderTotal, error) {
 	return s.repo.Get(orderId)
+}
+
+func (os *orderService) GetAllOrder() ([]*domain.Order, error) {
+
+	orders, err := os.repo.GetAllOrder()
+	if err != nil {
+		return nil, err
+	}
+	return orders, nil
 }
